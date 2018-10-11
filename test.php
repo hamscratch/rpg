@@ -33,21 +33,32 @@ $responses = [
 'miss' => 'You missed your target',
 ];
 
-function attack($attacker, $defender) {
+function attack($attacker, $defender, $text) {
 	$attack_roll = rand(1, 6);
 	$ac_check = $attacker['strength'] + $attack_roll;
 
 	if ($ac_check > $defender['ac']) {
-		$result = 'You hit your target';
+		$result = $text['hit'];
 	} else {
-		$result = 'You missed your target';
+		$result = $text['miss'];
 	}
 
 	return $result;
 }
 
+function inventoryList ($person) {
+	$inventory = $person['inventory'];
+	$contents = [];
 
-$run = attack($hero, $npc);
+	foreach ($inventory as $key => $value) {
+		$contents[] = "$key - $value \n";
+	}
+
+	return $contents;
+}
+
+$run = attack($hero, $npc, $responses);
+$backpack = inventoryList($hero);
 
 echo $run . "\n";
-
+echo "{$hero['name']}'s Inventory: \n" . implode($backpack) . "\n";
