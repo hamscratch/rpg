@@ -46,7 +46,7 @@ function attack($attacker, $defender, $text) {
 	return $result;
 }
 
-function inventoryList ($person) {
+function printInventoryList ($person) {
 	$inventory = $person['inventory'];
 	$contents = [];
 
@@ -54,11 +54,18 @@ function inventoryList ($person) {
 		$contents[] = "$key - $value \n";
 	}
 
-	return $contents;
+	$backpack = implode($contents);
+
+	$message = "{$person['name']}'s Inventory: \n" . $backpack . "\n";
+
+	echo $message;
 }
 
 $run = attack($hero, $npc, $responses);
-$backpack = inventoryList($hero);
+printInventoryList($hero);
+printInventoryList($npc);
 
 echo $run . "\n";
-echo "{$hero['name']}'s Inventory: \n" . implode($backpack) . "\n";
+
+
+
