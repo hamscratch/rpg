@@ -11,6 +11,10 @@ class Character {
 	public $str;
 	public $inventory;
 
+	public function __construct() {
+		$this->actions = new Actions();
+	}
+
 }
 
 class Hero extends Character {
@@ -125,7 +129,7 @@ class Actions {
 	}
 
 	public function firstAid($character) {
-
+		$type = $character[$this->inventory]['firstAid'];
 	}
 }
 
@@ -137,6 +141,8 @@ $hero->characterInfo();
 $hero->printInventoryList();
 
 $villain->characterInfo();
+
+$hero->actions->attack($hero, $villain);
 
 
 
