@@ -113,7 +113,7 @@ class Actions {
 	const DEFENSE_RESPONSES = [
 	'hit' => "%s was hit for %s damage and now has %s hit points left.",
 	'miss' => "%s has %s hit points left.",
-	'dead' => "%s has been slain by %s",
+	'dead' => "%s has been slain by %s.",
 	];
 
 	public function attack($attacker, $defender) {
@@ -141,7 +141,7 @@ class Actions {
 		
 		if ($defender_text == self::DEFENSE_RESPONSES['hit']) {
 			$d_text = sprintf(self::DEFENSE_RESPONSES['hit'], $defender_name, $ac_check, $hp_result);
-				if ($d_text = sprintf(self::DEFENSE_RESPONSES['hit'], $defender_name, $ac_check, $hp_result)) {
+				if ($d_text = sprintf(self::DEFENSE_RESPONSES['hit'], $defender_name, $ac_check, $hp_result) and ($ac_check > $defender_hp)) {
 						$d_text = sprintf(self::DEFENSE_RESPONSES['dead'], $defender_name, $attack_name);
 				}
 		}
