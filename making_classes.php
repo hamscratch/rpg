@@ -116,12 +116,12 @@ class Actions {
 	'dead' => "%s has been slain by %s.",
 	];
 
-	public function attack($attacker, $defender) {
+	public function attack($defender) {
 		$attack_roll = rand(1, 6);
-		$ac_check = $attacker->str + $attack_roll;
+		$ac_check = ->str + $attack_roll;
 		$defense_ac = $defender->ac;
 		$hp_result = $defender->hp - $ac_check;
-		$attack_name = "{$attacker->name} the {$attacker->class}";
+		$attack_name = "{$this->name} the {$this->class}";
 		$defender_name = "{$defender->name} the {$defender->class}";
 		$defender_hp = $defender->hp;
 
@@ -141,7 +141,7 @@ class Actions {
 		
 		if ($defender_text == self::DEFENSE_RESPONSES['hit']) {
 			$d_text = sprintf(self::DEFENSE_RESPONSES['hit'], $defender_name, $ac_check, $hp_result);
-				if ($d_text = sprintf(self::DEFENSE_RESPONSES['hit'], $defender_name, $ac_check, $hp_result) and ($ac_check > $defender_hp)) {
+				if (true and ($ac_check > $defender_hp)) {
 						$d_text = sprintf(self::DEFENSE_RESPONSES['dead'], $defender_name, $attack_name);
 				}
 		}
@@ -171,10 +171,8 @@ $villain = new NPC;
 //var_dump($hero);
 $hero->characterInfo();
 $hero->printInventoryList();
-
 $villain->characterInfo();
-
-$attack = $hero->actions->attack($hero, $villain);
+$attack = $hero->actions->attack($villain);
 echo $attack;
 
 
