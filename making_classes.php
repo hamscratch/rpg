@@ -4,7 +4,7 @@ class Character {
 	public function __construct() {
 		$this->actions = new Actions();
 		$this->stats = new Stats();
-		$this->actions->initStatsRef(&$this->stats);
+		$this->actions->initStatsRef($this->stats);
 	}
 }
 
@@ -34,22 +34,22 @@ class Hero extends Character {
 			];
 	}
 	public function printInventoryList () {
-		$inventory = $this->inventory;
+		$inventory = $this->stats->inventory;
 		$contents = [];
 		foreach ($inventory as $key => $value) {
 			$contents[] = "$key - $value \n";
 		}
 		$backpack = implode($contents);
-		$message = "{$this->name}'s Inventory: \n" . $backpack . "\n";
+		$message = "{$this->stats->name}'s Inventory: \n" . $backpack . "\n";
 		echo $message . "\n";
 	}
 	public function characterInfo() {
-		echo "Name: {$this->name} \n" . 
-				   "Race: {$this->race} \n" . 
-				   "Class: {$this->class} \n" .
-				   "Hit Points: {$this->hp} \n" . 
-				   "Defense: {$this->ac} \n" .
-				   "Strength: {$this->str} \n" . "\n";
+		echo "Name: {$this->stats->name} \n" . 
+				   "Race: {$this->stats->race} \n" . 
+				   "Class: {$this->stats->class} \n" .
+				   "Hit Points: {$this->stats->hp} \n" . 
+				   "Defense: {$this->stats->ac} \n" .
+				   "Strength: {$this->stats->str} \n" . "\n";
 	}
 }
 class NPC extends Character {
@@ -85,6 +85,7 @@ class NPC extends Character {
 	}
 }
 class Actions {
+
 	const ATTACK_RESPONSES = [
 	'hit' => "You swing and hit %s for %s damage.",
 	'crit_hit' => 'You crush your enemy for a lot of damage.',
@@ -98,7 +99,7 @@ class Actions {
 	];
 
 	public function initStatsRef(&$stats_ref) {
-		$this->stats_ref = &$stats_ref;
+		$this->stats_ref = $stats_ref;
 	}
 
 	public function getStat($stat_string) {
@@ -120,7 +121,7 @@ class Actions {
 	}
 	public function attack($defender) {
 		$attack_roll = rand(1, 6);
-		$ac_check = &$this->getStat("str") + $attack_roll;
+		$ac_check = $this->getStat("str") + $attack_roll;
 		$defense_ac = $defender->ac;
 		$hp_result = $defender->hp - $ac_check;
 		$attack_name = "{$this->getStat("name")} the {$this->getStat("class")}";
@@ -141,7 +142,7 @@ class Actions {
 		
 		if ($defender_text == self::DEFENSE_RESPONSES['hit']) {
 			$d_text = sprintf(self::DEFENSE_RESPONSES['hit'], $defender_name, $ac_check, $hp_result);
-				if ($ac_check > $defender_hp)) {
+				if ($ac_check > $defender_hp) {
 						$d_text = sprintf(self::DEFENSE_RESPONSES['dead'], $defender_name, $attack_name);
 				}
 		}
