@@ -84,6 +84,23 @@ class NPC extends Character {
 				   "Strength: {$this->str} \n" . "\n";
 	}
 }
+
+class Items {
+	const ONE_HANDED_WEAPONS = [
+		'Short Sword' => rand(1, 6),
+		'Bastard Sword' => rand(1, 8),
+		'Long Sword' => rand(1, 10), 
+	];
+
+	public function getWeapon() {
+
+	}
+
+	public function getArmor() {
+		
+	}
+}
+
 class Actions {
 
 	const ATTACK_RESPONSES = [
