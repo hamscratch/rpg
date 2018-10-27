@@ -224,9 +224,11 @@ class Actions {
 		$hero_hp = $this->getStat('hp');
 		$hero_str = $this->getStat('str');
 		$hero_ac = $this->getStat('ac');
+		$hero_name = "{$this->getStat("name")} the {$this->getStat("class")}";
 		
 		if ($potion === 'Health') {
 			$hero_hp += Items::getPotion('Health');
+			echo "{$hero_name} used a Health Potion and was healed.\n{$hero_name} now has {$hero_hp} hit points! \n";
 		} else if ($potion === 'Attack') {
 			$hero_str += Items::getPotion('Attack');
 		} else if ($potion === 'Defense') {
@@ -250,3 +252,4 @@ echo $attack;
 
 $hero->actions->usePotion();
 $hero->characterInfo();
+$villain->characterInfo();
