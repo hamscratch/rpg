@@ -31,7 +31,7 @@ class Hero extends Character {
 		$this->stats->inventory = [
 			'Melee Weapon' => 'Short Sword',
 			'Ranged Weapon' => 'Long Bow',
-			'First Aid' => 'Bandages',
+			'Potions' => 'Health',
 			'Ammo' => 'Arrows',
 			];
 	}
@@ -51,7 +51,7 @@ class Hero extends Character {
 		echo "Name: {$this->stats->name} \n" . 
 				   "Race: {$this->stats->race} \n" . 
 				   "Class: {$this->stats->class} \n" .
-				   "Hit Points: {$this->stats->hp} \n" . 
+				   "Hit Points: {$this->actions->stats_ref->hp} \n" . 
 				   "Defense: {$this->stats->ac} \n" .
 				   "Strength: {$this->stats->str} \n" . "\n";
 	}
@@ -108,9 +108,9 @@ class Items {
 	];
 
 	const POTIONS = [
-		'Health' => 6,
-		'Attack' => 6,
-		'Defense' => 6,
+		'Health' => 10,
+		'Attack' => 5,
+		'Defense' => 5,
 	];
 
 	static function getWeapon($type) {
@@ -219,8 +219,23 @@ class Actions {
 		$message = "Your defense has been boosted by {$defend_roll} and is now {$new_ac}";
 	}
 
-	public function firstAid($character) {
-		$type = $character[$this->inventory]['firstAid'];
+	public function usePotion() {
+		$potion = $this->getStat("inventory")["Potions"];
+		$hero_hp = $this->getStat('hp');
+		$hero_str = $this->getStat('str');
+		$hero_ac = $this->getStat('ac');
+		
+		if ($potion === 'Health') {
+			$hero_hp += Items::getPotion('Health');
+		} else if ($potion === 'Attack') {
+			$hero_str += Items::getPotion('Attack');
+		} else if ($potion === 'Defense') {
+			$hero_ac += Items::getPotion('Defense');
+		} else {
+			echo "Error: Not a valid entry. Check your spelling!";
+		}
+
+		var_dump($hero_hp);
 	}
 }
 
@@ -232,3 +247,6 @@ $hero->printInventoryList();
 $villain->characterInfo();
 $attack = $hero->actions->attack($villain);
 echo $attack;
+
+$hero->actions->usePotion();
+$hero->characterInfo();
