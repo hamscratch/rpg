@@ -43,7 +43,7 @@ class Hero extends Character {
 			$contents[] = "$key - $value \n";
 		}
 		$backpack = implode($contents);
-		$message = "{$this->stats->name}'s Inventory: \n" . $backpack . "\n";
+		$message = "{$this->stats->name}'s Inventory: \n" . $backpack;
 		echo $message . "\n";
 	}
 
@@ -96,9 +96,21 @@ class NPC extends Character {
 class Items {
 
 	const WEAPONS = [
-		'Short Sword' => 8,
-		'Long Bow' => 10,
-		'Arrows' => 0,
+		'short_sword' => [
+			'name' => 'Short Sword',
+			'damage' => 8,
+			'description' => "This is a short sword."
+		], 
+		'long_bow' => [
+			'name' => 'Long Bow',
+			'damage' => 10,
+			'description' => "This is a Long Bow."
+		],
+		'arrows' => [
+			'name' => 'Iron Arrow(s)',
+			'quantity' => 0,
+			'description' => "This is an iron arrowhead on a wooden shaft with feather fins."
+		],
 	];
 
 	const ARMOR = [
@@ -115,13 +127,17 @@ class Items {
 
 	static function getWeapon($type) {
 		if ($type === 'Melee') {
-			$weapon = self::WEAPONS['Short Sword'];
+			$weapon = self::WEAPONS['short_sword'];
 		} else if ($type === 'Ranged') {
-			$weapon = self::WEAPONS['Long Bow'];
+			$weapon = self::WEAPONS['long_bow'];
 		} else {
 			echo "Error: Not a valid entry. Check your spelling!";
 		}
 		return $weapon;
+	}
+
+	static function getArmor($type) {
+
 	}
 
 	static function getPotion($type) {
@@ -148,8 +164,8 @@ class Actions {
 	];
 
 	const DEFENSE_RESPONSES = [
-	'hit' => "%s was hit for %s damage and now has %s hit points left.",
-	'miss' => "%s has %s hit points left.",
+	'hit' => "%s was hit for %s damage and now has %s hit points left."  . "\n",
+	'miss' => "%s has %s hit points left."  . "\n",
 	'dead' => "%s has been slain by %s.",
 	];
 
@@ -197,8 +213,22 @@ class Actions {
 		}
 	}
 
+	public function getItemInfo($type) {
+
+		if ($type === "Melee") {
+			$name = Items::getWeapon('Melee');
+
+			echo "Item Information: \n" . "Weapon Name: {$name['name']} \n" . "Damage: 1-{$name['damage']} \n" . "Description: {$name['description']} \n" . "\n";
+		} else if ($type === "Ranged") {
+			$name = Items::getWeapon('Ranged');
+
+			echo "Item Information: \n" . "Weapon Name: {$name['name']} \n" . "Damage: 1-{$name['damage']} \n" . "Description: {$name['description']} \n" . "\n";
+		}
+	}
+
 	public function attack($defender) {
-		$weapon_damage = rand(1, Items::getWeapon('Melee'));
+		$weapon = Items::getWeapon('Melee');
+		$weapon_damage = rand(1, $weapon['damage']);
 		$ac_check = $this->getStat("str") + rand(1, 6);
 		$defense_ac = $defender->actions->getStat('ac');
 		$defender_hp = $defender->actions->getStat('hp');
@@ -240,7 +270,7 @@ class Actions {
 		$new_ac = $this->getStat('ac') + $defend_roll;
 		$this->setStat('ac', $new_ac); 
 
-		echo "{$this->getStat('name')} stands his ground and hardens his defenses. {$this->getStat('name')}'s defense has been boosted by {$defend_roll} and is now {$new_ac}\n";
+		echo "{$this->getStat('name')} stands his ground and hardens his defenses. {$this->getStat('name')}'s defense has been boosted by {$defend_roll} and is now {$new_ac}\n" . "\n";
 	}
 
 	public function usePotion() {
@@ -253,7 +283,7 @@ class Actions {
 		if ($potion === 'Health') {
 			$hero_hp += Items::getPotion('Health');
 			$this->setStat('hp', $hero_hp);
-			echo "{$hero_name} used a Health Potion and was healed.\n{$hero_name} now has {$hero_hp} hit points! \n";
+			echo "{$hero_name} used a Health Potion and was healed.\n{$hero_name} now has {$hero_hp} hit points! \n" . "\n";
 		} else if ($potion === 'Attack') {
 			$hero_str += Items::getPotion('Attack');
 		} else if ($potion === 'Defense') {
@@ -277,3 +307,5 @@ $hero->actions->usePotion();
 $hero->actions->defend();
 $hero->characterInfo();
 $villain->characterInfo();
+$hero->actions->getItemInfo('Melee');
+$hero->actions->getItemInfo('Ranged');
