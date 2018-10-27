@@ -64,12 +64,12 @@ class NPC extends Character {
 
 	public function __construct() {
 		parent::__construct();
-		$this->name = $this->thingPicker(self::NAMES);
-		$this->race = $this->thingPicker(self::RACES);
-		$this->class = $this->thingPicker(self::CLASSES);
-		$this->hp = $this->numberPicker(8, 15);
-		$this->ac = $this->numberPicker(8, 12);
-		$this->str = $this->numberPicker(4, 8);
+		$this->stats->name = $this->thingPicker(self::NAMES);
+		$this->stats->race = $this->thingPicker(self::RACES);
+		$this->stats->class = $this->thingPicker(self::CLASSES);
+		$this->stats->hp = $this->numberPicker(8, 15);
+		$this->stats->ac = $this->numberPicker(8, 12);
+		$this->stats->str = $this->numberPicker(4, 8);
 	}
 
 	public function numberPicker($num1, $num2) {
@@ -84,12 +84,12 @@ class NPC extends Character {
 	}
 
 	public function characterInfo() {
-		echo "Name: {$this->name} \n" . 
-				   "Race: {$this->race} \n" . 
-				   "Class: {$this->class} \n" .
-				   "Hit Points: {$this->hp} \n" . 
-				   "Defense: {$this->ac} \n" .
-				   "Strength: {$this->str} \n" . "\n";
+		echo "Name: {$this->stats->name} \n" . 
+				   "Race: {$this->stats->race} \n" . 
+				   "Class: {$this->stats->class} \n" .
+				   "Hit Points: {$this->stats->hp} \n" . 
+				   "Defense: {$this->stats->ac} \n" .
+				   "Strength: {$this->stats->str} \n" . "\n";
 	}
 }
 
@@ -200,11 +200,12 @@ class Actions {
 	public function attack($defender) {
 		$weapon_damage = rand(1, Items::getWeapon('Melee'));
 		$ac_check = $this->getStat("str") + rand(1, 6);
-		$defense_ac = $defender->ac;
-		$hp_result = $defender->hp - $weapon_damage;
+		$defense_ac = $defender->actions->getStat('ac');
+		$defender_hp = $defender->actions->getStat('hp');
+		$hp_result = $defender_hp - $weapon_damage;
 		$attacker_name = "{$this->getStat("name")} the {$this->getStat("class")}";
-		$defender_name = "{$defender->name} the {$defender->class}";
-		$defender_hp = $defender->hp;
+		$defender_name = "{$defender->stats->name} the {$defender->stats->class}";
+		
 
 		if ($ac_check > $defense_ac) {
 			$result = self::ATTACK_RESPONSES['hit'];
@@ -234,10 +235,12 @@ class Actions {
 		return $attack_message . "\n" . $d_text . "\n";
 	}
 
-	public function defend($defender) {
+	public function defend() {
 		$defend_roll = rand(1, 6);
-		$new_ac = $defender->ac + $defend_roll;
-		$message = "Your defense has been boosted by {$defend_roll} and is now {$new_ac}";
+		$new_ac = $this->getStat('ac') + $defend_roll;
+		$this->setStat('ac', $new_ac); 
+
+		echo "{$this->getStat('name')} stands his ground and hardens his defenses. {$this->getStat('name')}'s defense has been boosted by {$defend_roll} and is now {$new_ac}\n";
 	}
 
 	public function usePotion() {
@@ -271,5 +274,6 @@ $attack = $hero->actions->attack($villain);
 echo $attack;
 
 $hero->actions->usePotion();
+$hero->actions->defend();
 $hero->characterInfo();
 $villain->characterInfo();
