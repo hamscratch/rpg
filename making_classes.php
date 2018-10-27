@@ -51,7 +51,7 @@ class Hero extends Character {
 		echo "Name: {$this->stats->name} \n" . 
 				   "Race: {$this->stats->race} \n" . 
 				   "Class: {$this->stats->class} \n" .
-				   "Hit Points: {$this->actions->stats_ref->hp} \n" . 
+				   "Hit Points: {$this->actions->getStat('hp')} \n" . 
 				   "Defense: {$this->stats->ac} \n" .
 				   "Strength: {$this->stats->str} \n" . "\n";
 	}
@@ -177,6 +177,26 @@ class Actions {
 		}
 	}
 
+	public function setStat($stat_string, $updated_stat) {
+		if ($stat_string === "name") {
+			$this->stats_ref->name = $updated_stat;
+		} else if ($stat_string === "race") {
+			$this->stats_ref->race = $updated_stat;
+		} else if ($stat_string === "class") {
+			$this->stats_ref->class = $updated_stat;
+		} else if ($stat_string === "hp") {
+			$this->stats_ref->hp = $updated_stat;
+		} else if ($stat_string === "ac") {
+			$this->stats_ref->ac = $updated_stat;
+		} else if ($stat_string === "str") {
+			$this->stats_ref->str = $updated_stat;
+		} else if ($stat_string === 'inventory') {
+			$this->stats_ref->inventory = $updated_stat;
+		} else {
+			echo "Error: Not a valid entry. Check your spelling!";
+		}
+	}
+
 	public function attack($defender) {
 		$weapon_damage = rand(1, Items::getWeapon('Melee'));
 		$ac_check = $this->getStat("str") + rand(1, 6);
@@ -202,6 +222,7 @@ class Actions {
 		
 		if ($defender_text == self::DEFENSE_RESPONSES['hit']) {
 			$d_text = sprintf(self::DEFENSE_RESPONSES['hit'], $defender_name, $weapon_damage, $hp_result);
+			$defender->actions->setStat('hp', $hp_result);
 				if ($weapon_damage > $defender_hp) {
 						$d_text = sprintf(self::DEFENSE_RESPONSES['dead'], $defender_name, $attacker_name);
 				}
@@ -228,6 +249,7 @@ class Actions {
 		
 		if ($potion === 'Health') {
 			$hero_hp += Items::getPotion('Health');
+			$this->setStat('hp', $hero_hp);
 			echo "{$hero_name} used a Health Potion and was healed.\n{$hero_name} now has {$hero_hp} hit points! \n";
 		} else if ($potion === 'Attack') {
 			$hero_str += Items::getPotion('Attack');
@@ -236,8 +258,6 @@ class Actions {
 		} else {
 			echo "Error: Not a valid entry. Check your spelling!";
 		}
-
-		var_dump($hero_hp);
 	}
 }
 
