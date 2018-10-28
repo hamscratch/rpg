@@ -244,16 +244,21 @@ class Items {
 class Actions {
 
 	const ATTACK_RESPONSES = [
-	'hit' => "You swing and hit %s for %s damage.",
-	'crit_hit' => 'You crush your enemy for a lot of damage.',
+	'hit' => "You swing and hit %s for %s damage."  . "\n",
+	'crit_hit' => 'You crush your enemy for a lot of damage.'  . "\n",
 	'miss' => 'You missed your target.',
-	'crit_miss' => 'You miss so bad your weapon laughs at you.',
+	'crit_miss' => 'You miss so bad your weapon laughs at you.'  . "\n",
 	];
 
 	const DEFENSE_RESPONSES = [
 	'hit' => "%s was hit for %s damage and now has %s hit points left."  . "\n",
 	'miss' => "%s has %s hit points left."  . "\n",
-	'dead' => "%s has been slain by %s.",
+	'dead' => "%s has been slain by %s."  . "\n",
+	];
+
+	const SPELL_RESPONSE = [
+	'fireball' => "%s was blasted with a fireball by %s for %s damage" . "\n",
+	'miss' => "You miss %s"  . "\n"
 	];
 
 	public function initStatsRef(&$stats_ref) {
@@ -420,16 +425,43 @@ class Actions {
 		$hero_hp = $this->getStat('hp');
 		$hero_ac = $this->getStat('ac');
 		$hero_int = $this->getStat('int');
-		$target_name = "{$target->stats->name} the {$target->stats->class}";
+		$target_name = "{$target->actions->getStat('name')} the {$target->actions->getStat('class')}";
 		$target_hp = $target->actions->getStat('hp');
 		$target_int = $target->actions->getStat('int');
 
 		$int_check = $this->getStat("int") + rand(1, 6);
 
-
-
-		if ($spell['name'] === "fireball") {
+		if ($spell['name'] === "Fireball") {
 			$damage = rand(1, $spell['amount']);
+			$hp_result = $target->actions->getStat('hp') - $damage;
+
+			if ($int_check > $target_int) {
+				$result = self::SPELL_RESPONSE['fireball'];
+				$attack_message = sprintf(self::SPELL_RESPONSE['fireball'], $target_name, $hero_name, $damage);
+			} else {
+				$result = self::SPELL_RESPONSE['miss'];
+				$attack_message = sprintf(self::SPELL_RESPONSE['miss'], $target_name);
+			}
+
+			if ($result == self::SPELL_RESPONSE['fireball'] ) {
+				$defender_text = self::DEFENSE_RESPONSES['hit'];
+			} else {
+				$defender_text = self::DEFENSE_RESPONSES['miss'];
+			}
+				
+			if ($defender_text == self::DEFENSE_RESPONSES['hit']) {
+				$d_text = sprintf(self::DEFENSE_RESPONSES['hit'], $target_name, $damage, $hp_result);
+				$target->actions->setStat('hp', $hp_result);
+					if ($damage > $target_hp) {
+						$d_text = sprintf(self::DEFENSE_RESPONSES['dead'], $target_name, $hero_name);
+					}
+			}
+			if ($defender_text == self::DEFENSE_RESPONSES['miss']) {
+				$d_text = sprintf(self::DEFENSE_RESPONSES['miss'], $target_name, $target_hp);
+			}
+
+			echo $attack_message . "\n" . $d_text . "\n";
+
 		} else if ($spell['name'] === "heal_wounds") {
 			$boost = $spell['amount'];
 			$hero_hp += $boost;
@@ -465,3 +497,4 @@ $villain->characterInfo();
 $hero->actions->getItemInfo('Melee');
 echo "Potions left: " .  $hero->stats->inventory['Potions']['health']['quantity'] . "\n";
 $hero->characterInfo();
+$hero->actions->castSpell('fireball', $villain);
