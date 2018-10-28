@@ -16,6 +16,7 @@ class Stats {
 	public $hp;
 	public $ac;
 	public $str;
+	public $int;
 	public $equipped;
 	public $inventory;
 }
@@ -29,6 +30,7 @@ class Hero extends Character {
 		$this->stats->hp = 20;
 		$this->stats->ac = 15;
 		$this->stats->str = 8;
+		$this->stats->int = 8;
 		$this->stats->equipped = [
 			'Melee Weapon' => '',
 			'Ranged Weapon' => '',
@@ -40,8 +42,8 @@ class Hero extends Character {
 			'Ammo' => 0,
 			'Potions' => [
 				'health' => ['name' => 'Health Potion', 'quantity' => 1],
-				'attack' => ['name' => 'Attack Potion', 'quantity' => 0],
-				'defense' => ['name' => 'Defense Potion', 'quantity' => 0]
+				'attack' => ['name' => 'Attack Potion', 'quantity' => 1],
+				'defense' => ['name' => 'Defense Potion', 'quantity' => 1]
 			]
 		];
 	}
@@ -63,7 +65,8 @@ class Hero extends Character {
 				   "Class: {$this->stats->class} \n" .
 				   "Hit Points: {$this->actions->getStat('hp')} \n" . 
 				   "Defense: {$this->stats->ac} \n" .
-				   "Strength: {$this->stats->str} \n" . "\n";
+				   "Strength: {$this->stats->str} \n" .
+				   "Intelligence: {$this->stats->int} \n" . "\n"; 
 	}
 }
 class NPC extends Character {
@@ -270,6 +273,8 @@ class Actions {
 			return $this->stats_ref->ac;
 		} else if ($stat_string === "str") {
 			return $this->stats_ref->str;
+		} else if ($stat_string === "int") {
+			return $this->stats_ref->int;
 		} else if ($stat_string === 'inventory') {
 			return $this->stats_ref->inventory;
 		} else {
@@ -290,6 +295,8 @@ class Actions {
 			$this->stats_ref->ac = $updated_stat;
 		} else if ($stat_string === "str") {
 			$this->stats_ref->str = $updated_stat;
+		}	else if ($stat_string === "int") {
+			$this->stats_ref->int = $updated_stat;
 		} else if ($stat_string === "potions: health") {
 			$this->stats_ref->inventory['Potions']['health']['quantity'] = $updated_stat;
 		} else if ($stat_string === "potions: attack") {
@@ -380,20 +387,61 @@ class Actions {
 			} else {
 				echo "{$hero_name} does not have any health potions in their inventory." . "\n";
 			}
-		} else if ($potion === 'Attack') {
-			$hero_str += Items::getPotion('Attack');
-		} else if ($potion === 'Defense') {
-			$hero_ac += Items::getPotion('Defense');
+		} else if ($potion['name'] === 'Attack Potion') {
+			if ($quantity >= 1) {
+				$update = Items::getPotion('Attack');
+				$hero_str += $update['amount'];
+				$new_quantity = ($quantity - 1);
+				$this->setStat('str', $hero_str);
+				$this->setStat('potions: attack', $new_quantity);
+				echo "{$hero_name} drank an attack potion.\n{$hero_name} now has {$hero_str} strength! \n" . "\n";
+			} else {
+				echo "{$hero_name} does not have any attack potions in their inventory." . "\n";
+			}
+		} else if ($potion['name'] === 'Defense Potion') {
+			if ($quantity >= 1) {
+				$update = Items::getPotion('Defense');
+				$hero_ac += $update['amount'];
+				$new_quantity = ($quantity - 1);
+				$this->setStat('ac', $hero_ac);
+				$this->setStat('potions: defense', $new_quantity);
+				echo "{$hero_name} drank a defense potion.\n{$hero_name} now has {$hero_ac} defense! \n" . "\n";
+			} else {
+				echo "{$hero_name} does not have any defense potions in their inventory." . "\n";
+			}
 		} else {
 			echo "Error: Not a valid entry for usePotion. Check your spelling!";
 		}
 	}
 
 	public function castSpell($type, $target) {
-		$spell = Items::getSpell($type); 
+		$spell = Items::getSpell($type);
+		$hero_name = "{$this->getStat("name")} the {$this->getStat("class")}"; 
+		$hero_hp = $this->getStat('hp');
+		$hero_ac = $this->getStat('ac');
+		$hero_int = $this->getStat('int');
+		$target_name = "{$target->stats->name} the {$target->stats->class}";
+		$target_hp = $target->actions->getStat('hp');
+		$target_int = $target->actions->getStat('int');
+
+		$int_check = $this->getStat("int") + rand(1, 6);
+
+
 
 		if ($spell['name'] === "fireball") {
-
+			$damage = rand(1, $spell['amount']);
+		} else if ($spell['name'] === "heal_wounds") {
+			$boost = $spell['amount'];
+			$hero_hp += $boost;
+			$this->setStat('hp', $hero_hp);
+			echo "{$hero_name} weaves bright light together and heals {$boost} hit points. \n{$hero_name} now has {$hero_hp} hit points!";
+		} else if ($spell['name'] === "magic_armor") {
+			$boost = $spell['amount'];
+			$hero_ac += $boost;
+			$this->setStat('ac', $hero_ac);
+			echo "{$hero_name} weaves mystic runes together and shields themsevles for {$boost} extra armor. \n{$hero_name} now has {$hero_ac} defense!";
+		} else {
+			echo "Error: Not a valid entry for castSpell. Check your spelling!";
 		}
 	}	
 
@@ -406,11 +454,14 @@ $hero->printInventoryList();
 $villain->characterInfo();
 $attack = $hero->actions->attack($villain);
 echo $attack;
-
+echo "Potions left: " . $hero->stats->inventory['Potions']['health']['quantity'] . "\n";
 $hero->actions->usePotion('health');
+$hero->actions->usePotion('attack');
+$hero->actions->usePotion('defense');
 $hero->actions->defend();
 $villain->actions->usePotion('health');
 $hero->characterInfo();
 $villain->characterInfo();
 $hero->actions->getItemInfo('Melee');
-$hero->actions->getItemInfo('Ranged');
+echo "Potions left: " .  $hero->stats->inventory['Potions']['health']['quantity'] . "\n";
+$hero->characterInfo();
