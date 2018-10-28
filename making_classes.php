@@ -16,6 +16,7 @@ class Stats {
 	public $hp;
 	public $ac;
 	public $str;
+	public $equipped;
 	public $inventory;
 }
 class Hero extends Character {
@@ -28,12 +29,21 @@ class Hero extends Character {
 		$this->stats->hp = 20;
 		$this->stats->ac = 15;
 		$this->stats->str = 8;
+		$this->stats->equipped = [
+			'Melee Weapon' => '',
+			'Ranged Weapon' => '',
+			'Armor' => '',
+		]; 
 		$this->stats->inventory = [
 			'Melee Weapon' => 'Short Sword',
 			'Ranged Weapon' => 'Long Bow',
-			'Potions' => 'Health',
-			'Ammo' => 'Arrows',
-			];
+			'Ammo' => 0,
+			'Potions' => [
+				'health' => ['name' => 'Health Potion', 'quantity' => 1],
+				'attack' => ['name' => 'Attack Potion', 'quantity' => 0],
+				'defense' => ['name' => 'Defense Potion', 'quantity' => 0]
+			]
+		];
 	}
 
 	public function printInventoryList () {
@@ -67,9 +77,19 @@ class NPC extends Character {
 		$this->stats->name = $this->thingPicker(self::NAMES);
 		$this->stats->race = $this->thingPicker(self::RACES);
 		$this->stats->class = $this->thingPicker(self::CLASSES);
-		$this->stats->hp = $this->numberPicker(8, 15);
-		$this->stats->ac = $this->numberPicker(8, 12);
+		$this->stats->hp = $this->numberPicker(8, 20);
+		$this->stats->ac = $this->numberPicker(8, 15);
 		$this->stats->str = $this->numberPicker(4, 8);
+		$this->stats->inventory = [
+			'Melee Weapon' => 'Short Sword',
+			'Ranged Weapon' => 'Long Bow',
+			'Ammo' => 0,
+			'Potions' => [
+				'health' => ['name' => 'Health Potion', 'quantity' => 0],
+				'attack' => ['name' => 'Attack Potion', 'quantity' => 0],
+				'defense' => ['name' => 'Defense Potion', 'quantity' => 0]
+			]
+		];
 	}
 
 	public function numberPicker($num1, $num2) {
@@ -114,15 +134,57 @@ class Items {
 	];
 
 	const ARMOR = [
-		'Cloth Armor' => 2,
-		'Leather Armor' => 4,
-		'Chainmail Armon' => 6,
+		'cloth' => [
+			'name' => 'Cloth Armor',
+			'armor' => 2,
+			'description' => "This is cloth armor. Offers light protection. You also look poor in it"
+		],
+		'leather' => [
+			'name' => 'Leather Armor',
+			'armor' => 4,
+			'description' => "This is leather armor. Offers medium protection."
+		], 
+		'chainmail' => [
+			'name' => "Chainmail Armor",
+			'armor' => 6,
+			'description' => "This is chainmail armor. Offers heavy protection."
+		],
 	];
 
 	const POTIONS = [
-		'Health' => 10,
-		'Attack' => 5,
-		'Defense' => 5,
+		'health' => [
+			'name' => "Health Potion",
+			'amount' => 10,
+			'description' => "A vial of red liquid that will restore 10 hitpoints."
+		],
+		'attack' => [
+			'name' => "Attack Potion",
+			'amount' => 5,
+			'description' => "A vial of yellow liquid that will boost strength by 5 for a turn."
+		],
+		'defense' => [
+			'name' => "Defense Potion",
+			'amount' => 5,
+			'description' => "A vial of green liquid that will boost your armor by 5 for a turn."
+		],
+	];
+
+	const SPELLS = [
+		'fireball' => [
+			'name' => "Fireball",
+			'amount' => 6,
+			'description' => "A ball of fire. Duh."
+		],
+		'heal_wounds' => [
+			'name' => "Heal Wounds",
+			'amount' => 10,
+			'description' => "Weaving light to restore some health."
+		],
+		'magic_armor' => [
+			'name' => "Magic Armor",
+			'amount' => 5,
+			'description' => "Mystical runes surround the caster and boost their armor."
+		],
 	];
 
 	static function getWeapon($type) {
@@ -131,26 +193,48 @@ class Items {
 		} else if ($type === 'Ranged') {
 			$weapon = self::WEAPONS['long_bow'];
 		} else {
-			echo "Error: Not a valid entry. Check your spelling!";
+			echo "Error: Not a valid entry for getWeapon. Check your spelling!";
 		}
 		return $weapon;
 	}
 
 	static function getArmor($type) {
-
+		if ($type === 'cloth') {
+			$armor = self::ARMOR['cloth'];
+		} else if ($type === 'leather') {
+			$armor = self::ARMOR['leather'];
+		} else if ($type === 'chainmail') {
+			$armor = self::ARMOR['chainmail'];
+		} else {
+			echo "Error: Not a valid entry for getArmor. Check your spelling!";
+		}
+		return $armor;
 	}
 
 	static function getPotion($type) {
 		if ($type === 'Health') {
-			$potion = self::POTIONS['Health'];
+			$potion = self::POTIONS['health'];
 		} else if ($type === 'Attack') {
-			$potion = self::POTIONS['Attack'];
+			$potion = self::POTIONS['attack'];
 		} else if ($type === 'Defense') {
-			$potion = self::POTIONS['Defense'];
+			$potion = self::POTIONS['defense'];
 		} else {
-			echo "Error: Not a valid entry. Check your spelling!";
+			echo "Error: Not a valid entry for getPotion. Check your spelling!";
 		}
 		return $potion;
+	}
+
+	static function getSpell($type) {
+		if ($type === 'fireball') {
+			$spell = self::SPELLS['fireball'];
+		} else if ($type === 'heal_wounds') {
+			$spell = self::SPELLS['heal_wounds'];
+		} else if ($type === 'magic_armor') {
+			$spell = self::SPELLS['magic_armor'];
+		} else {
+			echo "Error: Not a valid entry for getSpell. Check your spelling!";
+		}
+		return $spell;
 	}
 }
 
@@ -189,7 +273,7 @@ class Actions {
 		} else if ($stat_string === 'inventory') {
 			return $this->stats_ref->inventory;
 		} else {
-			echo "Error: Not a valid entry. Check your spelling!";
+			echo "Error: Not a valid entry for getStat. Check your spelling!";
 		}
 	}
 
@@ -206,10 +290,14 @@ class Actions {
 			$this->stats_ref->ac = $updated_stat;
 		} else if ($stat_string === "str") {
 			$this->stats_ref->str = $updated_stat;
-		} else if ($stat_string === 'inventory') {
-			$this->stats_ref->inventory = $updated_stat;
+		} else if ($stat_string === "potions: health") {
+			$this->stats_ref->inventory['Potions']['health']['quantity'] = $updated_stat;
+		} else if ($stat_string === "potions: attack") {
+			$this->stats_ref->inventory['Potions']['attack']['quantity'] = $updated_stat;
+		} else if ($stat_string === "potions: defense") {
+			$this->stats_ref->inventory['Potions']['defense']['quantity'] = $updated_stat;
 		} else {
-			echo "Error: Not a valid entry. Check your spelling!";
+			echo "Error: Not a valid entry for setStat. Check your spelling!";
 		}
 	}
 
@@ -270,41 +358,58 @@ class Actions {
 		$new_ac = $this->getStat('ac') + $defend_roll;
 		$this->setStat('ac', $new_ac); 
 
-		echo "{$this->getStat('name')} stands his ground and hardens his defenses. {$this->getStat('name')}'s defense has been boosted by {$defend_roll} and is now {$new_ac}\n" . "\n";
+		echo "{$this->getStat('name')} gets into a defesive stance. {$this->getStat('name')}'s defense has been boosted by {$defend_roll} and is now {$new_ac}\n" . "\n";
 	}
 
-	public function usePotion() {
-		$potion = $this->getStat("inventory")["Potions"];
+	public function usePotion($type) {
+		$potion = $this->getStat("inventory")["Potions"][$type];
+		$quantity = $potion['quantity'];
 		$hero_hp = $this->getStat('hp');
 		$hero_str = $this->getStat('str');
 		$hero_ac = $this->getStat('ac');
 		$hero_name = "{$this->getStat("name")} the {$this->getStat("class")}";
 		
-		if ($potion === 'Health') {
-			$hero_hp += Items::getPotion('Health');
-			$this->setStat('hp', $hero_hp);
-			echo "{$hero_name} used a Health Potion and was healed.\n{$hero_name} now has {$hero_hp} hit points! \n" . "\n";
+		if ($potion['name'] === 'Health Potion') {
+			if ($quantity >= 1) {
+				$update = Items::getPotion('Health');
+				$hero_hp += $update['amount'];
+				$new_quantity = ($quantity - 1);
+				$this->setStat('hp', $hero_hp);
+				$this->setStat('potions: health', $new_quantity);
+				echo "{$hero_name} drank a health potion.\n{$hero_name} now has {$hero_hp} hit points! \n" . "\n";
+			} else {
+				echo "{$hero_name} does not have any health potions in their inventory." . "\n";
+			}
 		} else if ($potion === 'Attack') {
 			$hero_str += Items::getPotion('Attack');
 		} else if ($potion === 'Defense') {
 			$hero_ac += Items::getPotion('Defense');
 		} else {
-			echo "Error: Not a valid entry. Check your spelling!";
+			echo "Error: Not a valid entry for usePotion. Check your spelling!";
 		}
 	}
+
+	public function castSpell($type, $target) {
+		$spell = Items::getSpell($type); 
+
+		if ($spell['name'] === "fireball") {
+
+		}
+	}	
+
 }
 
 $hero = new Hero;
 $villain = new NPC;
-//var_dump($hero);
 $hero->characterInfo();
 $hero->printInventoryList();
 $villain->characterInfo();
 $attack = $hero->actions->attack($villain);
 echo $attack;
 
-$hero->actions->usePotion();
+$hero->actions->usePotion('health');
 $hero->actions->defend();
+$villain->actions->usePotion('health');
 $hero->characterInfo();
 $villain->characterInfo();
 $hero->actions->getItemInfo('Melee');
