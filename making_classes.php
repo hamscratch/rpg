@@ -18,7 +18,8 @@ class Stats {
 	public $str;
 	public $int;
 	public $equipped;
-	public $inventory;
+	public $backpack;
+	public $potion_bag;
 }
 class Hero extends Character {
 	
@@ -36,31 +37,48 @@ class Hero extends Character {
 			'Ranged Weapon' => '',
 			'Armor' => '',
 		]; 
-		$this->stats->inventory = [
+		$this->stats->backpack = [
 			'Melee Weapon' => 'Short Sword',
 			'Ranged Weapon' => 'Long Bow',
 			'Ammo' => 0,
+		];
+		$this->stats->potion_bag = [
 			'Potions' => [
 				'health' => ['name' => 'Health Potion', 'quantity' => 1],
 				'attack' => ['name' => 'Attack Potion', 'quantity' => 1],
-				'defense' => ['name' => 'Defense Potion', 'quantity' => 1]
+				'defense' => ['name' => 'Defense Potion', 'quantity' => 1],
+				'intelligence' => ['name' => 'Intelligence Potion', 'quantity' => 1]
 			]
 		];
 	}
 
 	public function printInventoryList () {
-		$inventory = $this->stats->inventory;
-		$contents = [];
-		foreach ($inventory as $key => $value) {
-			$contents[] = "$key - $value \n";
+		$backpack = $this->stats->backpack;
+		$potion_bag = $this->stats->potion_bag['Potions'];
+
+		$backpack_contents = [];
+		$potion_bag_contents = [];
+		foreach ($backpack as $key => $value) {
+			$backpack_contents[] = "$key - $value \n";
 		}
-		$backpack = implode($contents);
-		$message = "{$this->stats->name}'s Inventory: \n" . $backpack;
+
+		foreach ($potion_bag as $potion => $type) {
+			$potion_name = $type['name'];
+			$potion_quantity = $type['quantity'];
+			$potion_string = "{$potion_name}: {$potion_quantity} \n";
+			$potion_bag_contents[] = $potion_string;
+		}
+
+		$potion_bag_result = implode($potion_bag_contents);
+		$backpack_result = implode($backpack_contents);
+		
+		$message = "<<<{$this->stats->name}'s Inventory>>> \n" . $backpack_result . "\n" . "<<<Potion Bag>>> \n" .              $potion_bag_result . "\n";
 		echo $message . "\n";
 	}
 
 	public function characterInfo() {
-		echo "Name: {$this->stats->name} \n" . 
+		echo "<<<Character Stats>>>" . "\n" . 	
+				   "Name: {$this->stats->name} \n" . 
 				   "Race: {$this->stats->race} \n" . 
 				   "Class: {$this->stats->class} \n" .
 				   "Hit Points: {$this->actions->getStat('hp')} \n" . 
@@ -71,7 +89,7 @@ class Hero extends Character {
 }
 class NPC extends Character {
 	
-	const NAMES = ['Bilge', 'Gorbash', 'Mordok', 'Draxiz', 'Innoruuk', 'Lanys', 'Mooto', 'Treskar'];
+	const NAMES = ['Bilge', 'Gorbash', 'Mordok', 'Draxiz', 'Innoruuk', 'Lanys', 'Mooto', 'Treskar', 'Fipphy'];
 	const RACES = ['Orc', 'Skeleton', 'Gnoll', 'Ghoul'];
 	const CLASSES = ['Grunt', 'Warrior', 'Sorcerer'];
 
@@ -83,14 +101,18 @@ class NPC extends Character {
 		$this->stats->hp = $this->numberPicker(8, 20);
 		$this->stats->ac = $this->numberPicker(8, 15);
 		$this->stats->str = $this->numberPicker(4, 8);
-		$this->stats->inventory = [
+		$this->stats->int = $this->numberPicker(4,8);
+		$this->stats->backpack = [
 			'Melee Weapon' => 'Short Sword',
 			'Ranged Weapon' => 'Long Bow',
 			'Ammo' => 0,
-			'Potions' => [
+		];
+		$this->stats->potion_bag =[
+			'Potions' => [	
 				'health' => ['name' => 'Health Potion', 'quantity' => 0],
 				'attack' => ['name' => 'Attack Potion', 'quantity' => 0],
-				'defense' => ['name' => 'Defense Potion', 'quantity' => 0]
+				'defense' => ['name' => 'Defense Potion', 'quantity' => 0],
+				'intelligence' => ['name' => 'Intelligence Potion', 'quantity' => 0]
 			]
 		];
 	}
@@ -112,8 +134,13 @@ class NPC extends Character {
 				   "Class: {$this->stats->class} \n" .
 				   "Hit Points: {$this->stats->hp} \n" . 
 				   "Defense: {$this->stats->ac} \n" .
-				   "Strength: {$this->stats->str} \n" . "\n";
+				   "Strength: {$this->stats->str} \n" .
+				   "Intelligence: {$this->stats->int} \n" . "\n"; 
 	}
+}
+
+class RoomMaker {
+
 }
 
 class Items {
@@ -169,6 +196,11 @@ class Items {
 			'name' => "Defense Potion",
 			'amount' => 5,
 			'description' => "A vial of green liquid that will boost your armor by 5 for a turn."
+		],
+		'intelligence' => [
+			'name' => "Intelligence Potion",
+			'amount' => 5,
+			'description' => "A vial of grey swirling liquid that will boost your intelligence for a turn."
 		],
 	];
 
@@ -280,8 +312,16 @@ class Actions {
 			return $this->stats_ref->str;
 		} else if ($stat_string === "int") {
 			return $this->stats_ref->int;
-		} else if ($stat_string === 'inventory') {
-			return $this->stats_ref->inventory;
+		} else if ($stat_string === 'backpack') {
+			return $this->stats_ref->backpack;
+		} else if ($stat_string === 'potions: health') {
+			$this->stats_ref->potion_bag['Potions']['health']['quantity'];
+		} else if ($stat_string === 'potions: attack') {
+			$this->stats_ref->potion_bag['Potions']['attack']['quantity'];
+		} else if ($stat_string === 'potions: defense') {
+			$this->stats_ref->potion_bag['Potions']['defense']['quantity'];
+		} else if ($stat_string === 'potions: intelligence') {
+			$this->stats_ref->potion_bag['Potions']['intelligence']['quantity'];
 		} else {
 			echo "Error: Not a valid entry for getStat. Check your spelling!";
 		}
@@ -303,14 +343,31 @@ class Actions {
 		}	else if ($stat_string === "int") {
 			$this->stats_ref->int = $updated_stat;
 		} else if ($stat_string === "potions: health") {
-			$this->stats_ref->inventory['Potions']['health']['quantity'] = $updated_stat;
+			$this->stats_ref->potion_bag['Potions']['health']['quantity'] = $updated_stat;
 		} else if ($stat_string === "potions: attack") {
-			$this->stats_ref->inventory['Potions']['attack']['quantity'] = $updated_stat;
+			$this->stats_ref->potion_bag['Potions']['attack']['quantity'] = $updated_stat;
 		} else if ($stat_string === "potions: defense") {
-			$this->stats_ref->inventory['Potions']['defense']['quantity'] = $updated_stat;
+			$this->stats_ref->potion_bag['Potions']['defense']['quantity'] = $updated_stat;
+		} else if ($stat_string === "potions: intelligence") {
+			$this->stats_ref->potion_bag['Potions']['intelligence']['quantity'] = $updated_stat; 
 		} else {
 			echo "Error: Not a valid entry for setStat. Check your spelling!";
 		}
+	}
+
+	public function isDead($target) {
+		$is_dead = false;
+		$hp = $target->actions->getStat('hp');
+
+		if ($hp <= 0) {
+			$is_dead = true;
+		} else if ($hp >= 1) {
+			$is_dead = false;
+		} else {
+			echo "Error: Not a valid entry for isDead. Check your spelling!";
+		}
+
+		return $is_dead;
 	}
 
 	public function getItemInfo($type) {
@@ -374,14 +431,16 @@ class Actions {
 	}
 
 	public function usePotion($type) {
-		$potion = $this->getStat("inventory")["Potions"][$type];
-		$quantity = $potion['quantity'];
+		$potion = "potions: {$type}";
+		var_dump($potion);
+		$potion_name = $type;
+		$quantity = $this->getStat($potion);
 		$hero_hp = $this->getStat('hp');
 		$hero_str = $this->getStat('str');
 		$hero_ac = $this->getStat('ac');
 		$hero_name = "{$this->getStat("name")} the {$this->getStat("class")}";
 		
-		if ($potion['name'] === 'Health Potion') {
+		if ($potion_name === 'health') {
 			if ($quantity >= 1) {
 				$update = Items::getPotion('Health');
 				$hero_hp += $update['amount'];
@@ -392,7 +451,7 @@ class Actions {
 			} else {
 				echo "{$hero_name} does not have any health potions in their inventory." . "\n";
 			}
-		} else if ($potion['name'] === 'Attack Potion') {
+		} else if ($potion_name === 'attack') {
 			if ($quantity >= 1) {
 				$update = Items::getPotion('Attack');
 				$hero_str += $update['amount'];
@@ -403,7 +462,7 @@ class Actions {
 			} else {
 				echo "{$hero_name} does not have any attack potions in their inventory." . "\n";
 			}
-		} else if ($potion['name'] === 'Defense Potion') {
+		} else if ($potion_name === 'defense') {
 			if ($quantity >= 1) {
 				$update = Items::getPotion('Defense');
 				$hero_ac += $update['amount'];
@@ -486,15 +545,15 @@ $hero->printInventoryList();
 $villain->characterInfo();
 $attack = $hero->actions->attack($villain);
 echo $attack;
-echo "Potions left: " . $hero->stats->inventory['Potions']['health']['quantity'] . "\n";
+echo "Potions left: " . $hero->stats->potion_bag['Potions']['health']['quantity'] . "\n";
 $hero->actions->usePotion('health');
-$hero->actions->usePotion('attack');
-$hero->actions->usePotion('defense');
 $hero->actions->defend();
 $villain->actions->usePotion('health');
 $hero->characterInfo();
 $villain->characterInfo();
 $hero->actions->getItemInfo('Melee');
-echo "Potions left: " .  $hero->stats->inventory['Potions']['health']['quantity'] . "\n";
+echo "Potions left: " .  $hero->stats->potion_bag['Potions']['health']['quantity'] . "\n";
 $hero->characterInfo();
 $hero->actions->castSpell('fireball', $villain);
+$hero->printInventoryList();
+
