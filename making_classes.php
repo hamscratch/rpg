@@ -16,6 +16,7 @@ class Stats {
 	public $hp;
 	public $ac;
 	public $str;
+	public $dex;
 	public $int;
 	public $equipped;
 	public $backpack;
@@ -23,6 +24,45 @@ class Stats {
 }
 class Hero extends Character {
 	
+	const WARRIOR = [
+		'class' => 'Warrior',
+		'hp' => 30,
+		'ac' => 15,
+		'str' => 8,
+		'dex' => 8,
+		'int' => 8,
+		'equipped' => [],
+		'backpack' => [],
+		'potion_bag' => [],
+		'description' => "Hailing from the mountains of Halas, the warrior beats its enemies with melee weapons"
+	];
+
+	const WIZARD = [
+		'class' => 'Wizard',
+		'hp' => 30,
+		'ac' => 15,
+		'str' => 8,
+		'dex' => 8,
+		'int' => 8,
+		'equipped' => [],
+		'backpack' => [],
+		'potion_bag' => [],
+		'description' => "Hailing from the mountains of Halas, the warrior beats its enemies with melee weapons"
+	];
+
+	const RANGER = [
+		'class' => 'Ranger',
+		'hp' => 30,
+		'ac' => 15,
+		'str' => 8,
+		'dex' => 8,
+		'int' => 8,
+		'equipped' => [],
+		'backpack' => [],
+		'potion_bag' => [],
+		'description' => "Hailing from the mountains of Halas, the warrior beats its enemies with melee weapons"
+	];
+
 	public function __construct() {
 		parent::__construct();
 		$this->stats->name = 'Talonic';
@@ -31,6 +71,7 @@ class Hero extends Character {
 		$this->stats->hp = 20;
 		$this->stats->ac = 15;
 		$this->stats->str = 8;
+		$this->stats->dex = 8;
 		$this->stats->int = 8;
 		$this->stats->equipped = [
 			'Melee Weapon' => '',
@@ -84,6 +125,7 @@ class Hero extends Character {
 				   "Hit Points: {$this->actions->getStat('hp')} \n" . 
 				   "Defense: {$this->actions->getStat('ac')} \n" .
 				   "Strength: {$this->actions->getStat('str')} \n" .
+				   "Dexterity: {$this->actions->getStat('dex')} \n" .
 				   "Intelligence: {$this->actions->getStat('int')} \n" . "\n"; 
 	}
 }
@@ -101,6 +143,7 @@ class NPC extends Character {
 		$this->stats->hp = $this->numberPicker(8, 20);
 		$this->stats->ac = $this->numberPicker(8, 15);
 		$this->stats->str = $this->numberPicker(4, 8);
+		$this->stats->dex = $this->numberPicker(4, 8);
 		$this->stats->int = $this->numberPicker(4,8);
 		$this->stats->equipped = [
 			'Melee Weapon' => '',
@@ -141,6 +184,7 @@ class NPC extends Character {
 				   "Hit Points: {$this->actions->getStat('hp')} \n" . 
 				   "Defense: {$this->actions->getStat('ac')} \n" .
 				   "Strength: {$this->actions->getStat('str')} \n" .
+				   "Dexterity: {$this->actions->getStat('dex')} \n" .
 				   "Intelligence: {$this->actions->getStat('int')} \n" . "\n"; 
 	}
 }
@@ -174,6 +218,12 @@ class Items {
 			'name' => 'Silver Short Sword',
 			'damage' => 10,
 			'description' => "Runes shimmer along the blade, giving a dim glow. Magic energy courses through this weapon.",
+			'magic' => true,
+		],
+		'magic_arrows' => [
+			'name' => 'Magic Arrow(s)',
+			'quantity' => 0,
+			'description' => "Runes shiummer along the arrow tip, giving a dim glow. Magic energy courses through this weapon.",
 			'magic' => true,
 		],
 	];
@@ -332,10 +382,14 @@ class Actions {
 			return $this->stats_ref->ac;
 		} else if ($stat_string === "str") {
 			return $this->stats_ref->str;
+		} else if ($stat_string === "dex") {
+			return $this->stats_ref->dex;
 		} else if ($stat_string === "int") {
 			return $this->stats_ref->int;
 		} else if ($stat_string === 'backpack') {
 			return $this->stats_ref->backpack;
+		} else if ($stat_string === 'backpack: arrows') {
+			return $this->stats_ref->backpack['Arrows'];
 		} else if ($stat_string === 'potions: health') {
 			return $this->stats_ref->potion_bag['Potions']['health']['quantity'];
 		} else if ($stat_string === 'potions: attack') {
@@ -362,8 +416,12 @@ class Actions {
 			$this->stats_ref->ac = $updated_stat;
 		} else if ($stat_string === "str") {
 			$this->stats_ref->str = $updated_stat;
-		}	else if ($stat_string === "int") {
+		} else if ($stat_string === "dex") {
+			$this->stats_ref->dex = $updated_stat;
+		} else if ($stat_string === "int") {
 			$this->stats_ref->int = $updated_stat;
+		} else if ($stat_string === 'backpack: arrows') {
+			$this->stats_ref->backpack['Arrows'] = $updated_stat;
 		} else if ($stat_string === "potions: health") {
 			$this->stats_ref->potion_bag['Potions']['health']['quantity'] = $updated_stat;
 		} else if ($stat_string === "potions: attack") {
