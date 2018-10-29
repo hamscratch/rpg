@@ -556,6 +556,7 @@ class Actions {
 
 	public function rangedAttack($defender) {
 		$weapon = Items::getWeapon('Ranged');
+		$ammo = $this->getStat('backpack: arrows');
 		$weapon_damage = rand(1, $weapon['damage']);
 		$dex_check = $this->getStat("dex") + rand(1, 6);
 		$defense_dex = $defender->actions->getStat('dex');
@@ -564,33 +565,37 @@ class Actions {
 		$attacker_name = "{$this->getStat("name")} the {$this->getStat("class")}";
 		$defender_name = "{$defender->stats->name} the {$defender->stats->class}";
 		
+		if ($ammo >= 1) {
 
-		if ($dex_check > $defense_dex) {
-			$result = self::RANGED_ATTACK_RESPONSES['hit'];
+			if ($dex_check > $defense_dex) {
+				$result = self::RANGED_ATTACK_RESPONSES['hit'];
+			} else {
+				$result = self::RANGED_ATTACK_RESPONSES['miss'];
+			}
+
+			$attack_message = sprintf($result, $defender_name, $weapon_damage);
+
+			if ($result == self::RANGED_ATTACK_RESPONSES['hit'] ) {
+				$defender_text = self::DEFENSE_RESPONSES['hit'];
+			} else {
+				$defender_text = self::DEFENSE_RESPONSES['miss'];
+			}
+			
+			if ($defender_text == self::DEFENSE_RESPONSES['hit']) {
+				$d_text = sprintf(self::DEFENSE_RESPONSES['hit'], $defender_name, $weapon_damage, $hp_result);
+				$defender->actions->setStat('hp', $hp_result);
+					if ($weapon_damage > $defender_hp) {
+							$d_text = sprintf(self::DEFENSE_RESPONSES['dead'], $defender_name, $attacker_name);
+					}
+			}
+			if ($defender_text == self::DEFENSE_RESPONSES['miss']) {
+				$d_text = sprintf(self::DEFENSE_RESPONSES['miss'], $defender_name, $defender_hp);
+			}
+			
+			return $attack_message . "\n" . $d_text . "\n";
 		} else {
-			$result = self::RANGED_ATTACK_RESPONSES['miss'];
-		}
-
-		$attack_message = sprintf($result, $defender_name, $weapon_damage);
-
-		if ($result == self::RANGED_ATTACK_RESPONSES['hit'] ) {
-			$defender_text = self::DEFENSE_RESPONSES['hit'];
-		} else {
-			$defender_text = self::DEFENSE_RESPONSES['miss'];
-		}
-		
-		if ($defender_text == self::DEFENSE_RESPONSES['hit']) {
-			$d_text = sprintf(self::DEFENSE_RESPONSES['hit'], $defender_name, $weapon_damage, $hp_result);
-			$defender->actions->setStat('hp', $hp_result);
-				if ($weapon_damage > $defender_hp) {
-						$d_text = sprintf(self::DEFENSE_RESPONSES['dead'], $defender_name, $attacker_name);
-				}
-		}
-		if ($defender_text == self::DEFENSE_RESPONSES['miss']) {
-			$d_text = sprintf(self::DEFENSE_RESPONSES['miss'], $defender_name, $defender_hp);
-		}
-		
-		return $attack_message . "\n" . $d_text . "\n";
+			echo "You do not have any arrows left. Try something else." . "\n";
+		}	
 	}
 
 	public function defend() {
@@ -749,8 +754,10 @@ $villain = new NPC;
 $hero->characterInfo();
 $hero->printInventoryList();
 $villain->characterInfo();
-$attack = $hero->actions->meleeAttack($villain);
-echo $attack;
+$melee_attack = $hero->actions->meleeAttack($villain);
+echo $melee_attack;
+$ranged_attack = $hero->actions->rangedAttack($villain);
+echo $ranged_attack;
 echo "Potions left: " . $hero->stats->potion_bag['Potions']['health']['quantity'] . "\n";
 $hero->actions->usePotion('health');
 $hero->actions->defend();
