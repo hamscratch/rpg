@@ -292,7 +292,7 @@ class Items {
 	const SPELLS = [
 		'fireball' => [
 			'name' => "Fireball",
-			'amount' => 6,
+			'amount' => 8,
 			'description' => "A ball of fire. Duh."
 		],
 		'heal_wounds' => [
@@ -309,6 +309,16 @@ class Items {
 			'name' => "Dispell",
 			'amount' => -5,
 			'description' => "Removes enchancements from an opponent."
+		],
+		'quicken' => [
+			'name' => "Quicken",
+			'amount' => 5,
+			'description' => "Magic courses through your veins as your feel yourself get quicker."
+		],
+		'enrage' => [
+			'name' => "Enrage",
+			'amount' => 5,
+			'description' => "Magic courses through your veins as your feel yourself get stronger."
 		],
 	];
 
@@ -362,6 +372,10 @@ class Items {
 			$spell = self::SPELLS['magic_armor'];
 		} else if ($type === 'dispell') {
 			$spell = self::SPELLS['dispell'];
+		} else if ($type ==='quicken') {
+			$spell = self::SPELLS['quicken'];
+		} else if ($type === 'enrage') {
+			$spell = self::SPELLS['enrage'];
 		} else {
 			echo "Error: Not a valid entry for getSpell. Check your spelling!";
 		}
@@ -371,7 +385,22 @@ class Items {
 
 class Actions {
 
-	const ATTACK_RESPONSES = [
+	const MELEE_ATTACK_RESPONSES = [
+	'hit' => "You swing and hit %s for %s damage."  . "\n",
+	'crit_hit' => 'You crush your enemy for a lot of damage.'  . "\n",
+	'miss' => 'You missed your target.',
+	'crit_miss' => 'You miss so bad your weapon laughs at you.'  . "\n",
+	];
+
+	const RANGED_ATTACK_RESPONSES = [
+	'hit' => "You swing and hit %s for %s damage."  . "\n",
+	'crit_hit' => 'You crush your enemy for a lot of damage.'  . "\n",
+	'miss' => 'You missed your target.',
+	'crit_miss' => 'You miss so bad your weapon laughs at you.'  . "\n",
+	];
+
+	const SPELL_ATTACK_RESPONSES = [
+	'fireball' => "%s was blasted with a fireball by %s for %s damage" . "\n",
 	'hit' => "You swing and hit %s for %s damage."  . "\n",
 	'crit_hit' => 'You crush your enemy for a lot of damage.'  . "\n",
 	'miss' => 'You missed your target.',
@@ -382,11 +411,6 @@ class Actions {
 	'hit' => "%s was hit for %s damage and now has %s hit points left."  . "\n",
 	'miss' => "%s has %s hit points left."  . "\n",
 	'dead' => "%s has been slain by %s."  . "\n",
-	];
-
-	const SPELL_RESPONSE = [
-	'fireball' => "%s was blasted with a fireball by %s for %s damage" . "\n",
-	'miss' => "You miss %s"  . "\n"
 	];
 
 	public function initStatsRef(&$stats_ref) {
@@ -491,7 +515,7 @@ class Actions {
 		}
 	}
 
-	public function attack($defender) {
+	public function meleeAttack($defender) {
 		$weapon = Items::getWeapon('Melee');
 		$weapon_damage = rand(1, $weapon['damage']);
 		$ac_check = $this->getStat("str") + rand(1, 6);
@@ -503,14 +527,53 @@ class Actions {
 		
 
 		if ($ac_check > $defense_ac) {
-			$result = self::ATTACK_RESPONSES['hit'];
+			$result = self::MELEE_ATTACK_RESPONSES['hit'];
 		} else {
-			$result = self::ATTACK_RESPONSES['miss'];
+			$result = self::MELEE_ATTACK_RESPONSES['miss'];
 		}
 
 		$attack_message = sprintf($result, $defender_name, $weapon_damage);
 
-		if ($result == self::ATTACK_RESPONSES['hit'] ) {
+		if ($result == self::MELEE_ATTACK_RESPONSES['hit'] ) {
+			$defender_text = self::DEFENSE_RESPONSES['hit'];
+		} else {
+			$defender_text = self::DEFENSE_RESPONSES['miss'];
+		}
+		
+		if ($defender_text == self::DEFENSE_RESPONSES['hit']) {
+			$d_text = sprintf(self::DEFENSE_RESPONSES['hit'], $defender_name, $weapon_damage, $hp_result);
+			$defender->actions->setStat('hp', $hp_result);
+				if ($weapon_damage > $defender_hp) {
+						$d_text = sprintf(self::DEFENSE_RESPONSES['dead'], $defender_name, $attacker_name);
+				}
+		}
+		if ($defender_text == self::DEFENSE_RESPONSES['miss']) {
+			$d_text = sprintf(self::DEFENSE_RESPONSES['miss'], $defender_name, $defender_hp);
+		}
+		
+		return $attack_message . "\n" . $d_text . "\n";
+	}
+
+	public function rangedAttack($defender) {
+		$weapon = Items::getWeapon('Ranged');
+		$weapon_damage = rand(1, $weapon['damage']);
+		$dex_check = $this->getStat("dex") + rand(1, 6);
+		$defense_dex = $defender->actions->getStat('dex');
+		$defender_hp = $defender->actions->getStat('hp');
+		$hp_result = $defender_hp - $weapon_damage;
+		$attacker_name = "{$this->getStat("name")} the {$this->getStat("class")}";
+		$defender_name = "{$defender->stats->name} the {$defender->stats->class}";
+		
+
+		if ($dex_check > $defense_dex) {
+			$result = self::RANGED_ATTACK_RESPONSES['hit'];
+		} else {
+			$result = self::RANGED_ATTACK_RESPONSES['miss'];
+		}
+
+		$attack_message = sprintf($result, $defender_name, $weapon_damage);
+
+		if ($result == self::RANGED_ATTACK_RESPONSES['hit'] ) {
 			$defender_text = self::DEFENSE_RESPONSES['hit'];
 		} else {
 			$defender_text = self::DEFENSE_RESPONSES['miss'];
@@ -585,9 +648,9 @@ class Actions {
 		} else if ($potion_name === 'intelligence') {
 			if ($quantity >= 1) {
 				$update = Items::getPotion('Intelligence');
-				$hero_ac += $update['amount'];
+				$hero_int += $update['amount'];
 				$new_quantity = ($quantity - 1);
-				$this->setStat('int', $hero_ac);
+				$this->setStat('int', $hero_int);
 				$this->setStat('potions: intelligence', $new_quantity);
 				echo "{$hero_name} drank an intelligence potion.\n{$hero_name} now has {$hero_int} intelligence! \n" . "\n";
 			} else {
@@ -596,9 +659,9 @@ class Actions {
 		} else if ($potion_name === 'dexterity') {
 			if ($quantity >= 1) {
 				$update = Items::getPotion('Dexterity');
-				$hero_ac += $update['amount'];
+				$hero_dex += $update['amount'];
 				$new_quantity = ($quantity - 1);
-				$this->setStat('dex', $hero_ac);
+				$this->setStat('dex', $hero_dex);
 				$this->setStat('potions: dexterity', $new_quantity);
 				echo "{$hero_name} drank a dexterity potion.\n{$hero_name} now has {$hero_dex} dexterity! \n" . "\n";
 			} else {
@@ -615,6 +678,8 @@ class Actions {
 		$hero_hp = $this->getStat('hp');
 		$hero_ac = $this->getStat('ac');
 		$hero_int = $this->getStat('int');
+		$hero_str = $this->getStat('str');
+		$hero_dex = $this->getStat('dex');
 		$target_name = "{$target->actions->getStat('name')} the {$target->actions->getStat('class')}";
 		$target_hp = $target->actions->getStat('hp');
 		$target_int = $target->actions->getStat('int');
@@ -622,18 +687,18 @@ class Actions {
 		$int_check = $this->getStat("int") + rand(1, 6);
 
 		if ($spell['name'] === "Fireball") {
-			$damage = rand(1, $spell['amount']);
+			$damage = rand(3, $spell['amount']);
 			$hp_result = $target->actions->getStat('hp') - $damage;
 
 			if ($int_check > $target_int) {
-				$result = self::SPELL_RESPONSE['fireball'];
-				$attack_message = sprintf(self::SPELL_RESPONSE['fireball'], $target_name, $hero_name, $damage);
+				$result = self::SPELL_ATTACK_RESPONSES['fireball'];
+				$attack_message = sprintf(self::SPELL_ATTACK_RESPONSES['fireball'], $target_name, $hero_name, $damage);
 			} else {
-				$result = self::SPELL_RESPONSE['miss'];
-				$attack_message = sprintf(self::SPELL_RESPONSE['miss'], $target_name);
+				$result = self::SPELL_ATTACK_RESPONSES['miss'];
+				$attack_message = sprintf(self::SPELL_ATTACK_RESPONSES['miss'], $target_name);
 			}
 
-			if ($result == self::SPELL_RESPONSE['fireball'] ) {
+			if ($result == self::SPELL_ATTACK_RESPONSES['fireball'] ) {
 				$defender_text = self::DEFENSE_RESPONSES['hit'];
 			} else {
 				$defender_text = self::DEFENSE_RESPONSES['miss'];
@@ -652,16 +717,26 @@ class Actions {
 
 			echo $attack_message . "\n" . $d_text . "\n";
 
-		} else if ($spell['name'] === "heal_wounds") {
+		} else if ($spell['name'] === "Heal Wounds") {
 			$boost = $spell['amount'];
 			$hero_hp += $boost;
 			$this->setStat('hp', $hero_hp);
 			echo "{$hero_name} weaves bright light together and heals {$boost} hit points. \n{$hero_name} now has {$hero_hp} hit points!";
-		} else if ($spell['name'] === "magic_armor") {
+		} else if ($spell['name'] === "Magic Armor") {
 			$boost = $spell['amount'];
 			$hero_ac += $boost;
 			$this->setStat('ac', $hero_ac);
 			echo "{$hero_name} weaves mystic runes together and shields themsevles for {$boost} extra armor. \n{$hero_name} now has {$hero_ac} defense!";
+		} else if ($spell['name'] === "Quicken") {
+			$boost = $spell['amount'];
+			$hero_dex += $boost;
+			$this->setStat('dex', $hero_dex);
+			echo "{$hero_name} weaves mystic runes together and shields themsevles for {$boost} extra armor. \n{$hero_name} now has {$hero_dex} dexterity!";
+		} else if ($spell['name'] === "Enrage") {
+			$boost = $spell['amount'];
+			$hero_str += $boost;
+			$this->setStat('str', $hero_str);
+			echo "{$hero_name} weaves mystic runes together and shields themsevles for {$boost} extra armor. \n{$hero_name} now has {$hero_str} strength!";
 		} else {
 			echo "Error: Not a valid entry for castSpell. Check your spelling!";
 		}
@@ -674,7 +749,7 @@ $villain = new NPC;
 $hero->characterInfo();
 $hero->printInventoryList();
 $villain->characterInfo();
-$attack = $hero->actions->attack($villain);
+$attack = $hero->actions->meleeAttack($villain);
 echo $attack;
 echo "Potions left: " . $hero->stats->potion_bag['Potions']['health']['quantity'] . "\n";
 $hero->actions->usePotion('health');
