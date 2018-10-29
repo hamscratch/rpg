@@ -434,8 +434,20 @@ class Actions {
 			return $this->stats_ref->dex;
 		} else if ($stat_string === "int") {
 			return $this->stats_ref->int;
+		} else if ($stat_string === 'equipped_melee') {
+			return $this->stats_ref->equipped['Melee Weapon'];
+		} else if ($stat_string === 'equipped_ranged') {
+			return $this->stats_ref->equipped['Ranged Weapon'];
+		} else if ($stat_string === 'equipped_armor') {
+			return $this->stats_ref->equipped['Armor'];
 		} else if ($stat_string === 'backpack') {
 			return $this->stats_ref->backpack;
+		} else if ($stat_string === 'backpack_melee') {
+			return $this->stats_ref->backpack['Melee Weapon'];
+		} else if ($stat_string === 'backpack_ranged') {
+			return $this->stats_ref->backpack['Ranged Weapon'];
+		} else if ($stat_string === 'backpack_armor') {
+			return $this->stats_ref->backpack['Armor'];
 		} else if ($stat_string === 'backpack: arrows') {
 			return $this->stats_ref->backpack['Arrows'];
 		} else if ($stat_string === 'potions: health') {
@@ -472,6 +484,18 @@ class Actions {
 			$this->stats_ref->dex = $updated_stat;
 		} else if ($stat_string === "int") {
 			$this->stats_ref->int = $updated_stat;
+		} else if ($stat_string === "equipped_melee") {
+			$this->stats_ref->equipped['Melee Weapon'] = $updated_stat;
+		} else if ($stat_string === "equipped_ranged") {
+			$this->stats_ref->equipped['Ranged Weapon'] = $updated_stat;
+		} else if ($stat_string === "equipped_armor") {
+			$this->stats_ref->equipped['Armor'] = $updated_stat;
+		} else if ($stat_string === "backpack_melee") {
+			$this->stats_ref->backpack['Melee Weapon'] = $updated_stat;
+		} else if ($stat_string === "backpack_ranged") {
+			$this->stats_ref->backpack['Ranged Weapon'] = $updated_stat;
+		} else if ($stat_string === "backpack_armor") {
+			$this->stats_ref->backpack['Armor'] = $updated_stat;
 		} else if ($stat_string === 'backpack: arrows') {
 			$this->stats_ref->backpack['Arrows'] = $updated_stat;
 		} else if ($stat_string === "potions: health") {
@@ -501,6 +525,34 @@ class Actions {
 
 		return $is_dead;
 	}
+
+	public function equip($type, $item_name) {
+		
+		$backpack = $this->getStat('backpack');
+
+		if ($type === 'equipped_melee') {
+			if ($item_name === $backpack['Melee Weapon']) {
+				$this->setStat($type, $item_name);
+				$this->setStat('backpack_melee', '');
+			} else {
+				echo "You do no have {$item_name} in your backpack";
+			}
+		} else if ($type === 'equipped_ranged') {
+			if ($item_name === $backpack['Ranged Weapon']) {
+				$this->setStat($type, $item_name);
+			} else {
+				echo "You do no have {$item_name} in your backpack";
+			}
+		} else if ($type === 'equipped_armor') {
+			if ($item_name === $backpack['Armor']) {
+				$this->setStat($type, $item_name);
+			} else {
+				echo "You do no have {$item_name} in your backpack";
+			}
+		} else {
+			echo "Error: Not a valid entry for equip. Check your spelling!";
+		}
+	} 
 
 	public function getItemInfo($type) {
 
@@ -773,4 +825,7 @@ $hero->actions->castSpell('fireball', $villain);
 $hero->actions->usePotion('dexterity');
 $hero->characterInfo();
 $hero->printInventoryList();
-
+$hero->actions->equip('equipped_melee', 'Short Sword');
+var_dump($hero->stats->equipped);
+var_dump($hero->stats->backpack);
+$hero->printInventoryList();
