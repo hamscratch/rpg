@@ -40,7 +40,7 @@ class Hero extends Character {
 		$this->stats->backpack = [
 			'Melee Weapon' => 'Short Sword',
 			'Ranged Weapon' => 'Long Bow',
-			'Ammo' => 0,
+			'Arrows' => 0,
 		];
 		$this->stats->potion_bag = [
 			'Potions' => [
@@ -72,7 +72,7 @@ class Hero extends Character {
 		$potion_bag_result = implode($potion_bag_contents);
 		$backpack_result = implode($backpack_contents);
 		
-		$message = "<<<{$this->stats->name}'s Inventory>>> \n" . $backpack_result . "\n" . "<<<Potion Bag>>> \n" .              $potion_bag_result . "\n";
+		$message = "<<< {$this->stats->name}'s Inventory >>> \n" . $backpack_result . "\n" . "<<< Potion Bag >>> \n" .              $potion_bag_result . "\n";
 		echo $message . "\n";
 	}
 
@@ -82,9 +82,9 @@ class Hero extends Character {
 				   "Race: {$this->stats->race} \n" . 
 				   "Class: {$this->stats->class} \n" .
 				   "Hit Points: {$this->actions->getStat('hp')} \n" . 
-				   "Defense: {$this->stats->ac} \n" .
-				   "Strength: {$this->stats->str} \n" .
-				   "Intelligence: {$this->stats->int} \n" . "\n"; 
+				   "Defense: {$this->actions->getStat('ac')} \n" .
+				   "Strength: {$this->actions->getStat('str')} \n" .
+				   "Intelligence: {$this->actions->getStat('int')} \n" . "\n"; 
 	}
 }
 class NPC extends Character {
@@ -102,10 +102,15 @@ class NPC extends Character {
 		$this->stats->ac = $this->numberPicker(8, 15);
 		$this->stats->str = $this->numberPicker(4, 8);
 		$this->stats->int = $this->numberPicker(4,8);
+		$this->stats->equipped = [
+			'Melee Weapon' => '',
+			'Ranged Weapon' => '',
+			'Armor' => '',
+		];
 		$this->stats->backpack = [
 			'Melee Weapon' => 'Short Sword',
 			'Ranged Weapon' => 'Long Bow',
-			'Ammo' => 0,
+			'Arrows' => 0,
 		];
 		$this->stats->potion_bag =[
 			'Potions' => [	
@@ -129,13 +134,14 @@ class NPC extends Character {
 	}
 
 	public function characterInfo() {
-		echo "Name: {$this->stats->name} \n" . 
+		echo "<<< NPC Stats >>>" . "\n" . 	
+				   "Name: {$this->stats->name} \n" . 
 				   "Race: {$this->stats->race} \n" . 
 				   "Class: {$this->stats->class} \n" .
-				   "Hit Points: {$this->stats->hp} \n" . 
-				   "Defense: {$this->stats->ac} \n" .
-				   "Strength: {$this->stats->str} \n" .
-				   "Intelligence: {$this->stats->int} \n" . "\n"; 
+				   "Hit Points: {$this->actions->getStat('hp')} \n" . 
+				   "Defense: {$this->actions->getStat('ac')} \n" .
+				   "Strength: {$this->actions->getStat('str')} \n" .
+				   "Intelligence: {$this->actions->getStat('int')} \n" . "\n"; 
 	}
 }
 
@@ -149,17 +155,26 @@ class Items {
 		'short_sword' => [
 			'name' => 'Short Sword',
 			'damage' => 8,
-			'description' => "This is a short sword."
+			'description' => "This is a short sword.",
+			'magic' => false,
 		], 
 		'long_bow' => [
 			'name' => 'Long Bow',
 			'damage' => 10,
-			'description' => "This is a Long Bow."
+			'description' => "This is a Long Bow.",
+			'magic' => false,
 		],
 		'arrows' => [
 			'name' => 'Iron Arrow(s)',
 			'quantity' => 0,
-			'description' => "This is an iron arrowhead on a wooden shaft with feather fins."
+			'description' => "This is an iron arrowhead on a wooden shaft with feather fins.",
+			'magic' => false,
+		],
+		'silver_short_sword' => [
+			'name' => 'Silver Short Sword',
+			'damage' => 10,
+			'description' => "Runes shimmer along the blade, giving a dim glow. Magic energy courses through this weapon.",
+			'magic' => true,
 		],
 	];
 
@@ -220,6 +235,11 @@ class Items {
 			'amount' => 5,
 			'description' => "Mystical runes surround the caster and boost their armor."
 		],
+		'dispell' => [
+			'name' => "Dispell",
+			'amount' => -5,
+			'description' => "Removes enchancements from an opponent."
+		],
 	];
 
 	static function getWeapon($type) {
@@ -266,6 +286,8 @@ class Items {
 			$spell = self::SPELLS['heal_wounds'];
 		} else if ($type === 'magic_armor') {
 			$spell = self::SPELLS['magic_armor'];
+		} else if ($type === 'dispell') {
+			$spell = self::SPELLS['dispell'];
 		} else {
 			echo "Error: Not a valid entry for getSpell. Check your spelling!";
 		}
