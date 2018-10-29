@@ -315,13 +315,13 @@ class Actions {
 		} else if ($stat_string === 'backpack') {
 			return $this->stats_ref->backpack;
 		} else if ($stat_string === 'potions: health') {
-			$this->stats_ref->potion_bag['Potions']['health']['quantity'];
+			return $this->stats_ref->potion_bag['Potions']['health']['quantity'];
 		} else if ($stat_string === 'potions: attack') {
-			$this->stats_ref->potion_bag['Potions']['attack']['quantity'];
+			return $this->stats_ref->potion_bag['Potions']['attack']['quantity'];
 		} else if ($stat_string === 'potions: defense') {
-			$this->stats_ref->potion_bag['Potions']['defense']['quantity'];
+			return $this->stats_ref->potion_bag['Potions']['defense']['quantity'];
 		} else if ($stat_string === 'potions: intelligence') {
-			$this->stats_ref->potion_bag['Potions']['intelligence']['quantity'];
+			return $this->stats_ref->potion_bag['Potions']['intelligence']['quantity'];
 		} else {
 			echo "Error: Not a valid entry for getStat. Check your spelling!";
 		}
@@ -432,7 +432,6 @@ class Actions {
 
 	public function usePotion($type) {
 		$potion = "potions: {$type}";
-		var_dump($potion);
 		$potion_name = $type;
 		$quantity = $this->getStat($potion);
 		$hero_hp = $this->getStat('hp');
