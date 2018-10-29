@@ -92,7 +92,7 @@ class Hero extends Character {
 		$this->stats->backpack = [
 			'Melee Weapon' => 'Short Sword',
 			'Ranged Weapon' => 'Long Bow',
-			'Arrows' => 0,
+			'Arrows' => 2,
 		];
 		$this->stats->potion_bag = [
 			'Potions' => [
@@ -577,6 +577,8 @@ class Actions {
 
 			if ($result == self::RANGED_ATTACK_RESPONSES['hit'] ) {
 				$defender_text = self::DEFENSE_RESPONSES['hit'];
+				$new_ammo = ($ammo - 1);
+				$this->setStat('backpack: arrows', $new_ammo);
 			} else {
 				$defender_text = self::DEFENSE_RESPONSES['miss'];
 			}
