@@ -21,16 +21,27 @@ class Stats {
 	public $equipped;
 	public $backpack;
 	public $potion_bag;
+	public $class_description;
 }
 class Hero extends Character {
 	
+	const RACES = [
+		'Elf',
+		'Half - Elf',
+		'Human',
+		'Halfling', 
+		'Half-Orc',
+		'Dwarf',
+		'Gnome',
+	];
+
 	const WARRIOR = [
 		'class' => 'Warrior',
 		'hp' => 30,
 		'ac' => 15,
-		'str' => 8,
+		'str' => 10,
 		'dex' => 8,
-		'int' => 8,
+		'int' => 5,
 		'equipped' => [],
 		'backpack' => [],
 		'potion_bag' => [],
@@ -39,28 +50,28 @@ class Hero extends Character {
 
 	const WIZARD = [
 		'class' => 'Wizard',
-		'hp' => 30,
-		'ac' => 15,
-		'str' => 8,
+		'hp' => 20,
+		'ac' => 10,
+		'str' => 5,
 		'dex' => 8,
-		'int' => 8,
+		'int' => 10,
 		'equipped' => [],
 		'backpack' => [],
 		'potion_bag' => [],
-		'description' => "Hailing from the mountains of Halas, the warrior beats its enemies with melee weapons"
+		'description' => "Hailing from the gilded halls for Qeynos, the wizard blasts its enemies with magic spells."
 	];
 
 	const RANGER = [
 		'class' => 'Ranger',
-		'hp' => 30,
+		'hp' => 25,
 		'ac' => 15,
 		'str' => 8,
-		'dex' => 8,
-		'int' => 8,
+		'dex' => 10,
+		'int' => 5,
 		'equipped' => [],
 		'backpack' => [],
 		'potion_bag' => [],
-		'description' => "Hailing from the mountains of Halas, the warrior beats its enemies with melee weapons"
+		'description' => "Hailing from the sprawling forests of Misty Vale, the ranger beats its enemies with ranged weapons."
 	];
 
 	public function __construct() {
@@ -88,9 +99,11 @@ class Hero extends Character {
 				'health' => ['name' => 'Health Potion', 'quantity' => 1],
 				'attack' => ['name' => 'Attack Potion', 'quantity' => 1],
 				'defense' => ['name' => 'Defense Potion', 'quantity' => 1],
-				'intelligence' => ['name' => 'Intelligence Potion', 'quantity' => 1]
+				'intelligence' => ['name' => 'Intelligence Potion', 'quantity' => 1],
+				'dexterity' => ['name' => 'Dexterity Potion', 'quantity' => 1],
 			]
 		];
+		$this->stats->class_description = '';
 	}
 
 	public function printInventoryList () {
@@ -118,7 +131,7 @@ class Hero extends Character {
 	}
 
 	public function characterInfo() {
-		echo "<<<Character Stats>>>" . "\n" . 	
+		echo "<<< Character Stats >>>" . "\n" . 	
 				   "Name: {$this->stats->name} \n" . 
 				   "Race: {$this->stats->race} \n" . 
 				   "Class: {$this->stats->class} \n" .
@@ -160,9 +173,11 @@ class NPC extends Character {
 				'health' => ['name' => 'Health Potion', 'quantity' => 0],
 				'attack' => ['name' => 'Attack Potion', 'quantity' => 0],
 				'defense' => ['name' => 'Defense Potion', 'quantity' => 0],
-				'intelligence' => ['name' => 'Intelligence Potion', 'quantity' => 0]
+				'intelligence' => ['name' => 'Intelligence Potion', 'quantity' => 0],
+				'dexterity' => ['name' => 'Dexterity Potion', 'quantity' => 0],
 			]
 		];
+		$this->stats->class_description = '';
 	}
 
 	public function numberPicker($num1, $num2) {
@@ -267,6 +282,11 @@ class Items {
 			'amount' => 5,
 			'description' => "A vial of grey swirling liquid that will boost your intelligence for a turn."
 		],
+		'dexterity' => [
+			'name' => "Dexterity Potion",
+			'amount' => 5,
+			'description' => "A vial of violet swirling liquid that will boost your dexterity for a turn."
+		],
 	];
 
 	const SPELLS = [
@@ -323,6 +343,10 @@ class Items {
 			$potion = self::POTIONS['attack'];
 		} else if ($type === 'Defense') {
 			$potion = self::POTIONS['defense'];
+		} else if ($type === 'Intelligence') {
+			$potion = self::POTIONS['intelligence']; 
+		} else if ($type === 'Dexterity') {
+			$potion = self::POTIONS['dexterity'];
 		} else {
 			echo "Error: Not a valid entry for getPotion. Check your spelling!";
 		}
@@ -398,6 +422,10 @@ class Actions {
 			return $this->stats_ref->potion_bag['Potions']['defense']['quantity'];
 		} else if ($stat_string === 'potions: intelligence') {
 			return $this->stats_ref->potion_bag['Potions']['intelligence']['quantity'];
+		} else if ($stat_string === 'potions: dexterity') {
+			return $this->stats_ref->potion_bag['Potions']['dexterity']['quantity'];
+		} else if ($stat_string === 'class_escription') {
+			return $this->stats_ref->class_description;
 		} else {
 			echo "Error: Not a valid entry for getStat. Check your spelling!";
 		}
@@ -430,6 +458,8 @@ class Actions {
 			$this->stats_ref->potion_bag['Potions']['defense']['quantity'] = $updated_stat;
 		} else if ($stat_string === "potions: intelligence") {
 			$this->stats_ref->potion_bag['Potions']['intelligence']['quantity'] = $updated_stat; 
+		} else if ($stat_string === "potions: dexterity") {
+			$this->stats_ref->potion_bag['Potions']['dexterity']['quantity'] = $updated_stat; 
 		} else {
 			echo "Error: Not a valid entry for setStat. Check your spelling!";
 		}
@@ -441,8 +471,6 @@ class Actions {
 
 		if ($hp <= 0) {
 			$is_dead = true;
-		} else if ($hp >= 1) {
-			$is_dead = false;
 		} else {
 			echo "Error: Not a valid entry for isDead. Check your spelling!";
 		}
@@ -517,6 +545,8 @@ class Actions {
 		$hero_hp = $this->getStat('hp');
 		$hero_str = $this->getStat('str');
 		$hero_ac = $this->getStat('ac');
+		$hero_int = $this->getStat('int');
+		$hero_dex = $this->getStat('dex');
 		$hero_name = "{$this->getStat("name")} the {$this->getStat("class")}";
 		
 		if ($potion_name === 'health') {
@@ -551,6 +581,28 @@ class Actions {
 				echo "{$hero_name} drank a defense potion.\n{$hero_name} now has {$hero_ac} defense! \n" . "\n";
 			} else {
 				echo "{$hero_name} does not have any defense potions in their inventory." . "\n";
+			}
+		} else if ($potion_name === 'intelligence') {
+			if ($quantity >= 1) {
+				$update = Items::getPotion('Intelligence');
+				$hero_ac += $update['amount'];
+				$new_quantity = ($quantity - 1);
+				$this->setStat('int', $hero_ac);
+				$this->setStat('potions: intelligence', $new_quantity);
+				echo "{$hero_name} drank an intelligence potion.\n{$hero_name} now has {$hero_int} intelligence! \n" . "\n";
+			} else {
+				echo "{$hero_name} does not have any intelligence potions in their inventory." . "\n";
+			}
+		} else if ($potion_name === 'dexterity') {
+			if ($quantity >= 1) {
+				$update = Items::getPotion('Dexterity');
+				$hero_ac += $update['amount'];
+				$new_quantity = ($quantity - 1);
+				$this->setStat('dex', $hero_ac);
+				$this->setStat('potions: dexterity', $new_quantity);
+				echo "{$hero_name} drank a dexterity potion.\n{$hero_name} now has {$hero_dex} dexterity! \n" . "\n";
+			} else {
+				echo "{$hero_name} does not have any dexterity potions in their inventory." . "\n";
 			}
 		} else {
 			echo "Error: Not a valid entry for usePotion. Check your spelling!";
@@ -634,5 +686,7 @@ $hero->actions->getItemInfo('Melee');
 echo "Potions left: " .  $hero->stats->potion_bag['Potions']['health']['quantity'] . "\n";
 $hero->characterInfo();
 $hero->actions->castSpell('fireball', $villain);
+$hero->actions->usePotion('dexterity');
+$hero->characterInfo();
 $hero->printInventoryList();
 
