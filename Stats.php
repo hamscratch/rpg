@@ -1,0 +1,58 @@
+<?php
+
+class Stats {
+	const NAME = 'name';
+	const RACE = 'race';
+	const CLASS_NAME = 'class';
+	const HP = 'hp';
+	const HP_MAX = 'hp_max';
+	const AC = 'ac';
+	const AC_BONUS_ITEMS = 'ac_bonus_items';
+	const AC_BONUS_EFFECTS = 'ac_bonus_effects';
+	const STR = 'str';
+	const STR_BONUS_ITEMS = 'str_bonus_items';
+	const STR_BONUS_EFFECTS = 'str_bonus_effects';
+	const DEX = 'dex';
+	const DEX_BONUS_ITEMS = 'dex_bonus_items';
+	const DEX_BONUS_EFFECTS = 'dex_bonus_effects';
+	const INT = 'int';
+	const INT_BONUS_ITEMS = 'int_bonus_items';
+	const INT_BONUS_EFFECTS = 'int_bonus_effects';
+	const EQUIPPED = 'equipped';
+	const EQUIPPED_MELEE = 'equipped_melee';
+	const EQUIPPED_RANGED = 'equipped_ranged';
+	const EQUIPPED_ARMOR = 'equipped_armor';
+	const BACKPACK = 'backpack';
+	const BACKPACK_MELEE = 'backpack_melee';
+	const BACKPACK_RANGED = 'backpack_ranged';
+	const BACKPACK_ARMOR = 'backpack_armor';
+	const BACKPACK_ARROWS = 'backpack_arrows';
+	const POTION_BAG = 'potion_bag';
+	const POTION_HEAL = 'potion_heal';
+	const POTION_ATK = 'potion_atk';
+	const POTION_DEF = 'potion_def';
+	const POTION_INT = 'potion_int';
+	const POTION_DEX = 'potion_dex';
+	const CLASS_DESCRIPTION = 'class_description';
+	public $name;
+	public $race;
+	public $class;
+	public $hp;
+	public $hp_max;
+	public $ac;
+	public $ac_bonus_items;
+	public $ac_bonus_effects;
+	public $str;
+	public $str_bonus_items;
+	public $str_bonus_effects;
+	public $dex;
+	public $dex_bonus_items;
+	public $dex_bonus_effects;
+	public $int;
+	public $int_bonus_items;
+	public $int_bonus_effects;
+	public $equipped;
+	public $backpack;
+	public $potion_bag;
+	public $class_description;
+}
