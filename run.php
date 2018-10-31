@@ -3,6 +3,18 @@
 require __DIR__ . '/' . 'Loader.php';
 
 $hero = new Hero;
+
+echo "What is your name? ";
+$name = fopen("php://stdin", "r");
+$line = fgets($name); 
+echo "Your name is: " . $name . "\n";
+$hero->actions->setStat(Stats::NAME, $name);
+$hero->characterInfo();
+
+
+
+/*
+$hero = new Hero;
 $villain = new NPC;
 $hero->characterInfo();
 $hero->printInventoryList();
@@ -28,3 +40,4 @@ $hero->actions->equip('equipped_melee', 'Short Sword');
 var_dump($hero->stats->equipped);
 var_dump($hero->stats->backpack);
 $hero->printInventoryList();
+*/

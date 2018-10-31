@@ -51,7 +51,7 @@ class Hero extends Character {
 	];
 	public function __construct() {
 		parent::__construct();
-		$this->stats->name = 'Talonic';
+		$this->stats->name = $this->actions->getStat(Stats::NAME);
 		$this->stats->race = 'Half-Elf';
 		$this->stats->class = 'Ranger';
 		$this->stats->hp = 20;
