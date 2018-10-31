@@ -173,7 +173,7 @@ class Actions {
 	public function equip($type, $item_name) {
 		
 		$backpack = $this->getStat(Stats::BACKPACK);
-		$armor_ac = Itmes::getArmor($type);
+		$armor_ac = Items::getArmor($type);
 		if ($type === Stats::EQUIPPED_MELEE) {
 			if ($item_name === $backpack['Melee Weapon']) {
 				$this->setStat($type, $item_name);
