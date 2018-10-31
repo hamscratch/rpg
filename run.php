@@ -5,10 +5,10 @@ require __DIR__ . '/' . 'Loader.php';
 $hero = new Hero;
 
 echo "What is your name? ";
-$name = fopen("php://stdin", "r");
+$name = fopen("php://stdin","r");
 $line = fgets($name); 
-echo "Your name is: " . $name . "\n";
-$hero->actions->setStat(Stats::NAME, $name);
+$hero->actions->setStat(Stats::NAME, $line);
+echo "Your name is: " . $line . "\n";
 $hero->characterInfo();
 
 
