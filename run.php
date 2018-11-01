@@ -6,7 +6,7 @@ $hero = new Hero;
 
 echo "What is your name? ";
 $name = fopen("php://stdin","r");
-$line = fgets($name); 
+$line = trim(fgets($name)); 
 $hero->actions->setStat(Stats::NAME, $line);
 echo "Your name is: " . $line . "\n";
 $hero->characterInfo();
