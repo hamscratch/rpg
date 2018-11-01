@@ -13,21 +13,42 @@ echo "Choose your class: [Warrior], [Wizard], or [Ranger] \n";
 $class_input = fopen("php://stdin","r");
 $class_line = trim(fgets($class_input));
 echo "Your class is: " . $class_line . "\n";
+setClassStats($class_line, $hero);
 
-if ($class_line = 'Warrior') {
-	$hero->actions->setStat(Stats::CLASS_NAME, $class_line);
-	$hero->actions->setStat(Stats::HP, Hero::WARRIOR['hp']);
-	$hero->actions->setStat(Stats::AC, Hero::WARRIOR['ac']);
-	$hero->actions->setStat(Stats::STR, Hero::WARRIOR['str']);
-	$hero->actions->setStat(Stats::DEX, Hero::WARRIOR['dex']);
-	$hero->actions->setStat(Stats::INT, Hero::WARRIOR['int']);
-} else if ($class_line = 'Wizard') {
-	$hero->actions->setStat(Stats::CLASS_NAME, $class_line);
-} else if ($class_line = 'Ranger') {
-	$hero->actions->setStat(Stats::CLASS_NAME, $class_line);
-} else {
-	echo "That is not a valid class name. Please choose from the following: [Warrior], [Wizard], or [Ranger]";
+function setClassStats($type, $target) {
+	if ($type = 'Warrior') {
+		$class = Hero::WARRIOR['class'];
+		$hp = Hero::WARRIOR['hp'];
+		$ac = Hero::WARRIOR['ac'];
+		$str = Hero::WARRIOR['str'];
+		$dex = Hero::WARRIOR['dex'];
+		$int = Hero::WARRIOR['int'];
+	} else if ($type = 'Wizard') {
+		$class = Hero::WIZARD['class'];
+		$hp = Hero::WIZARD['hp'];
+		$ac = Hero::WIZARD['ac'];
+		$str = Hero::WIZARD['str'];
+		$dex = Hero::WIZARD['dex'];
+		$int = Hero::WIZARD['int'];
+	} else if ($type = 'Ranger') {
+		$class = Hero::RANGER['class'];
+		$hp = Hero::RANGER['hp'];
+		$ac = Hero::RANGER['ac'];
+		$str = Hero::RANGER['str'];
+		$dex = Hero::RANGER['dex'];
+		$int = Hero::RANGER['int'];
+	} else {
+		echo "That is not a valid class name. Please choose from the following: [Warrior], [Wizard], or [Ranger]";
+	}
+	
+	$target->actions->setStat(Stats::CLASS_NAME, $class);
+	$target->actions->setStat(Stats::HP, $hp);
+	$target->actions->setStat(Stats::AC, $ac);
+	$target->actions->setStat(Stats::STR, $str);
+	$target->actions->setStat(Stats::DEX, $dex);
+	$target->actions->setStat(Stats::INT, $int);
 }
+
 
 $hero->characterInfo();
 
