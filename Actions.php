@@ -30,71 +30,102 @@ class Actions {
 		$this->stats_ref = $stats_ref;
 	}
 	public function getStat($stat_string) {
-		if ($stat_string === Stats::NAME) {
-			return $this->stats_ref->name;
-		} else if ($stat_string === Stats::RACE) {
-			return $this->stats_ref->race;
-		} else if ($stat_string === Stats::CLASS_NAME) {
-			return $this->stats_ref->class;
-		} else if ($stat_string === Stats::HP) {
-			return $this->stats_ref->hp;
-		} else if ($stat_string === Stats::HP_MAX) {
-			return $this->stats_ref->hp_max;
-		} else if ($stat_string === Stats::AC) {
-			return $this->stats_ref->ac;
-		} else if ($stat_string === Stats::AC_BONUS_ITEMS) {
-			return $this->stats_ref->ac_bonus_items;
-		} else if ($stat_string === Stats::AC_BONUS_EFFECTS) {
-			return $this->stats_ref->ac_bonus_effects;
-		} else if ($stat_string === Stats::STR) {
-			return $this->stats_ref->str;
-		} else if ($stat_string === Stats::STR_BONUS_ITEMS) {
-			return $this->stats_ref->str_bonus_items;
-		} else if ($stat_string === Stats::STR_BONUS_EFFECTS) {
-			return $this->stats_ref->str_bonus_effects;
-		} else if ($stat_string === Stats::DEX) {
-			return $this->stats_ref->dex;
-		} else if ($stat_string === Stats::DEX_BONUS_ITEMS) {
-			return $this->stats_ref->dex_bonus_items;
-		} else if ($stat_string === Stats::DEX_BONUS_EFFECTS) {
-			return $this->stats_ref->dex_bonus_effects;
-		} else if ($stat_string === Stats::INT) {
-			return $this->stats_ref->int;
-		} else if ($stat_string === Stats::INT_BONUS_ITEMS) {
-			return $this->stats_ref->int_bonus_items;
-		} else if ($stat_string === Stats::INT_BONUS_EFFECTS) {
-			return $this->stats_ref->int_bonus_effects;
-		} else if ($stat_string === Stats::EQUIPPED_MELEE) {
-			return $this->stats_ref->equipped['Melee Weapon'];
-		} else if ($stat_string === Stats::EQUIPPED_RANGED) {
-			return $this->stats_ref->equipped['Ranged Weapon'];
-		} else if ($stat_string === Stats::EQUIPPED_ARMOR) {
-			return $this->stats_ref->equipped['Armor'];
-		} else if ($stat_string === Stats::BACKPACK) {
-			return $this->stats_ref->backpack;
-		} else if ($stat_string === Stats::BACKPACK_MELEE) {
-			return $this->stats_ref->backpack['Melee Weapon'];
-		} else if ($stat_string === Stats::BACKPACK_RANGED) {
-			return $this->stats_ref->backpack['Ranged Weapon'];
-		} else if ($stat_string === Stats::BACKPACK_ARMOR) {
-			return $this->stats_ref->backpack['Armor'];
-		} else if ($stat_string === Stats::BACKPACK_ARROWS) {
-			return $this->stats_ref->backpack['Arrows'];
-		} else if ($stat_string === Stats::POTION_HEAL) {
-			return $this->stats_ref->potion_bag['Potions']['health']['quantity'];
-		} else if ($stat_string === Stats::POTION_ATK) {
-			return $this->stats_ref->potion_bag['Potions']['attack']['quantity'];
-		} else if ($stat_string === Stats::POTION_DEF) {
-			return $this->stats_ref->potion_bag['Potions']['defense']['quantity'];
-		} else if ($stat_string === Stats::POTION_INT) {
-			return $this->stats_ref->potion_bag['Potions']['intelligence']['quantity'];
-		} else if ($stat_string === Stats::POTION_DEX) {
-			return $this->stats_ref->potion_bag['Potions']['dexterity']['quantity'];
-		} else if ($stat_string === CLASS_DESCRIPTION) {
-			return $this->stats_ref->class_description;
-		} else {
-			echo "Error: '{$stat_string}' is not a valid entry for getStat. Check your spelling!" . "\n";
-		}
+		switch ($stat_string) {
+			case Stats::NAME:
+				return $this->stats_ref->name;
+			
+			case Stats::RACE:
+				return $this->stats_ref->race;
+
+			case Stats::CLASS_NAME:
+				return $this->stats_ref->class;
+
+			case Stats::HP:
+				return $this->stats_ref->hp;
+
+			case Stats::HP_MAX:
+				return $this->stats_ref->hp_max;
+
+			case Stats::AC:
+				return $this->stats_ref->ac;
+
+			case Stats::AC_BONUS_ITEMS:
+				return $this->stats_ref->ac_bonus_items;
+
+			case Stats::AC_BONUS_EFFECTS
+				return $this->stats_ref->ac_bonus_effects;
+
+			case Stats::STR:
+				return $this->stats_ref->str;
+
+			case Stats::STR_BONUS_ITEMS:
+				return $this->stats_ref->str_bonus_items;
+
+			case Stats::STR_BONUS_EFFECTS:
+				return $this->stats_ref->str_bonus_effects;
+
+			case Stats::DEX:
+				return $this->stats_ref->dex;
+
+			case Stats::DEX_BONUS_ITEMS:
+				return $this->stats_ref->dex_bonus_items;
+
+			case Stats::DEX_BONUS_EFFECTS:
+				return $this->stats_ref->dex_bonus_effects;
+
+			case Stats::INT:
+				return $this->stats_ref->int;
+
+			case Stats::INT_BONUS_ITEMS:
+				return $this->stats_ref->int_bonus_items;
+
+			case Stats::INT_BONUS_EFFECTS:
+				return $this->stats_ref->int_bonus_effects;
+
+			case Stats::EQUIPPED_MELEE:
+				return $this->stats_ref->equipped['Melee Weapon'];
+
+			case Stats::EQUIPPED_RANGED:
+				return $this->stats_ref->equipped['Ranged Weapon'];
+
+			case Stats::EQUIPPED_ARMOR:
+				return $this->stats_ref->equipped['Armor'];
+
+			case Stats::BACKPACK:
+				return $this->stats_ref->backpack;
+
+			case Stats::BACKPACK_MELEE:
+				return $this->stats_ref->backpack['Melee Weapon'];
+
+			case Stats::BACKPACK_RANGED:
+				return $this->stats_ref->backpack['Ranged Weapon'];
+
+			case Stats::BACKPACK_ARMOR:
+				return $this->stats_ref->backpack['Armor'];
+
+			case Stats::BACKPACK_ARROWS:
+				return $this->stats_ref->backpack['Arrows'];
+
+			case Stats::POTION_HEAL:
+				return $this->stats_ref->potion_bag['Potions']['health']['quantity'];
+
+			case Stats::POTION_ATK:
+				return $this->stats_ref->potion_bag['Potions']['attack']['quantity'];
+
+			case Stats::POTION_DEF:
+				return $this->stats_ref->potion_bag['Potions']['defense']['quantity'];
+
+			case Stats::POTION_INT:
+				return $this->stats_ref->potion_bag['Potions']['intelligence']['quantity'];
+
+			case Stats::POTION_DEX:
+				return $this->stats_ref->potion_bag['Potions']['dexterity']['quantity'];
+
+			case Stats::CLASS_DESCRIPTION:
+				return $this->stats_ref->class_description;
+			default:
+				echo "Error: '{$stat_string}' is not a valid entry for getStat. Check your spelling!" . "\n";
+		}	
 	}
 	public function setStat($stat_string, $updated_stat) {
 		if ($stat_string === Stats::NAME) {
@@ -436,3 +467,71 @@ class Actions {
 		}
 	}	
 }
+
+
+/* Island of misfit code
+if ($stat_string === Stats::NAME) {
+			return $this->stats_ref->name;
+		} else if ($stat_string === Stats::RACE) {
+			return $this->stats_ref->race;
+		} else if ($stat_string === Stats::CLASS_NAME) {
+			return $this->stats_ref->class;
+		} else if ($stat_string === Stats::HP) {
+			return $this->stats_ref->hp;
+		} else if ($stat_string === Stats::HP_MAX) {
+			return $this->stats_ref->hp_max;
+		} else if ($stat_string === Stats::AC) {
+			return $this->stats_ref->ac;
+		} else if ($stat_string === Stats::AC_BONUS_ITEMS) {
+			return $this->stats_ref->ac_bonus_items;
+		} else if ($stat_string === Stats::AC_BONUS_EFFECTS) {
+			return $this->stats_ref->ac_bonus_effects;
+		} else if ($stat_string === Stats::STR) {
+			return $this->stats_ref->str;
+		} else if ($stat_string === Stats::STR_BONUS_ITEMS) {
+			return $this->stats_ref->str_bonus_items;
+		} else if ($stat_string === Stats::STR_BONUS_EFFECTS) {
+			return $this->stats_ref->str_bonus_effects;
+		} else if ($stat_string === Stats::DEX) {
+			return $this->stats_ref->dex;
+		} else if ($stat_string === Stats::DEX_BONUS_ITEMS) {
+			return $this->stats_ref->dex_bonus_items;
+		} else if ($stat_string === Stats::DEX_BONUS_EFFECTS) {
+			return $this->stats_ref->dex_bonus_effects;
+		} else if ($stat_string === Stats::INT) {
+			return $this->stats_ref->int;
+		} else if ($stat_string === Stats::INT_BONUS_ITEMS) {
+			return $this->stats_ref->int_bonus_items;
+		} else if ($stat_string === Stats::INT_BONUS_EFFECTS) {
+			return $this->stats_ref->int_bonus_effects;
+		} else if ($stat_string === Stats::EQUIPPED_MELEE) {
+			return $this->stats_ref->equipped['Melee Weapon'];
+		} else if ($stat_string === Stats::EQUIPPED_RANGED) {
+			return $this->stats_ref->equipped['Ranged Weapon'];
+		} else if ($stat_string === Stats::EQUIPPED_ARMOR) {
+			return $this->stats_ref->equipped['Armor'];
+		} else if ($stat_string === Stats::BACKPACK) {
+			return $this->stats_ref->backpack;
+		} else if ($stat_string === Stats::BACKPACK_MELEE) {
+			return $this->stats_ref->backpack['Melee Weapon'];
+		} else if ($stat_string === Stats::BACKPACK_RANGED) {
+			return $this->stats_ref->backpack['Ranged Weapon'];
+		} else if ($stat_string === Stats::BACKPACK_ARMOR) {
+			return $this->stats_ref->backpack['Armor'];
+		} else if ($stat_string === Stats::BACKPACK_ARROWS) {
+			return $this->stats_ref->backpack['Arrows'];
+		} else if ($stat_string === Stats::POTION_HEAL) {
+			return $this->stats_ref->potion_bag['Potions']['health']['quantity'];
+		} else if ($stat_string === Stats::POTION_ATK) {
+			return $this->stats_ref->potion_bag['Potions']['attack']['quantity'];
+		} else if ($stat_string === Stats::POTION_DEF) {
+			return $this->stats_ref->potion_bag['Potions']['defense']['quantity'];
+		} else if ($stat_string === Stats::POTION_INT) {
+			return $this->stats_ref->potion_bag['Potions']['intelligence']['quantity'];
+		} else if ($stat_string === Stats::POTION_DEX) {
+			return $this->stats_ref->potion_bag['Potions']['dexterity']['quantity'];
+		} else if ($stat_string === Stats::CLASS_DESCRIPTION) {
+			return $this->stats_ref->class_description;
+		} else {
+			echo "Error: '{$stat_string}' is not a valid entry for getStat. Check your spelling!" . "\n";
+		}
