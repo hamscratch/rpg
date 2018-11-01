@@ -53,19 +53,19 @@ class Hero extends Character {
 		parent::__construct();
 		$this->stats->name = $this->actions->getStat(Stats::NAME);
 		$this->stats->race = 'Half-Elf';
-		$this->stats->class = 'Ranger';
-		$this->stats->hp = 20;
+		$this->stats->class = $this->actions->getStat(Stats::CLASS_NAME);
+		$this->stats->hp = $this->actions->getStat(Stats::HP);
 		$this->stats->hp_max = 20;
-		$this->stats->ac = 15;
+		$this->stats->ac = $this->actions->getStat(Stats::AC);
 		$this->stats->ac_bonus_items = 0;
 		$this->stats->ac_bonus_effects = 0;
-		$this->stats->str = 8;
+		$this->stats->str = $this->actions->getStat(Stats::STR);
 		$this->stats->str_bonus_items = 0;
 		$this->stats->str_bonus_items = 0;
-		$this->stats->dex = 8;
+		$this->stats->dex = $this->actions->getStat(Stats::DEX);
 		$this->stats->dex_bonus_items = 0;
 		$this->stats->dex_bonus_items = 0;
-		$this->stats->int = 8;
+		$this->stats->int = $this->actions->getStat(Stats::INT);
 		$this->stats->int_bonus_items = 0;
 		$this->stats->int_bonus_items = 0;
 		$this->stats->equipped = [
