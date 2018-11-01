@@ -52,7 +52,7 @@ class Actions {
 			case Stats::AC_BONUS_ITEMS:
 				return $this->stats_ref->ac_bonus_items;
 
-			case Stats::AC_BONUS_EFFECTS
+			case Stats::AC_BONUS_EFFECTS:
 				return $this->stats_ref->ac_bonus_effects;
 
 			case Stats::STR:
@@ -535,3 +535,4 @@ if ($stat_string === Stats::NAME) {
 		} else {
 			echo "Error: '{$stat_string}' is not a valid entry for getStat. Check your spelling!" . "\n";
 		}
+*/
