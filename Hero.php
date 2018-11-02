@@ -116,10 +116,10 @@ class Hero extends Character {
 				   "Name: {$this->stats->name} \n" . 
 				   "Race: {$this->stats->race} \n" . 
 				   "Class: {$this->stats->class} \n" .
-				   "Hit Points: {$this->actions->getStat('hp')} \n" . 
-				   "Defense: {$this->actions->getStat('ac')} \n" .
-				   "Strength: {$this->actions->getStat('str')} \n" .
-				   "Dexterity: {$this->actions->getStat('dex')} \n" .
-				   "Intelligence: {$this->actions->getStat('int')} \n" . "\n"; 
+				   "Hit Points: {$this->actions->getStat(Stats::HP)} \n" . 
+				   "Defense: {$this->actions->getStat(Stats::AC)} \n" .
+				   "Strength: {$this->actions->getStat(Stats::STR)} \n" .
+				   "Dexterity: {$this->actions->getStat(Stats::DEX)} \n" .
+				   "Intelligence: {$this->actions->getStat(Stats::INT)} \n" . "\n"; 
 	}
 }

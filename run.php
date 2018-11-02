@@ -16,21 +16,21 @@ echo "Your class is: " . $class_line . "\n";
 setClassStats($class_line, $hero);
 
 function setClassStats($type, $target) {
-	if ($type = 'Warrior') {
+	if ($type === 'Warrior') {
 		$class = Hero::WARRIOR['class'];
 		$hp = Hero::WARRIOR['hp'];
 		$ac = Hero::WARRIOR['ac'];
 		$str = Hero::WARRIOR['str'];
 		$dex = Hero::WARRIOR['dex'];
 		$int = Hero::WARRIOR['int'];
-	} else if ($type = 'Wizard') {
+	} else if ($type === 'Wizard') {
 		$class = Hero::WIZARD['class'];
 		$hp = Hero::WIZARD['hp'];
 		$ac = Hero::WIZARD['ac'];
 		$str = Hero::WIZARD['str'];
 		$dex = Hero::WIZARD['dex'];
 		$int = Hero::WIZARD['int'];
-	} else if ($type = 'Ranger') {
+	} else if ($type === 'Ranger') {
 		$class = Hero::RANGER['class'];
 		$hp = Hero::RANGER['hp'];
 		$ac = Hero::RANGER['ac'];
@@ -51,6 +51,8 @@ function setClassStats($type, $target) {
 
 
 $hero->characterInfo();
+
+
 
 
 
