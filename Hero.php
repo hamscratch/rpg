@@ -5,53 +5,55 @@ class Hero extends Character {
 	// the stats. might need a function to do this. not sure yet. should also update to the consts stat names.
 	// (10/30)
 	const RACES = [
-		'Elf',
-		'Half - Elf',
-		'Human',
-		'Halfling', 
-		'Half-Orc',
 		'Dwarf',
 		'Gnome',
+		'Elf',
+		'Half-Elf',
+		'Half-Orc',
+		'Halfling',
+		'Human',
 	];
-	const WARRIOR = [
-		'class' => 'Warrior',
-		'hp' => 30,
-		'hp_max' => 100,
-		'ac' => 15,
-		'str' => 10,
-		'dex' => 8,
-		'int' => 5,
-		'equipped' => [],
-		'backpack' => [],
-		'potion_bag' => [],
-		'description' => "Hailing from the mountains of Halas, the warrior beats its enemies with melee weapons"
-	];
-	const WIZARD = [
-		'class' => 'Wizard',
-		'hp' => 20,
-		'hp_max' => 80,
-		'ac' => 10,
-		'str' => 5,
-		'dex' => 8,
-		'int' => 10,
-		'equipped' => [],
-		'backpack' => [],
-		'potion_bag' => [],
-		'description' => "Hailing from the gilded halls for Qeynos, the wizard blasts its enemies with magic spells."
-	];
-	const RANGER = [
-		'class' => 'Ranger',
-		'hp' => 25,
-		'hp_max' => 90,
-		'ac' => 15,
-		'str' => 8,
-		'dex' => 10,
-		'int' => 5,
-		'equipped' => [],
-		'backpack' => [],
-		'potion_bag' => [],
-		'description' => "Hailing from the sprawling forests of Misty Vale, the ranger beats its enemies with ranged weapons."
-	];
+	const CLASSES = [
+			'Warrior' => [
+				'class' => 'Warrior',
+				'hp' => 30,
+				'hp_max' => 100,
+				'ac' => 15,
+				'str' => 10,
+				'dex' => 8,
+				'int' => 5,
+				'equipped' => [],
+				'backpack' => [],
+				'potion_bag' => [],
+				'description' => "Hailing from the mountains of Halas, the warrior beats its enemies with melee weapons"
+			],
+			'Wizard' => [
+				'class' => 'Wizard',
+				'hp' => 20,
+				'hp_max' => 80,
+				'ac' => 10,
+				'str' => 5,
+				'dex' => 8,
+				'int' => 10,
+				'equipped' => [],
+				'backpack' => [],
+				'potion_bag' => [],
+				'description' => "Hailing from the gilded halls for Qeynos, the wizard blasts its enemies with magic spells."
+			],
+			'Ranger' => [
+				'class' => 'Ranger',
+				'hp' => 25,
+				'hp_max' => 90,
+				'ac' => 15,
+				'str' => 8,
+				'dex' => 10,
+				'int' => 5,
+				'equipped' => [],
+				'backpack' => [],
+				'potion_bag' => [],
+				'description' => "Hailing from the sprawling forests of Misty Vale, the ranger beats its enemies with ranged weapons."
+			],
+	];	
 	public function __construct() {
 		parent::__construct();
 		$this->stats->name = $this->actions->getStat(Stats::NAME);
