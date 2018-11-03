@@ -26,6 +26,7 @@ function userInput(string $prompt, $validators = NULL) {
 			}
 		echo "{$input_line} is not a valid response. Please try again. \n";
 		userInput($prompt, $validators);
+		var_dump($input_line);
 	}
 }
 
