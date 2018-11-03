@@ -2,7 +2,7 @@
 
 class NPC extends Character {
 	
-	const NAMES = ['Bilge', 'Gorbash', 'Mordok', 'Draxiz', 'Innoruuk', 'Lanys', 'Mooto', 'Treskar', 'Fipphy'];
+	const NAMES = ['Rique Jhames', 'Bilge', 'Gorbash', 'Mordok', 'Draxiz', 'Innoruuk', 'Lanys', 'Mooto', 'Treskar', 'Fipphy'];
 	const RACES = ['Orc', 'Skeleton', 'Gnoll', 'Ghoul'];
 	const CLASSES = ['Grunt', 'Warrior', 'Sorcerer'];
 	public function __construct() {

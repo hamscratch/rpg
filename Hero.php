@@ -16,6 +16,7 @@ class Hero extends Character {
 	const WARRIOR = [
 		'class' => 'Warrior',
 		'hp' => 30,
+		'hp_max' => 100,
 		'ac' => 15,
 		'str' => 10,
 		'dex' => 8,
@@ -28,6 +29,7 @@ class Hero extends Character {
 	const WIZARD = [
 		'class' => 'Wizard',
 		'hp' => 20,
+		'hp_max' => 80,
 		'ac' => 10,
 		'str' => 5,
 		'dex' => 8,
@@ -40,6 +42,7 @@ class Hero extends Character {
 	const RANGER = [
 		'class' => 'Ranger',
 		'hp' => 25,
+		'hp_max' => 90,
 		'ac' => 15,
 		'str' => 8,
 		'dex' => 10,
@@ -52,22 +55,22 @@ class Hero extends Character {
 	public function __construct() {
 		parent::__construct();
 		$this->stats->name = $this->actions->getStat(Stats::NAME);
-		$this->stats->race = 'Half-Elf';
+		$this->stats->race = $this->actions->getStat(Stats::RACE);
 		$this->stats->class = $this->actions->getStat(Stats::CLASS_NAME);
 		$this->stats->hp = $this->actions->getStat(Stats::HP);
-		$this->stats->hp_max = 20;
+		$this->stats->hp_max = $this->actions->getStat(Stats::HP_MAX);
 		$this->stats->ac = $this->actions->getStat(Stats::AC);
 		$this->stats->ac_bonus_items = 0;
 		$this->stats->ac_bonus_effects = 0;
 		$this->stats->str = $this->actions->getStat(Stats::STR);
 		$this->stats->str_bonus_items = 0;
-		$this->stats->str_bonus_items = 0;
+		$this->stats->str_bonus_effects = 0;
 		$this->stats->dex = $this->actions->getStat(Stats::DEX);
 		$this->stats->dex_bonus_items = 0;
-		$this->stats->dex_bonus_items = 0;
+		$this->stats->dex_bonus_effects = 0;
 		$this->stats->int = $this->actions->getStat(Stats::INT);
 		$this->stats->int_bonus_items = 0;
-		$this->stats->int_bonus_items = 0;
+		$this->stats->int_bonus_effects = 0;
 		$this->stats->equipped = [
 			'Melee Weapon' => '',
 			'Ranged Weapon' => '',

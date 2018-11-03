@@ -4,21 +4,43 @@ require __DIR__ . '/' . 'Loader.php';
 
 $hero = new Hero;
 
-echo "What is your name? \n";
-$name_input = fopen("php://stdin","r");
-$name_line = trim(fgets($name_input)); 
-$hero->actions->setStat(Stats::NAME, $name_line);
-echo "Your name is: " . $name_line . "\n";
-echo "Choose your class: [Warrior], [Wizard], or [Ranger] \n";
-$class_input = fopen("php://stdin","r");
-$class_line = trim(fgets($class_input));
-echo "Your class is: " . $class_line . "\n";
-setClassStats($class_line, $hero);
+$name = userInput("What is your name? \n");
+$hero->actions->setStat(Stats::NAME, $name);
+$race = userInput("Choose your race: [Dwarf], [Elf], [Gnome], [Half-Elf], [Half-Orc], [Halfling], [Human]? \n", HERO::RACES);
+$class_name = userInput("Choose your class: [Warrior], [Wizard], or [Ranger] \n");
+$hero->actions->setStat(Stats::RACE, $race);
+setClassStats($class_name, $hero);
+$hero->characterInfo();
 
-function setClassStats($type, $target) {
+function userInput(string $prompt, $validators = NULL) {
+	echo "{$prompt}";
+	$input = fopen("php://stdin","r");
+	$input_line = trim(fgets($input));
+
+	if ($validators === NULL) {
+		return $input_line;
+	} else {
+		$result = inputValidator($input_line, $validators);
+			if ($result === true) {
+				return $input_line;
+			}
+		echo "{$input_line} is not a valid response. Please try again. \n";
+		userInput($prompt, $validators);
+	}
+}
+
+function inputValidator($input, $truth) {
+	if (in_array($input, $truth)) {
+		return true;
+	} 
+	return false;
+}
+
+function setClassStats(string $type, $target) {
 	if ($type === 'Warrior') {
 		$class = Hero::WARRIOR['class'];
 		$hp = Hero::WARRIOR['hp'];
+		$hp_max = Hero::WARRIOR['hp_max'];
 		$ac = Hero::WARRIOR['ac'];
 		$str = Hero::WARRIOR['str'];
 		$dex = Hero::WARRIOR['dex'];
@@ -26,6 +48,7 @@ function setClassStats($type, $target) {
 	} else if ($type === 'Wizard') {
 		$class = Hero::WIZARD['class'];
 		$hp = Hero::WIZARD['hp'];
+		$hp_max = Hero::WIZARD['hp_max'];
 		$ac = Hero::WIZARD['ac'];
 		$str = Hero::WIZARD['str'];
 		$dex = Hero::WIZARD['dex'];
@@ -33,6 +56,7 @@ function setClassStats($type, $target) {
 	} else if ($type === 'Ranger') {
 		$class = Hero::RANGER['class'];
 		$hp = Hero::RANGER['hp'];
+		$hp_max = Hero::RANGER['hp_max'];
 		$ac = Hero::RANGER['ac'];
 		$str = Hero::RANGER['str'];
 		$dex = Hero::RANGER['dex'];
@@ -43,17 +67,12 @@ function setClassStats($type, $target) {
 	
 	$target->actions->setStat(Stats::CLASS_NAME, $class);
 	$target->actions->setStat(Stats::HP, $hp);
+	$target->actions->setStat(Stats::HP_MAX, $hp_max);
 	$target->actions->setStat(Stats::AC, $ac);
 	$target->actions->setStat(Stats::STR, $str);
 	$target->actions->setStat(Stats::DEX, $dex);
 	$target->actions->setStat(Stats::INT, $int);
 }
-
-
-$hero->characterInfo();
-
-
-
 
 
 /*
