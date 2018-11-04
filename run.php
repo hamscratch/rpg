@@ -4,10 +4,10 @@ require __DIR__ . '/' . 'Loader.php';
 
 $hero = new Hero;
 
-$name = userInput("What is your name? \n");
+$name = getUserInput("What is your name? \n");
 $hero->actions->setStat(Stats::NAME, $name);
-$race = userInput("Choose your race: [Dwarf], [Elf], [Gnome], [Half-Elf], [Half-Orc], [Halfling], [Human]? \n", HERO::RACES);
-$class_name = userInput("Choose your class: [Warrior], [Wizard], or [Ranger] \n", HERO::CLASSES['class']);
+$race = getUserInput("Choose your race: [Dwarf], [Elf], [Gnome], [Half-Elf], [Half-Orc], [Halfling], [Human]? \n", HERO::RACES);
+$class_name = getUserInput("Choose your class: [Warrior], [Wizard], or [Ranger] \n", HERO::CLASSES);
 $hero->actions->setStat(Stats::RACE, $race);
 setClassStats($class_name, $hero);
 $hero->characterInfo();
@@ -21,50 +21,55 @@ userInput():
       return the valid input
 */
 
-function userInput(string $prompt, $validators = NULL) {
+function getUserInput(string $prompt, $valid_options = NULL) {
 	echo "{$prompt}";
 	$input = fopen("php://stdin","r");
 	$input_line = trim(fgets($input));
 
-	if ($validators === NULL) {
+	if ($valid_options === NULL) {
 		return $input_line;
 	} else {
-		$result = inputValidator($input_line, $validators);
-			if ($result === true) {
+		$is_valid_choice = validateChoice($input_line, $valid_options);
+			if ($is_valid_choice === true) {
 				return $input_line;
 			}
 		echo "{$input_line} is not a valid response. Please try again. \n";
-		return userInput($prompt, $validators);
+		return getUserInput($prompt, $valid_options);
 		
 	}
 }
 
-function inputValidator($input, $truth) {
-	var_dump($truth);
-	if (in_array($input, $truth)) {
+function validateChoice($input, $valid_options) {
+	if (!in_array($input, $valid_options)) {
+		if (array_key_exists($input, $valid_options)) {
+			return true;
+		} else {
+			return false;
+		}
+	} else if (in_array($input, $valid_options)) {
 		return true;
-	} 
-	return false;
+	}
 }
 
 function setClassStats(string $type, $target) {
 	$class = Hero::CLASSES[$type]['class'];
-	$hp = Hero::CLASSES[$type]['hp'];
+	$hp_base = Hero::CLASSES[$type]['hp_base'];
 	$hp_max = Hero::CLASSES[$type]['hp_max'];
-	$ac = Hero::CLASSES[$type]['ac'];
-	$str = Hero::CLASSES[$type]['str'];
-	$dex = Hero::CLASSES[$type]['dex'];
-	$int = Hero::CLASSES[$type]['int'];
+	$ac_base = Hero::CLASSES[$type]['ac_base'];
+	$str_base = Hero::CLASSES[$type]['str_base'];
+	$dex_base = Hero::CLASSES[$type]['dex_base'];
+	$int_base = Hero::CLASSES[$type]['int_base'];
 
 	$target->actions->setStat(Stats::CLASS_NAME, $class);
-	$target->actions->setStat(Stats::HP, $hp);
+	$target->actions->setStat(Stats::HP_BASE, $hp_base);
 	$target->actions->setStat(Stats::HP_MAX, $hp_max);
-	$target->actions->setStat(Stats::AC, $ac);
-	$target->actions->setStat(Stats::STR, $str);
-	$target->actions->setStat(Stats::DEX, $dex);
-	$target->actions->setStat(Stats::INT, $int);
+	$target->actions->setStat(Stats::AC_BASE, $ac_base);
+	$target->actions->setStat(Stats::STR_BASE, $str_base);
+	$target->actions->setStat(Stats::DEX_BASE, $dex_base);
+	$target->actions->setStat(Stats::INT_BASE, $int_base);
 }
 
+var_dump($hero);
 
 /*
 $hero = new Hero;

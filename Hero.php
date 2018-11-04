@@ -16,12 +16,12 @@ class Hero extends Character {
 	const CLASSES = [
 			'Warrior' => [
 				'class' => 'Warrior',
-				'hp' => 30,
+				'hp_base' => 30,
 				'hp_max' => 100,
-				'ac' => 15,
-				'str' => 10,
-				'dex' => 8,
-				'int' => 5,
+				'ac_base' => 15,
+				'str_base' => 10,
+				'dex_base' => 8,
+				'int_base' => 5,
 				'equipped' => [],
 				'backpack' => [],
 				'potion_bag' => [],
@@ -29,12 +29,12 @@ class Hero extends Character {
 			],
 			'Wizard' => [
 				'class' => 'Wizard',
-				'hp' => 20,
+				'hp_base' => 20,
 				'hp_max' => 80,
-				'ac' => 10,
-				'str' => 5,
-				'dex' => 8,
-				'int' => 10,
+				'ac_base' => 10,
+				'str_base' => 5,
+				'dex_base' => 8,
+				'int_base' => 10,
 				'equipped' => [],
 				'backpack' => [],
 				'potion_bag' => [],
@@ -42,12 +42,12 @@ class Hero extends Character {
 			],
 			'Ranger' => [
 				'class' => 'Ranger',
-				'hp' => 25,
+				'hp_base' => 25,
 				'hp_max' => 90,
-				'ac' => 15,
-				'str' => 8,
-				'dex' => 10,
-				'int' => 5,
+				'ac_base' => 15,
+				'str_base' => 8,
+				'dex_base' => 10,
+				'int_base' => 5,
 				'equipped' => [],
 				'backpack' => [],
 				'potion_bag' => [],
@@ -59,18 +59,28 @@ class Hero extends Character {
 		$this->stats->name = $this->actions->getStat(Stats::NAME);
 		$this->stats->race = $this->actions->getStat(Stats::RACE);
 		$this->stats->class = $this->actions->getStat(Stats::CLASS_NAME);
-		$this->stats->hp = $this->actions->getStat(Stats::HP);
+		$this->stats->hp_base = $this->actions->getStat(Stats::HP_BASE);
+		$this->stats->hp_temp = 0;
+		$this->stats->hp_total = ($this->actions->getStat(Stats::HP_BASE)) + ($this->actions->getStat(Stats::HP_TEMP));
 		$this->stats->hp_max = $this->actions->getStat(Stats::HP_MAX);
-		$this->stats->ac = $this->actions->getStat(Stats::AC);
+		$this->stats->ac_base = $this->actions->getStat(Stats::AC_BASE);
+		$this->stats->ac_temp = $this->actions->getStat(Stats::AC_TEMP);
+		$this->stats->ac_total = $this->actions->getStat(Stats::AC_TOTAL);
 		$this->stats->ac_bonus_items = 0;
 		$this->stats->ac_bonus_effects = 0;
-		$this->stats->str = $this->actions->getStat(Stats::STR);
+		$this->stats->str_base = $this->actions->getStat(Stats::STR_BASE);
+		$this->stats->str_temp = $this->actions->getStat(Stats::STR_TEMP);
+		$this->stats->str_total = $this->actions->getStat(Stats::STR_TOTAL);
 		$this->stats->str_bonus_items = 0;
 		$this->stats->str_bonus_effects = 0;
-		$this->stats->dex = $this->actions->getStat(Stats::DEX);
+		$this->stats->dex_base = $this->actions->getStat(Stats::DEX_BASE);
+		$this->stats->dex_temp = $this->actions->getStat(Stats::DEX_TEMP);
+		$this->stats->dex_total = $this->actions->getStat(Stats::DEX_TOTAL);
 		$this->stats->dex_bonus_items = 0;
 		$this->stats->dex_bonus_effects = 0;
-		$this->stats->int = $this->actions->getStat(Stats::INT);
+		$this->stats->int_base = $this->actions->getStat(Stats::INT_BASE);
+		$this->stats->int_temp = $this->actions->getStat(Stats::INT_TEMP);
+		$this->stats->int_temp_total = $this->actions->getStat(Stats::INT_TOTAL);
 		$this->stats->int_bonus_items = 0;
 		$this->stats->int_bonus_effects = 0;
 		$this->stats->equipped = [
@@ -118,13 +128,13 @@ class Hero extends Character {
 	}
 	public function characterInfo() {
 		echo "<<< Character Stats >>>" . "\n" . 	
-				   "Name: {$this->stats->name} \n" . 
-				   "Race: {$this->stats->race} \n" . 
-				   "Class: {$this->stats->class} \n" .
-				   "Hit Points: {$this->actions->getStat(Stats::HP)} \n" . 
-				   "Defense: {$this->actions->getStat(Stats::AC)} \n" .
-				   "Strength: {$this->actions->getStat(Stats::STR)} \n" .
-				   "Dexterity: {$this->actions->getStat(Stats::DEX)} \n" .
-				   "Intelligence: {$this->actions->getStat(Stats::INT)} \n" . "\n"; 
+				   "Name: {$this->actions->getStat(Stats::NAME)} \n" . 
+				   "Race: {$this->actions->getStat(Stats::RACE)} \n" . 
+				   "Class: {$this->actions->getStat(Stats::CLASS_NAME)} \n" .
+				   "Hit Points: {$this->actions->getStat(Stats::HP_TOTAL)} \n" . 
+				   "Defense: {$this->actions->getStat(Stats::AC_TOTAL)} \n" .
+				   "Strength: {$this->actions->getStat(Stats::STR_TOTAL)} \n" .
+				   "Dexterity: {$this->actions->getStat(Stats::DEX_TOTAL)} \n" .
+				   "Intelligence: {$this->actions->getStat(Stats::INT_TOTAL)} \n" . "\n"; 
 	}
 }

@@ -27,18 +27,37 @@ class Actions {
 	'dead' => "%s has been slain by %s."  . "\n",
 	];
 
+	const ACTIONS = [
+		'Melee' => '',
+		'Run' => '',
+	];
+
+	const BONUS_STAT_CATEGORES = ['ac', 'str', 'dex', 'int'];
+
 	public function initStatsRef(&$stats_ref) {
 		$this->stats_ref = $stats_ref;
 	}
 
+	public function getTempStat($stat_string) {
+		$item_bonus_name = $stat_string . '_bonus_items';
+		$effect_bonus_name = $stat_string . '_bonus_effects';
+		$base_value = $this->stats_ref->$stat_string;
+		$item_bonus = $this->stats_ref->$item_bonus_name;
+		$effect_bonus = $this->stats_ref->$effect_bonus_name;
 
-	public function getStat($stat_string) {		
+		$combined_temp_stat_value = $item_bonus + $effect_bonus;
+
+		return $combined_temp_stat_value;
+	}
+
+	public function getStat($stat_string) {
 		return $this->stats_ref->$stat_string;
 	}
 
 	public function setStat($stat_string, $updated_stat) {
 		$this->stats_ref->$stat_string = $updated_stat;
 	}
+	
 	public function isDead($target) {
 		$is_dead = false;
 		$hp = $target->actions->getStat(Stats::HP);
