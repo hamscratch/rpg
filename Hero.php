@@ -61,7 +61,7 @@ class Hero extends Character {
 		$this->stats->class = $this->actions->getStat(Stats::CLASS_NAME);
 		$this->stats->hp_base = $this->actions->getStat(Stats::HP_BASE);
 		$this->stats->hp_temp = 0;
-		$this->stats->hp_total = ($this->actions->getStat(Stats::HP_BASE)) + ($this->actions->getStat(Stats::HP_TEMP));
+		$this->stats->hp_total = ($this->stats->hp_base) + ($this->stats->hp_temp);
 		$this->stats->hp_max = $this->actions->getStat(Stats::HP_MAX);
 		$this->stats->ac_base = $this->actions->getStat(Stats::AC_BASE);
 		$this->stats->ac_temp = $this->actions->getStat(Stats::AC_TEMP);
@@ -80,7 +80,7 @@ class Hero extends Character {
 		$this->stats->dex_bonus_effects = 0;
 		$this->stats->int_base = $this->actions->getStat(Stats::INT_BASE);
 		$this->stats->int_temp = $this->actions->getStat(Stats::INT_TEMP);
-		$this->stats->int_temp_total = $this->actions->getStat(Stats::INT_TOTAL);
+		$this->stats->int_total = $this->actions->getStat(Stats::INT_TOTAL);
 		$this->stats->int_bonus_items = 0;
 		$this->stats->int_bonus_effects = 0;
 		$this->stats->equipped = [
