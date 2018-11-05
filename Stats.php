@@ -44,35 +44,62 @@ class Stats {
 	const POTION_INT = 'potion_int';
 	const POTION_DEX = 'potion_dex';
 	const CLASS_DESCRIPTION = 'class_description';
-	public $name;
-	public $race;
-	public $class;
-	public $hp_base;
-	public $hp_temp;
-	public $hp_total;
-	public $hp_max;
-	public $ac_base;
-	public $ac_temp;
-	public $ac_total;
-	public $ac_bonus_items;
-	public $ac_bonus_effects;
-	public $str_base;
-	public $str_temp;
-	public $str_total;
-	public $str_bonus_items;
-	public $str_bonus_effects;
-	public $dex_base;
-	public $dex_temp;
-	public $dex_total;
-	public $dex_bonus_items;
-	public $dex_bonus_effects;
-	public $int_base;
-	public $int_temp;
-	public $int_total;
-	public $int_bonus_items;
-	public $int_bonus_effects;
-	public $equipped;
-	public $backpack;
-	public $potion_bag;
-	public $class_description;
+
+	private $name;
+	private $race;
+	private $class;
+	private $hp_base;
+	private $hp_temp;
+	private $hp_total;
+	private $hp_max;
+	private $ac_base;
+	private $ac_temp;
+	private $ac_total;
+	private $ac_bonus_items;
+	private $ac_bonus_effects;
+	private $str_base;
+	private $str_temp;
+	private $str_total;
+	private $str_bonus_items;
+	private $str_bonus_effects;
+	private $dex_base;
+	private $dex_temp;
+	private $dex_total;
+	private $dex_bonus_items;
+	private $dex_bonus_effects;
+	private $int_base;
+	private $int_temp;
+	private $int_total;
+	private $int_bonus_items;
+	private $int_bonus_effects;
+	private $equipped;
+	private $backpack;
+	private $potion_bag;
+	private $class_description;
+
+	public function getStat($stat_string) {
+		return $this->stats_ref->$stat_string;
+	}
+
+	public function setStat($stat_string, $updated_stat) {
+		$this->stats_ref->$stat_string = $updated_stat;
+	}
+
+	public function updateTotalStats() {
+		$hp_base = $this->actions->getStat(self::HP_BASE);
+		$ac_base = $this->actions->getStat(self::HP_BASE);
+		$str_base = $this->actions->getStat(self::HP_BASE);
+		$dex_base = $this->actions->getStat(self::HP_BASE);
+		$int_base = $this->actions->getStat(self::HP_BASE);
+
+		$base = $this->actions->getStat($something_base);
+		$item = $this->actions->getStat($something_item);
+		$effect = $this->actions->getStat($something_effect);
+
+		$temp = $item + $effect;
+
+		$total = $temp + $base;
+
+		return $total;
+	}
 }
