@@ -87,10 +87,10 @@ class Stats {
 
 	public function updateTotalStats() {
 		$hp = $this->hp_base + $this->hp_temp;
-		$ac = $this->ac_base + $this->ac_temp;
-		$str = $this->str_base + $this->str_temp;
-		$dex = $this->dex_base + $this->dex_temp;
-		$int = $this->int_base + $this->int_temp;
+		$ac = $this->ac_base + $this->ac_temp + $this->ac_bonus_items + $this->ac_bonus_effects;
+		$str = $this->str_base + $this->str_temp + $this->str_bonus_items + $this->str_bonus_effects;
+		$dex = $this->dex_base + $this->dex_temp + $this->dex_bonus_items + $this->dex_bonus_effects;
+		$int = $this->int_base + $this->int_temp + $this->int_bonus_items + $this->int_bonus_effects;
 
 		$this->setStat(self::HP_TOTAL, $hp);
 		$this->setStat(self::AC_TOTAL, $ac);

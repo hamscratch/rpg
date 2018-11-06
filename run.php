@@ -84,7 +84,7 @@ function setClassStats(string $class_name, $target) {
 	$target->stats->setStat(Stats::CLASS_DESCRIPTION, Hero::CLASSES[$class_name][Stats::CLASS_DESCRIPTION]);
 }
 
-var_dump($hero);
+
 
 /*
 $hero = new Hero;
