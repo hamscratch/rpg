@@ -5,11 +5,12 @@ require __DIR__ . '/' . 'Loader.php';
 $hero = new Hero;
 
 $name = getUserInput("What is your name? \n");
-$hero->actions->setStat(Stats::NAME, $name);
+$hero->stats->setStat(Stats::NAME, $name);
 $race = getUserInput("Choose your race: [Dwarf], [Elf], [Human]? \n", HERO::RACES);
 $class_name = getUserInput("Choose your class: [Warrior], [Wizard], or [Ranger] \n", HERO::CLASSES);
-$hero->actions->setStat(Stats::RACE, $race);
+$hero->stats->setStat(Stats::RACE, $race);
 setClassStats($class_name, $hero);
+$hero->stats->updateTotalStats();
 $hero->characterInfo();
 
 /*
@@ -52,35 +53,35 @@ function validateChoice($input, $valid_options) {
 }
 
 function setClassStats(string $class_name, $target) {
-	$target->actions->setStat(Stats::CLASS_NAME, Hero::CLASSES[$class_name][Stats::CLASS_NAME]);
-	$target->actions->setStat(Stats::HP_BASE, Hero::CLASSES[$class_name][Stats::HP_BASE]);
-	$target->actions->setStat(Stats::HP_TEMP, Hero::CLASSES[$class_name][Stats::HP_TEMP]);
-	$target->actions->setStat(Stats::HP_TOTAL, Hero::CLASSES[$class_name][Stats::HP_TOTAL]);
-	$target->actions->setStat(Stats::HP_MAX, Hero::CLASSES[$class_name][Stats::HP_MAX]);
-	$target->actions->setStat(Stats::AC_BASE, Hero::CLASSES[$class_name][Stats::AC_BASE]);
-	$target->actions->setStat(Stats::AC_TEMP, Hero::CLASSES[$class_name][Stats::AC_TEMP]);
-	$target->actions->setStat(Stats::AC_TOTAL, Hero::CLASSES[$class_name][Stats::AC_TOTAL]);
-	$target->actions->setStat(Stats::AC_BONUS_ITEMS, Hero::CLASSES[$class_name][Stats::AC_BONUS_ITEMS]);
-	$target->actions->setStat(Stats::AC_BONUS_EFFECTS, Hero::CLASSES[$class_name][Stats::AC_BONUS_EFFECTS]);
-	$target->actions->setStat(Stats::STR_BASE, Hero::CLASSES[$class_name][Stats::STR_BASE]);
-	$target->actions->setStat(Stats::STR_TEMP, Hero::CLASSES[$class_name][Stats::STR_TEMP]);
-	$target->actions->setStat(Stats::STR_TOTAL, Hero::CLASSES[$class_name][Stats::STR_TOTAL]);
-	$target->actions->setStat(Stats::STR_BONUS_ITEMS, Hero::CLASSES[$class_name][Stats::STR_BONUS_ITEMS]);
-	$target->actions->setStat(Stats::STR_BONUS_EFFECTS, Hero::CLASSES[$class_name][Stats::STR_BONUS_EFFECTS]);
-	$target->actions->setStat(Stats::DEX_BASE, Hero::CLASSES[$class_name][Stats::DEX_BASE]);
-	$target->actions->setStat(Stats::DEX_TEMP, Hero::CLASSES[$class_name][Stats::DEX_TEMP]);
-	$target->actions->setStat(Stats::DEX_TOTAL, Hero::CLASSES[$class_name][Stats::DEX_TOTAL]);
-	$target->actions->setStat(Stats::DEX_BONUS_ITEMS, Hero::CLASSES[$class_name][Stats::DEX_BONUS_ITEMS]);
-	$target->actions->setStat(Stats::DEX_BONUS_EFFECTS, Hero::CLASSES[$class_name][Stats::DEX_BONUS_EFFECTS]);
-	$target->actions->setStat(Stats::INT_BASE, Hero::CLASSES[$class_name][Stats::INT_BASE]);
-	$target->actions->setStat(Stats::INT_TEMP, Hero::CLASSES[$class_name][Stats::INT_TEMP]);
-	$target->actions->setStat(Stats::INT_TOTAL, Hero::CLASSES[$class_name][Stats::INT_TOTAL]);
-	$target->actions->setStat(Stats::INT_BONUS_ITEMS, Hero::CLASSES[$class_name][Stats::INT_BONUS_ITEMS]);
-	$target->actions->setStat(Stats::INT_BONUS_EFFECTS, Hero::CLASSES[$class_name][Stats::INT_BONUS_EFFECTS]);
-	$target->actions->setStat(Stats::EQUIPPED, Hero::CLASSES[$class_name][Stats::EQUIPPED]);
-	$target->actions->setStat(Stats::BACKPACK, Hero::CLASSES[$class_name][Stats::BACKPACK]);
-	$target->actions->setStat(Stats::POTION_BAG, Hero::CLASSES[$class_name][Stats::POTION_BAG]);
-	$target->actions->setStat(Stats::CLASS_DESCRIPTION, Hero::CLASSES[$class_name][Stats::CLASS_DESCRIPTION]);
+	$target->stats->setStat(Stats::CLASS_NAME, Hero::CLASSES[$class_name][Stats::CLASS_NAME]);
+	$target->stats->setStat(Stats::HP_BASE, Hero::CLASSES[$class_name][Stats::HP_BASE]);
+	$target->stats->setStat(Stats::HP_TEMP, Hero::CLASSES[$class_name][Stats::HP_TEMP]);
+	$target->stats->setStat(Stats::HP_TOTAL, Hero::CLASSES[$class_name][Stats::HP_TOTAL]);
+	$target->stats->setStat(Stats::HP_MAX, Hero::CLASSES[$class_name][Stats::HP_MAX]);
+	$target->stats->setStat(Stats::AC_BASE, Hero::CLASSES[$class_name][Stats::AC_BASE]);
+	$target->stats->setStat(Stats::AC_TEMP, Hero::CLASSES[$class_name][Stats::AC_TEMP]);
+	$target->stats->setStat(Stats::AC_TOTAL, Hero::CLASSES[$class_name][Stats::AC_TOTAL]);
+	$target->stats->setStat(Stats::AC_BONUS_ITEMS, Hero::CLASSES[$class_name][Stats::AC_BONUS_ITEMS]);
+	$target->stats->setStat(Stats::AC_BONUS_EFFECTS, Hero::CLASSES[$class_name][Stats::AC_BONUS_EFFECTS]);
+	$target->stats->setStat(Stats::STR_BASE, Hero::CLASSES[$class_name][Stats::STR_BASE]);
+	$target->stats->setStat(Stats::STR_TEMP, Hero::CLASSES[$class_name][Stats::STR_TEMP]);
+	$target->stats->setStat(Stats::STR_TOTAL, Hero::CLASSES[$class_name][Stats::STR_TOTAL]);
+	$target->stats->setStat(Stats::STR_BONUS_ITEMS, Hero::CLASSES[$class_name][Stats::STR_BONUS_ITEMS]);
+	$target->stats->setStat(Stats::STR_BONUS_EFFECTS, Hero::CLASSES[$class_name][Stats::STR_BONUS_EFFECTS]);
+	$target->stats->setStat(Stats::DEX_BASE, Hero::CLASSES[$class_name][Stats::DEX_BASE]);
+	$target->stats->setStat(Stats::DEX_TEMP, Hero::CLASSES[$class_name][Stats::DEX_TEMP]);
+	$target->stats->setStat(Stats::DEX_TOTAL, Hero::CLASSES[$class_name][Stats::DEX_TOTAL]);
+	$target->stats->setStat(Stats::DEX_BONUS_ITEMS, Hero::CLASSES[$class_name][Stats::DEX_BONUS_ITEMS]);
+	$target->stats->setStat(Stats::DEX_BONUS_EFFECTS, Hero::CLASSES[$class_name][Stats::DEX_BONUS_EFFECTS]);
+	$target->stats->setStat(Stats::INT_BASE, Hero::CLASSES[$class_name][Stats::INT_BASE]);
+	$target->stats->setStat(Stats::INT_TEMP, Hero::CLASSES[$class_name][Stats::INT_TEMP]);
+	$target->stats->setStat(Stats::INT_TOTAL, Hero::CLASSES[$class_name][Stats::INT_TOTAL]);
+	$target->stats->setStat(Stats::INT_BONUS_ITEMS, Hero::CLASSES[$class_name][Stats::INT_BONUS_ITEMS]);
+	$target->stats->setStat(Stats::INT_BONUS_EFFECTS, Hero::CLASSES[$class_name][Stats::INT_BONUS_EFFECTS]);
+	$target->stats->setStat(Stats::EQUIPPED, Hero::CLASSES[$class_name][Stats::EQUIPPED]);
+	$target->stats->setStat(Stats::BACKPACK, Hero::CLASSES[$class_name][Stats::BACKPACK]);
+	$target->stats->setStat(Stats::POTION_BAG, Hero::CLASSES[$class_name][Stats::POTION_BAG]);
+	$target->stats->setStat(Stats::CLASS_DESCRIPTION, Hero::CLASSES[$class_name][Stats::CLASS_DESCRIPTION]);
 }
 
 var_dump($hero);

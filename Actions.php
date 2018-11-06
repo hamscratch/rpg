@@ -31,18 +31,6 @@ class Actions {
 		'Melee' => '',
 		'Run' => '',
 	];
-
-	public function initStatsRef(&$stats_ref) {
-		$this->stats_ref = $stats_ref;
-	}
-
-	public function getStat($stat_string) {
-		return $this->stats_ref->$stat_string;
-	}
-
-	public function setStat($stat_string, $updated_stat) {
-		$this->stats_ref->$stat_string = $updated_stat;
-	}
 	
 	public function isDead($target) {
 		$is_dead = false;

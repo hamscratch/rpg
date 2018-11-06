@@ -173,14 +173,14 @@ class Hero extends Character {
 	}
 	public function characterInfo() {
 		echo "<<< Character Stats >>>" . "\n" . 	
-				   "Name: {$this->actions->getStat(Stats::NAME)} \n" . 
-				   "Race: {$this->actions->getStat(Stats::RACE)} \n" . 
-				   "Class: {$this->actions->getStat(Stats::CLASS_NAME)} \n" .
-				   "Hit Points: {$this->actions->getStat(Stats::HP_TOTAL)} \n" . 
-				   "Defense: {$this->actions->getStat(Stats::AC_TOTAL)} \n" .
-				   "Strength: {$this->actions->getStat(Stats::STR_TOTAL)} \n" .
-				   "Dexterity: {$this->actions->getStat(Stats::DEX_TOTAL)} \n" .
-				   "Intelligence: {$this->actions->getStat(Stats::INT_TOTAL)} \n" . "\n"; 
+				   "Name: {$this->stats->getStat(Stats::NAME)} \n" . 
+				   "Race: {$this->stats->getStat(Stats::RACE)} \n" . 
+				   "Class: {$this->stats->getStat(Stats::CLASS_NAME)} \n" .
+				   "Hit Points: {$this->stats->getStat(Stats::HP_TOTAL)} \n" . 
+				   "Defense: {$this->stats->getStat(Stats::AC_TOTAL)} \n" .
+				   "Strength: {$this->stats->getStat(Stats::STR_TOTAL)} \n" .
+				   "Dexterity: {$this->stats->getStat(Stats::DEX_TOTAL)} \n" .
+				   "Intelligence: {$this->stats->getStat(Stats::INT_TOTAL)} \n" . "\n"; 
 	}
 }
 

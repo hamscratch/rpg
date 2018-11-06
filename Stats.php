@@ -78,28 +78,24 @@ class Stats {
 	private $class_description;
 
 	public function getStat($stat_string) {
-		return $this->stats_ref->$stat_string;
+		return $this->$stat_string;
 	}
 
 	public function setStat($stat_string, $updated_stat) {
-		$this->stats_ref->$stat_string = $updated_stat;
+		$this->$stat_string = $updated_stat;
 	}
 
 	public function updateTotalStats() {
-		$hp_base = $this->actions->getStat(self::HP_BASE);
-		$ac_base = $this->actions->getStat(self::HP_BASE);
-		$str_base = $this->actions->getStat(self::HP_BASE);
-		$dex_base = $this->actions->getStat(self::HP_BASE);
-		$int_base = $this->actions->getStat(self::HP_BASE);
+		$hp = $this->hp_base + $this->hp_temp;
+		$ac = $this->ac_base + $this->ac_temp;
+		$str = $this->str_base + $this->str_temp;
+		$dex = $this->dex_base + $this->dex_temp;
+		$int = $this->int_base + $this->int_temp;
 
-		$base = $this->actions->getStat($something_base);
-		$item = $this->actions->getStat($something_item);
-		$effect = $this->actions->getStat($something_effect);
-
-		$temp = $item + $effect;
-
-		$total = $temp + $base;
-
-		return $total;
+		$this->setStat(self::HP_TOTAL, $hp);
+		$this->setStat(self::AC_TOTAL, $ac);
+		$this->setStat(self::STR_TOTAL, $str);
+		$this->setStat(self::DEX_TOTAL, $dex);
+		$this->setStat(self::INT_TOTAL, $int);
 	}
 }
