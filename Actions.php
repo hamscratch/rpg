@@ -32,9 +32,21 @@ class Actions {
 		'Run' => '',
 	];
 	
+	public function initStatsRef(&$stats_ref) {
+		$this->stats_ref = $stats_ref;
+	}
+
+	public function getStatRef($stat_string) {
+		return $this->stats_ref->$stat_string;
+	}
+
+	public function setStatRef($stat_string, $updated_stat) {
+		$this->stats_ref->$stat_string = $updated_stat;
+	}
+
 	public function isDead($target) {
 		$is_dead = false;
-		$hp = $target->actions->getStat(Stats::HP);
+		$hp = $target->stats->getStat(Stats::HP);
 		if ($hp <= 0) {
 			$is_dead = true;
 		} else {
@@ -45,28 +57,28 @@ class Actions {
 	// mow that i have temp stats, figure out a way to add to those stats when equipping an item (10/30)
 	public function equip($type, $item_name) {
 		
-		$backpack = $this->getStat(Stats::BACKPACK);
+		$backpack = $this->stats->getStat(Stats::BACKPACK);
 		$armor_ac = Items::getArmor($type);
 		if ($type === Stats::EQUIPPED_MELEE) {
 			if ($item_name === $backpack['Melee Weapon']) {
-				$this->setStat($type, $item_name);
-				$this->setStat(Stats::BACKPACK_MELEE, '');
+				$this->stats->setStat($type, $item_name);
+				$this->stats->setStat(Stats::BACKPACK_MELEE, '');
 			} else {
 				echo "You do no have {$item_name} in your backpack";
 			}
 		} else if ($type === Stats::EQUIPPED_RANGED) {
 			if ($item_name === $backpack['Ranged Weapon']) {
-				$this->setStat($type, $item_name);
-				$this->setStat(Stats::BACKPACK_RANGED, '');
+				$this->stats->setStat($type, $item_name);
+				$this->stats->setStat(Stats::BACKPACK_RANGED, '');
 			} else {
 				echo "You do no have {$item_name} in your backpack";
 			}
 		} else if ($type === Stats::EQUIPPED_ARMOR) {
 			if ($item_name === $backpack['Armor']) {
 				$armor_ac = Itmes::getArmor($type);
-				$this->setStat($type, $item_name);
-				$this->setStat(Stats::AC_BONUS_ITEMS, $armor_ac['armor']);
-				$this->setStat(Stats::BACKPACK_ARMOR, '');
+				$this->stats->setStat($type, $item_name);
+				$this->stats->setStat(Stats::AC_BONUS_ITEMS, $armor_ac['armor']);
+				$this->stats->setStat(Stats::BACKPACK_ARMOR, '');
 			} else {
 				echo "You do no have {$item_name} in your backpack";
 			}
@@ -90,12 +102,12 @@ class Actions {
 	public function meleeAttack($defender) {
 		$weapon = Items::getWeapon('Melee');
 		$weapon_damage = rand(1, $weapon['damage']);
-		$ac_check = $this->getStat(Stats::STR) + rand(1, 6);
-		$defense_ac = $defender->actions->getStat(Stats::AC);
-		$defender_hp = $defender->actions->getStat(Stats::HP);
+		$ac_check = $this->getStatRef(Stats::STR_TOTAL) + rand(1, 6);
+		$defense_ac = $defender->stats->getStat(Stats::AC_TOTAL);
+		$defender_hp = $defender->stats->getStat(Stats::HP_TOTAL);
 		$hp_result = $defender_hp - $weapon_damage;
-		$attacker_name = "{$this->getStat(Stats::NAME)} the {$this->getStat(Stats::CLASS_NAME)}";
-		$defender_name = "{$defender->actions->getStat(Stats::NAME)} the {$defender->actions->getStat(Stats::CLASS_NAME)}";
+		$attacker_name = "{$this->getStatRef(Stats::NAME)} the {$this->getStatRef(Stats::CLASS_NAME)}";
+		$defender_name = "{$defender->stats->getStat(Stats::NAME)} the {$defender->stats->getStat(Stats::CLASS_NAME)}";
 		
 		if ($ac_check > $defense_ac) {
 			$result = self::MELEE_ATTACK_RESPONSES['hit'];
@@ -111,7 +123,7 @@ class Actions {
 		
 		if ($defender_text == self::DEFENSE_RESPONSES['hit']) {
 			$d_text = sprintf(self::DEFENSE_RESPONSES['hit'], $defender_name, $weapon_damage, $hp_result);
-			$defender->actions->setStat(Stats::HP, $hp_result);
+			$defender->actions->setStatRef(Stats::HP_TOTAL, $hp_result);
 				if ($weapon_damage > $defender_hp) {
 						$d_text = sprintf(self::DEFENSE_RESPONSES['dead'], $defender_name, $attacker_name);
 				}
@@ -120,20 +132,20 @@ class Actions {
 			$d_text = sprintf(self::DEFENSE_RESPONSES['miss'], $defender_name, $defender_hp);
 		}
 		
-		return $attack_message . "\n" . $d_text . "\n";
+		echo "{$attack_message}" . "\n" . "{$d_text}" . "\n";
 	}
 	// like melee, i'll need to check to see if im using magic arrows. add if statement if the $defender is magic
 	// (10/30)
 	public function rangedAttack($defender) {
 		$weapon = Items::getWeapon('Ranged');
-		$ammo = $this->getStat(Stats::BACKPACK_ARROWS);
+		$ammo = $this->stats->getStat(Stats::BACKPACK_ARROWS);
 		$weapon_damage = rand(1, $weapon['damage']);
-		$dex_check = $this->getStat(Stats::DEX) + rand(1, 6);
-		$defense_dex = $defender->actions->getStat(Stats::DEX);
-		$defender_hp = $defender->actions->getStat(Stats::HP);
+		$dex_check = $this->stats->getStat(Stats::DEX_TOTAL) + rand(1, 6);
+		$defense_dex = $defender->stats->getStat(Stats::DEX_TOTAL);
+		$defender_hp = $defender->stats->getStat(Stats::HP_TOTAL);
 		$hp_result = $defender_hp - $weapon_damage;
-		$attacker_name = "{$this->getStat(Stats::NAME)} the {$this->getStat(Stats::CLASS_NAME)}";
-		$defender_name = "{$defender->actions->getStat(Stats::NAME)} the {$defender->actions->getStat(Stats::CLASS_NAME)}";
+		$attacker_name = "{$this->stats->getStat(Stats::NAME)} the {$this->stats->getStat(Stats::CLASS_NAME)}";
+		$defender_name = "{$defender->stats->getStat(Stats::NAME)} the {$defender->stats->getStat(Stats::CLASS_NAME)}";
 		
 		if ($ammo >= 1) {
 			if ($dex_check > $defense_dex) {
