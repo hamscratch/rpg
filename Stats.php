@@ -113,71 +113,46 @@ class Stats {
 		$this->setStat(self::INT_TOTAL, $int);
 	}
 
-	public function setHeroClassStats(string $class_name) {
-		$this->class = $this->setStat(self::CLASS_NAME, Hero::CLASSES[$class_name][Stats::CLASS_NAME]);
-		$this->setStat(self::HP_BASE, Hero::CLASSES[$class_name][Stats::HP_BASE]);
-		$this->setStat(self::HP_TEMP, Hero::CLASSES[$class_name][Stats::HP_TEMP]);
-		$this->setStat(self::HP_TOTAL, Hero::CLASSES[$class_name][Stats::HP_TOTAL]);
-		$this->setStat(self::HP_MAX, Hero::CLASSES[$class_name][Stats::HP_MAX]);
-		$this->setStat(self::AC_BASE, Hero::CLASSES[$class_name][Stats::AC_BASE]);
-		$this->setStat(self::AC_TEMP, Hero::CLASSES[$class_name][Stats::AC_TEMP]);
-		$this->setStat(self::AC_TOTAL, Hero::CLASSES[$class_name][Stats::AC_TOTAL]);
-		$this->setStat(self::AC_BONUS_ITEMS, Hero::CLASSES[$class_name][Stats::AC_BONUS_ITEMS]);
-		$this->setStat(self::AC_BONUS_EFFECTS, Hero::CLASSES[$class_name][Stats::AC_BONUS_EFFECTS]);
-		$this->setStat(self::STR_BASE, Hero::CLASSES[$class_name][Stats::STR_BASE]);
-		$this->setStat(self::STR_TEMP, Hero::CLASSES[$class_name][Stats::STR_TEMP]);
-		$this->setStat(self::STR_TOTAL, Hero::CLASSES[$class_name][Stats::STR_TOTAL]);
-		$this->setStat(self::STR_BONUS_ITEMS, Hero::CLASSES[$class_name][Stats::STR_BONUS_ITEMS]);
-		$this->setStat(self::STR_BONUS_EFFECTS, Hero::CLASSES[$class_name][Stats::STR_BONUS_EFFECTS]);
-		$this->setStat(self::DEX_BASE, Hero::CLASSES[$class_name][Stats::DEX_BASE]);
-		$this->setStat(self::DEX_TEMP, Hero::CLASSES[$class_name][Stats::DEX_TEMP]);
-		$this->setStat(self::DEX_TOTAL, Hero::CLASSES[$class_name][Stats::DEX_TOTAL]);
-		$this->setStat(self::DEX_BONUS_ITEMS, Hero::CLASSES[$class_name][Stats::DEX_BONUS_ITEMS]);
-		$this->setStat(self::DEX_BONUS_EFFECTS, Hero::CLASSES[$class_name][Stats::DEX_BONUS_EFFECTS]);
-		$this->setStat(self::INT_BASE, Hero::CLASSES[$class_name][Stats::INT_BASE]);
-		$this->setStat(self::INT_TEMP, Hero::CLASSES[$class_name][Stats::INT_TEMP]);
-		$this->setStat(self::INT_TOTAL, Hero::CLASSES[$class_name][Stats::INT_TOTAL]);
-		$this->setStat(self::INT_BONUS_ITEMS, Hero::CLASSES[$class_name][Stats::INT_BONUS_ITEMS]);
-		$this->setStat(self::INT_BONUS_EFFECTS, Hero::CLASSES[$class_name][Stats::INT_BONUS_EFFECTS]);
-		$this->setStat(self::EQUIPPED, Hero::CLASSES[$class_name][Stats::EQUIPPED]);
-		$this->setStat(self::BACKPACK, Hero::CLASSES[$class_name][Stats::BACKPACK]);
-		$this->setStat(self::POTION_BAG, Hero::CLASSES[$class_name][Stats::POTION_BAG]);
-		$this->setStat(self::CLASS_DESCRIPTION, Hero::CLASSES[$class_name][Stats::CLASS_DESCRIPTION]);
+	/** Sets all initial stats.
+	* 
+	* @param string $stat_string - use the constants above
+	*
+	* @param mixed $updated_stat - the new value you want to set the stat to
+	*
+	* @return mixed - will update the given stat with the new value 
+	*/
+	public function setClassStats(string $character, string $class_name) {
+		$this->setStat(self::CLASS_NAME, $character::CLASSES[$class_name][Stats::CLASS_NAME]);
+		$this->setStat(self::HP_BASE, $character::CLASSES[$class_name][Stats::HP_BASE]);
+		$this->setStat(self::HP_TEMP, $character::CLASSES[$class_name][Stats::HP_TEMP]);
+		$this->setStat(self::HP_TOTAL, $character::CLASSES[$class_name][Stats::HP_TOTAL]);
+		$this->setStat(self::HP_MAX, $character::CLASSES[$class_name][Stats::HP_MAX]);
+		$this->setStat(self::AC_BASE, $character::CLASSES[$class_name][Stats::AC_BASE]);
+		$this->setStat(self::AC_TEMP, $character::CLASSES[$class_name][Stats::AC_TEMP]);
+		$this->setStat(self::AC_TOTAL, $character::CLASSES[$class_name][Stats::AC_TOTAL]);
+		$this->setStat(self::AC_BONUS_ITEMS, $character::CLASSES[$class_name][Stats::AC_BONUS_ITEMS]);
+		$this->setStat(self::AC_BONUS_EFFECTS, $character::CLASSES[$class_name][Stats::AC_BONUS_EFFECTS]);
+		$this->setStat(self::STR_BASE, $character::CLASSES[$class_name][Stats::STR_BASE]);
+		$this->setStat(self::STR_TEMP, $character::CLASSES[$class_name][Stats::STR_TEMP]);
+		$this->setStat(self::STR_TOTAL, $character::CLASSES[$class_name][Stats::STR_TOTAL]);
+		$this->setStat(self::STR_BONUS_ITEMS, $character::CLASSES[$class_name][Stats::STR_BONUS_ITEMS]);
+		$this->setStat(self::STR_BONUS_EFFECTS, $character::CLASSES[$class_name][Stats::STR_BONUS_EFFECTS]);
+		$this->setStat(self::DEX_BASE, $character::CLASSES[$class_name][Stats::DEX_BASE]);
+		$this->setStat(self::DEX_TEMP, $character::CLASSES[$class_name][Stats::DEX_TEMP]);
+		$this->setStat(self::DEX_TOTAL, $character::CLASSES[$class_name][Stats::DEX_TOTAL]);
+		$this->setStat(self::DEX_BONUS_ITEMS, $character::CLASSES[$class_name][Stats::DEX_BONUS_ITEMS]);
+		$this->setStat(self::DEX_BONUS_EFFECTS, $character::CLASSES[$class_name][Stats::DEX_BONUS_EFFECTS]);
+		$this->setStat(self::INT_BASE, $character::CLASSES[$class_name][Stats::INT_BASE]);
+		$this->setStat(self::INT_TEMP, $character::CLASSES[$class_name][Stats::INT_TEMP]);
+		$this->setStat(self::INT_TOTAL, $character::CLASSES[$class_name][Stats::INT_TOTAL]);
+		$this->setStat(self::INT_BONUS_ITEMS, $character::CLASSES[$class_name][Stats::INT_BONUS_ITEMS]);
+		$this->setStat(self::INT_BONUS_EFFECTS, $character::CLASSES[$class_name][Stats::INT_BONUS_EFFECTS]);
+		$this->setStat(self::EQUIPPED, $character::CLASSES[$class_name][Stats::EQUIPPED]);
+		$this->setStat(self::BACKPACK, $character::CLASSES[$class_name][Stats::BACKPACK]);
+		$this->setStat(self::POTION_BAG, $character::CLASSES[$class_name][Stats::POTION_BAG]);
+		$this->setStat(self::CLASS_DESCRIPTION, $character::CLASSES[$class_name][Stats::CLASS_DESCRIPTION]);
 
 		$this->updateTotalStats();
 	}
 
-	public function setNPCClassStats(string $class_name, $target) {
-		$target->stats->setStat(Stats::CLASS_NAME, NPC::CLASSES[$class_name][Stats::CLASS_NAME]);
-		$target->stats->setStat(Stats::HP_BASE, NPC::CLASSES[$class_name][Stats::HP_BASE]);
-		$target->stats->setStat(Stats::HP_TEMP, NPC::CLASSES[$class_name][Stats::HP_TEMP]);
-		$target->stats->setStat(Stats::HP_TOTAL, NPC::CLASSES[$class_name][Stats::HP_TOTAL]);
-		$target->stats->setStat(Stats::HP_MAX, NPC::CLASSES[$class_name][Stats::HP_MAX]);
-		$target->stats->setStat(Stats::AC_BASE, NPC::CLASSES[$class_name][Stats::AC_BASE]);
-		$target->stats->setStat(Stats::AC_TEMP, NPC::CLASSES[$class_name][Stats::AC_TEMP]);
-		$target->stats->setStat(Stats::AC_TOTAL, NPC::CLASSES[$class_name][Stats::AC_TOTAL]);
-		$target->stats->setStat(Stats::AC_BONUS_ITEMS, NPC::CLASSES[$class_name][Stats::AC_BONUS_ITEMS]);
-		$target->stats->setStat(Stats::AC_BONUS_EFFECTS, NPC::CLASSES[$class_name][Stats::AC_BONUS_EFFECTS]);
-		$target->stats->setStat(Stats::STR_BASE, NPC::CLASSES[$class_name][Stats::STR_BASE]);
-		$target->stats->setStat(Stats::STR_TEMP, NPC::CLASSES[$class_name][Stats::STR_TEMP]);
-		$target->stats->setStat(Stats::STR_TOTAL, NPC::CLASSES[$class_name][Stats::STR_TOTAL]);
-		$target->stats->setStat(Stats::STR_BONUS_ITEMS, NPC::CLASSES[$class_name][Stats::STR_BONUS_ITEMS]);
-		$target->stats->setStat(Stats::STR_BONUS_EFFECTS, NPC::CLASSES[$class_name][Stats::STR_BONUS_EFFECTS]);
-		$target->stats->setStat(Stats::DEX_BASE, NPC::CLASSES[$class_name][Stats::DEX_BASE]);
-		$target->stats->setStat(Stats::DEX_TEMP, NPC::CLASSES[$class_name][Stats::DEX_TEMP]);
-		$target->stats->setStat(Stats::DEX_TOTAL, NPC::CLASSES[$class_name][Stats::DEX_TOTAL]);
-		$target->stats->setStat(Stats::DEX_BONUS_ITEMS, NPC::CLASSES[$class_name][Stats::DEX_BONUS_ITEMS]);
-		$target->stats->setStat(Stats::DEX_BONUS_EFFECTS, NPC::CLASSES[$class_name][Stats::DEX_BONUS_EFFECTS]);
-		$target->stats->setStat(Stats::INT_BASE, NPC::CLASSES[$class_name][Stats::INT_BASE]);
-		$target->stats->setStat(Stats::INT_TEMP, NPC::CLASSES[$class_name][Stats::INT_TEMP]);
-		$target->stats->setStat(Stats::INT_TOTAL, NPC::CLASSES[$class_name][Stats::INT_TOTAL]);
-		$target->stats->setStat(Stats::INT_BONUS_ITEMS, NPC::CLASSES[$class_name][Stats::INT_BONUS_ITEMS]);
-		$target->stats->setStat(Stats::INT_BONUS_EFFECTS, NPC::CLASSES[$class_name][Stats::INT_BONUS_EFFECTS]);
-		$target->stats->setStat(Stats::EQUIPPED, NPC::CLASSES[$class_name][Stats::EQUIPPED]);
-		$target->stats->setStat(Stats::BACKPACK, NPC::CLASSES[$class_name][Stats::BACKPACK]);
-		$target->stats->setStat(Stats::POTION_BAG, NPC::CLASSES[$class_name][Stats::POTION_BAG]);
-		$target->stats->setStat(Stats::CLASS_DESCRIPTION, NPC::CLASSES[$class_name][Stats::CLASS_DESCRIPTION]);
-
-		$target->stats->updateTotalStats();
-	}
 }

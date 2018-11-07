@@ -157,7 +157,7 @@ class NPC extends Character {
 		$this->stats->setStat(Stats::NAME, $name);
 		$this->stats->setStat(Stats::CLASS_NAME, $class_name);
 		$this->stats->setStat(Stats::RACE, $race);
-		$this->stats->setNPCClassStats($class_name, $this);
+		$this->stats->setClassStats('NPC', $class_name);
 	}
 
 	public function numberPicker($num1, $num2) {

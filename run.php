@@ -5,18 +5,18 @@ require __DIR__ . '/' . 'Loader.php';
  $action_responses = ['Attack', 'Run'];
 
 $hero = new Hero;
-//$villain = new NPC;
+$villain = new NPC;
 
 $name = getUserInput("What is your name? \n");
 $hero->stats->setStat(Stats::NAME, $name);
 $race = getUserInput("Choose your race: [Dwarf], [Elf], [Human]? \n", HERO::RACES);
 $class_name = getUserInput("Choose your class: [Warrior], [Wizard], or [Ranger] \n", HERO::CLASSES);
 $hero->stats->setStat(Stats::RACE, $race);
-$hero->stats->setHeroClassStats($class_name);
+$hero->stats->setClassStats('Hero', $class_name);
 $hero->characterInfo();
-//$villain->characterInfo();
+$villain->characterInfo();
 
-/*
+
 echo "You have encountered {$villain->stats->getStat(Stats::NAME)}! \n";
 $action = getUserInput("What would you like to do? [Attack] or [Run]? \n", $action_responses);
 if ($action === 'Attack') {
@@ -25,8 +25,17 @@ if ($action === 'Attack') {
 	echo "Why are you running like a wimp? \n";
 }
 $villain->characterInfo();
-*/
 
+
+
+/** Sets a new value of a stat.
+	* 
+	* @param string $stat_string - use the constants above
+	*
+	* @param mixed $updated_stat - the new value you want to set the stat to
+	*
+	* @return mixed - will update the given stat with the new value 
+	*/
 function getUserInput(string $prompt, $valid_options = NULL) {
 	echo "{$prompt}";
 	$input = fopen("php://stdin","r");
@@ -45,6 +54,15 @@ function getUserInput(string $prompt, $valid_options = NULL) {
 	}
 }
 
+
+/** Sets a new value of a stat.
+	* 
+	* @param string $stat_string - use the constants above
+	*
+	* @param mixed $updated_stat - the new value you want to set the stat to
+	*
+	* @return mixed - will update the given stat with the new value 
+	*/
 function validateChoice($input, $valid_options) {
 	if (!in_array($input, $valid_options)) {
 		if (array_key_exists($input, $valid_options)) {
