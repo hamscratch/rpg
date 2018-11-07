@@ -113,13 +113,11 @@ class Stats {
 		$this->setStat(self::INT_TOTAL, $int);
 	}
 
-	/** Sets all initial stats.
+	/** Sets all initial stats
 	* 
-	* @param string $stat_string - use the constants above
-	*
-	* @param mixed $updated_stat - the new value you want to set the stat to
-	*
-	* @return mixed - will update the given stat with the new value 
+	* @param string $character - Right now, it's either 'Hero' or 'NPC'. will eventually assign some constants
+	* @param string $class_name - This string will be used to index into the specific class listed in the $character's array of classes.
+	* @return mixed - Set all the stats of the given class as well as update all the bonus stats values to the total values.
 	*/
 	public function setClassStats(string $character, string $class_name) {
 		$this->setStat(self::CLASS_NAME, $character::CLASSES[$class_name][Stats::CLASS_NAME]);

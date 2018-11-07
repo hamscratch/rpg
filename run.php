@@ -15,14 +15,15 @@ $hero->stats->setStat(Stats::RACE, $race);
 $hero->stats->setClassStats('Hero', $class_name);
 $hero->characterInfo();
 $villain->characterInfo();
-
-
 echo "You have encountered {$villain->stats->getStat(Stats::NAME)}! \n";
-$action = getUserInput("What would you like to do? [Attack] or [Run]? \n", $action_responses);
-if ($action === 'Attack') {
-	$hero->actions->meleeAttack($villain);
-} else {
-	echo "Why are you running like a wimp? \n";
+while ($villain->stats->getStat(Stats::HP_TOTAL) >= 1) {
+	$action = getUserInput("What would you like to do? [Attack] or [Run]? \n", $action_responses);
+	if ($action === 'Attack') {
+		$hero->actions->meleeAttack($villain);
+	} else {
+		echo "Why are you running like a wimp? \n";
+	}
+	$villain->actions->meleeAttack($hero);
 }
 $villain->characterInfo();
 

@@ -16,7 +16,7 @@ class Hero extends Character {
 				'hp_temp' => 0,
 				'hp_total' => 0,
 				'hp_max' => 100,
-				'ac_base' => 18,
+				'ac_base' => 15,
 				'ac_temp' => 0,
 				'ac_total' => 0,
 				'ac_bonus_items' => 0,
