@@ -15,6 +15,8 @@ $hero->stats->setStat(Stats::RACE, $race);
 $hero->stats->setClassStats('Hero', $class_name);
 $hero->characterInfo();
 $villain->characterInfo();
+
+
 echo "You have encountered {$villain->stats->getStat(Stats::NAME)}! \n";
 while ($villain->stats->getStat(Stats::HP_TOTAL) >= 1) {
 	$action = getUserInput("What would you like to do? [Attack] or [Run]? \n", $action_responses);
@@ -28,6 +30,19 @@ while ($villain->stats->getStat(Stats::HP_TOTAL) >= 1) {
 $villain->characterInfo();
 
 
+function npcMove() {
+
+}
+
+function flipCoin() {
+	$coin = rand(0, 1);
+	return $coin;
+}
+
+function newGame() {
+	$turn = 0;
+	echo 
+}
 
 /** Sets a new value of a stat.
 	* 
