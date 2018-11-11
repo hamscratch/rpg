@@ -9,7 +9,7 @@ class NPC extends Character {
 	const CLASSES = [
 			'Grunt' => [
 				'class' => 'Grunt',
-				'hp_base' => 30,
+				'hp_base' => 15,
 				'hp_temp' => 0,
 				'hp_total' => 0,
 				'hp_max' => 100,
@@ -44,7 +44,7 @@ class NPC extends Character {
 				],
 				'potion_bag' => [
 					'Potions' => [
-						'health' => ['name' => 'Health Potion', 'quantity' => 1],
+						'health' => ['name' => 'Health Potion', 'quantity' => 2],
 						'attack' => ['name' => 'Attack Potion', 'quantity' => 1],
 						'defense' => ['name' => 'Defense Potion', 'quantity' => 1],
 						'intelligence' => ['name' => 'Intelligence Potion', 'quantity' => 1],
@@ -55,7 +55,7 @@ class NPC extends Character {
 			],
 			'Sorcerer' => [
 				'class' => 'Sorcerer',
-				'hp_base' => 20,
+				'hp_base' => 15,
 				'hp_temp' => 0,
 				'hp_total' => 0,
 				'hp_max' => 80,
@@ -90,7 +90,7 @@ class NPC extends Character {
 				],
 				'potion_bag' => [
 					'Potions' => [
-						'health' => ['name' => 'Health Potion', 'quantity' => 1],
+						'health' => ['name' => 'Health Potion', 'quantity' => 2],
 						'attack' => ['name' => 'Attack Potion', 'quantity' => 1],
 						'defense' => ['name' => 'Defense Potion', 'quantity' => 1],
 						'intelligence' => ['name' => 'Intelligence Potion', 'quantity' => 1],
@@ -101,7 +101,7 @@ class NPC extends Character {
 			],
 			'Hunter' => [
 				'class' => 'Hunter',
-				'hp_base' => 25,
+				'hp_base' => 15,
 				'hp_temp' => 0,
 				'hp_total' => 0,
 				'hp_max' => 90,
@@ -136,7 +136,7 @@ class NPC extends Character {
 				],
 				'potion_bag' => [
 					'Potions' => [
-						'health' => ['name' => 'Health Potion', 'quantity' => 1],
+						'health' => ['name' => 'Health Potion', 'quantity' => 2],
 						'attack' => ['name' => 'Attack Potion', 'quantity' => 1],
 						'defense' => ['name' => 'Defense Potion', 'quantity' => 1],
 						'intelligence' => ['name' => 'Intelligence Potion', 'quantity' => 1],
@@ -173,7 +173,6 @@ class NPC extends Character {
 
 	public function npcTurn($target) {
 		$hp = $this->stats->hp_total;
-		var_dump($hp);
 		$health_potion = $this->stats->potion_bag['Potions'][Stats::POTION_HEAL];
 		$health_potion_quantity = $health_potion['quantity'];
 

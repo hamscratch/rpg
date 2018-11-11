@@ -194,8 +194,9 @@ class Actions {
 				$update = Items::getPotion(Stats::POTION_HEAL);
 				$hero_hp += $update['amount'];
 				$new_quantity = ($quantity - 1);
+				$health_potion = $this->stats_ref->potion_bag['Potions'][Stats::POTION_HEAL]['quantity'];
 				$this->stats_ref->setStat(Stats::HP_TOTAL, $hero_hp);
-				$this->stats_ref->setStat($quantity, $new_quantity);
+				$this->stats_ref->setPotionQuantity(Stats::POTION_HEAL, $new_quantity);
 				echo "{$hero_name} drank a health potion.\n{$hero_name} now has {$hero_hp} hit points! \n" . "\n";
 			} else {
 				echo "{$hero_name} does not have any health potions in their inventory." . "\n";

@@ -10,3 +10,5 @@ function npcTurn() {
 		$this->actions->usePotion('heal');
 	}
 }
+
+

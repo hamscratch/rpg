@@ -107,6 +107,19 @@ class Stats {
 	*
 	* @return mixed - will update the given stat with the new value 
 	*/
+
+	public function setPotionQuantity($potion, $new_quantity) {
+		$this->potion_bag['Potions'][$potion]['quantity'] = $new_quantity;
+	}
+
+	/** Sets a new value of a stat.
+	* 
+	* @param string $stat_string - use the constants above
+	*
+	* @param mixed $updated_stat - the new value you want to set the stat to
+	*
+	* @return mixed - will update the given stat with the new value 
+	*/
 	public function updateTotalStats() {
 		$hp = $this->hp_base + $this->hp_temp;
 		$ac = $this->ac_base + $this->ac_temp + $this->ac_bonus_items + $this->ac_bonus_effects;
