@@ -181,21 +181,21 @@ class Actions {
 	// not sure what needs work on here. pretty sure i refactored everything with new consts. will need to do a 
 	// once over. (10/30)
 	public function usePotion($type) {
-		$quantity = $this->getStat($type);
-		$hero_hp = $this->getStat(Stats::HP);
-		$hero_str = $this->getStat(Stats::STR);
-		$hero_ac = $this->getStat(Stats::AC);
-		$hero_int = $this->getStat(Stats::INT);
-		$hero_dex = $this->getStat(Stats::DEX);
-		$hero_name = "{$this->getStat(Stats::NAME)} the {$this->getStat(Stats::CLASS_NAME)}";
+		$quantity = $this->stats_ref->potion_bag['Potions'][$type]['quantity'];
+		$hero_hp = $this->stats_ref->getStat(Stats::HP_TOTAL);
+		$hero_str = $this->stats_ref->getStat(Stats::STR_TOTAL);
+		$hero_ac = $this->stats_ref->getStat(Stats::AC_TOTAL);
+		$hero_int = $this->stats_ref->getStat(Stats::INT_TOTAL);
+		$hero_dex = $this->stats_ref->getStat(Stats::DEX_TOTAL);
+		$hero_name = "{$this->stats_ref->getStat(Stats::NAME)} the {$this->stats_ref->getStat(Stats::CLASS_NAME)}";
 		
 		if ($type === Stats::POTION_HEAL) {
 			if ($quantity >= 1) {
-				$update = Items::getPotion('Health');
+				$update = Items::getPotion(Stats::POTION_HEAL);
 				$hero_hp += $update['amount'];
 				$new_quantity = ($quantity - 1);
-				$this->setStat(Stats::HP, $hero_hp);
-				$this->setStat(Stats::POTION_HEAL, $new_quantity);
+				$this->stats_ref->setStat(Stats::HP_TOTAL, $hero_hp);
+				$this->stats_ref->setStat($quantity, $new_quantity);
 				echo "{$hero_name} drank a health potion.\n{$hero_name} now has {$hero_hp} hit points! \n" . "\n";
 			} else {
 				echo "{$hero_name} does not have any health potions in their inventory." . "\n";

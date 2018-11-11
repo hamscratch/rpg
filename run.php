@@ -25,14 +25,10 @@ while ($villain->stats->getStat(Stats::HP_TOTAL) >= 1) {
 	} else {
 		echo "Why are you running like a wimp? \n";
 	}
-	$villain->actions->meleeAttack($hero);
+	$villain->npcTurn($hero);
 }
 $villain->characterInfo();
 
-
-function npcMove() {
-
-}
 
 function flipCoin() {
 	$coin = rand(0, 1);
@@ -41,7 +37,7 @@ function flipCoin() {
 
 function newGame() {
 	$turn = 0;
-	echo 
+	echo '';
 }
 
 /** Sets a new value of a stat.

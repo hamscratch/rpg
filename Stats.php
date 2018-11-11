@@ -38,11 +38,11 @@ class Stats {
 	const BACKPACK_ARMOR = 'backpack_armor';
 	const BACKPACK_ARROWS = 'backpack_arrows';
 	const POTION_BAG = 'potion_bag';
-	const POTION_HEAL = 'potion_heal';
-	const POTION_ATK = 'potion_atk';
-	const POTION_DEF = 'potion_def';
-	const POTION_INT = 'potion_int';
-	const POTION_DEX = 'potion_dex';
+	const POTION_HEAL = 'health';
+	const POTION_ATK = 'attack';
+	const POTION_DEF = 'defense';
+	const POTION_INT = 'intelligence';
+	const POTION_DEX = 'dexterity';
 	const CLASS_DESCRIPTION = 'class_description';
 
 	public $name;
@@ -99,6 +99,14 @@ class Stats {
 		$this->$stat_string = $updated_stat;
 	}
 
+	/** Sets a new value of a stat.
+	* 
+	* @param string $stat_string - use the constants above
+	*
+	* @param mixed $updated_stat - the new value you want to set the stat to
+	*
+	* @return mixed - will update the given stat with the new value 
+	*/
 	public function updateTotalStats() {
 		$hp = $this->hp_base + $this->hp_temp;
 		$ac = $this->ac_base + $this->ac_temp + $this->ac_bonus_items + $this->ac_bonus_effects;
@@ -150,6 +158,7 @@ class Stats {
 		$this->setStat(self::POTION_BAG, $character::CLASSES[$class_name][Stats::POTION_BAG]);
 		$this->setStat(self::CLASS_DESCRIPTION, $character::CLASSES[$class_name][Stats::CLASS_DESCRIPTION]);
 
+		//var_dump($this->potion_bag);
 		$this->updateTotalStats();
 	}
 

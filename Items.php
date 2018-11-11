@@ -142,7 +142,7 @@ class Items {
 		return $armor;
 	}
 	static function getPotion($type) {
-		if ($type === 'Health') {
+		if ($type === Stats::POTION_HEAL) {
 			$potion = self::POTIONS['health'];
 		} else if ($type === 'Attack') {
 			$potion = self::POTIONS['attack'];

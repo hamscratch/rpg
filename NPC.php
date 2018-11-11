@@ -171,6 +171,24 @@ class NPC extends Character {
 		return $result;
 	}
 
+	public function npcTurn($target) {
+		$hp = $this->stats->hp_total;
+		var_dump($hp);
+		$health_potion = $this->stats->potion_bag['Potions'][Stats::POTION_HEAL];
+		$health_potion_quantity = $health_potion['quantity'];
+
+		if ($hp >= 11) {
+			$this->actions->meleeAttack($target);
+		} 
+		if ($hp <= 10) {
+			if ($health_potion_quantity >= 1) {
+				$this->actions->usePotion(Stats::POTION_HEAL);
+			} else {
+				$this->actions->meleeAttack($target);
+			}
+		}
+	}
+
 	public function characterInfo() {
 		echo "<<< NPC Stats >>>" . "\n" . 	
 				   "Name: {$this->stats->getStat(Stats::NAME)} \n" . 
