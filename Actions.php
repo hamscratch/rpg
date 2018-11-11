@@ -170,14 +170,16 @@ class Actions {
 			echo "You do not have any arrows left. Try something else." . "\n";
 		}	
 	}
+
 	// lol. no idea if this is still something i want or not. i guess it'd be useful if you know you're going to
 	// get stomped on next round. fuck, just realized i made new stats but not a "temp" stat. fuck me. (10/30)
 	public function defend() {
 		$defend_roll = rand(1, 6);
-		$new_ac = $this->getStat(Stats::AC) + $defend_roll;
-		$this->setStat(Stats::AC, $new_ac); 
-		echo "{$this->getStat(Stats::NAME)} gets into a defesive stance. {$this->getStat(Stats::NAME)}'s defense has been boosted by {$defend_roll} and is now {$new_ac}\n" . "\n";
+		$new_ac = $this->stats_ref->getStat(Stats::AC_BONUS_EFFECTS) + $defend_roll;
+		$this->stats_ref->setStat(Stats::AC_BONUS_EFFECTS, $new_ac); 
+		echo "{$this->stats_ref->getStat(Stats::NAME)} gets into a defesive stance. {$this->stats_ref->getStat(Stats::NAME)}'s defense has been boosted by {$defend_roll} and is now {$new_ac}\n" . "\n";
 	}
+
 	// not sure what needs work on here. pretty sure i refactored everything with new consts. will need to do a 
 	// once over. (10/30)
 	public function usePotion($type) {

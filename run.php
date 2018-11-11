@@ -2,7 +2,7 @@
 
 require __DIR__ . '/' . 'Loader.php';
 
- $action_responses = ['Attack', 'Run'];
+$action_responses = ['Attack', 'Defend',  'Run'];
 
 $hero = new Hero;
 $villain = new NPC;
@@ -19,12 +19,21 @@ $villain->characterInfo();
 
 echo "You have encountered {$villain->stats->getStat(Stats::NAME)}! \n";
 while ($villain->stats->getStat(Stats::HP_TOTAL) >= 1) {
-	$action = getUserInput("What would you like to do? [Attack] or [Run]? \n", $action_responses);
-	if ($action === 'Attack') {
-		$hero->actions->meleeAttack($villain);
-	} else {
-		echo "Why are you running like a wimp? \n";
-	}
+	$action = getUserInput("What would you like to do? [Attack], [Defend], or [Run]? \n", $action_responses);
+
+	switch ($action) {
+		case 'Attack':
+			$hero->actions->meleeAttack($villain);
+		case 'Defend':
+			$hero->actions->defend();
+			$hero->stats->updateTotalStats();
+		case 'Run':
+			echo "Why are you running like a wimp? \n";
+		default:
+			echo "Don't be a chud. \n";
+		}
+
+
 	$villain->npcTurn($hero);
 }
 $villain->characterInfo();
