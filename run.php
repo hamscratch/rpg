@@ -2,24 +2,24 @@
 
 require __DIR__ . '/' . 'Loader.php';
 
-$action_responses = ['Attack', 'Defend',  'Run'];
+$action_responses = ['Attack', 'Defend', 'Potion', 'Run'];
 
 $hero = new Hero;
 $villain = new NPC;
 
 $name = getUserInput("What is your name? \n");
 $hero->stats->setStat(Stats::NAME, $name);
-$race = getUserInput("Choose your race: [Dwarf], [Elf], [Human]? \n", HERO::RACES);
-$class_name = getUserInput("Choose your class: [Warrior], [Wizard], or [Ranger] \n", HERO::CLASSES);
+$race = getUserInput("<<< Choose your race >>>\n" . "[Dwarf] [Elf] [Human]\n", HERO::RACES);
+$class_name = getUserInput("<<< Choose your class >>>\n" . "[Warrior] [Wizard] [Ranger]\n", HERO::CLASSES);
 $hero->stats->setStat(Stats::RACE, $race);
 $hero->stats->setClassStats('Hero', $class_name);
 $hero->characterInfo();
 $villain->characterInfo();
 
 
-echo "You have encountered {$villain->stats->getStat(Stats::NAME)}! \n";
+echo "You have encountered {$villain->stats->getStat(Stats::NAME)}!" . "\n";
 while ($villain->stats->getStat(Stats::HP_TOTAL) >= 1) {
-	$action = getUserInput("What would you like to do? [Attack], [Defend], or [Run]? \n", $action_responses);
+	$action = getUserInput("<<< What would you like to do >>>\n" . "[Attack] [Defend] [Potion] [Run] \n", $action_responses);
 
 	switch ($action) {
 		case 'Attack':
@@ -28,6 +28,9 @@ while ($villain->stats->getStat(Stats::HP_TOTAL) >= 1) {
 		case 'Defend':
 			$hero->actions->defend();
 			$hero->stats->updateTotalStats();
+			break;
+		case 'Potion':
+			$hero->actions->usePotion(Stats::POTION_HEAL);
 			break;
 		case 'Run':
 			echo "Why are you running like a wimp? \n";
@@ -43,11 +46,11 @@ while ($villain->stats->getStat(Stats::HP_TOTAL) >= 1) {
 		$hero_life_status = isDead($hero);
 
 		if ($hero_life_status === true) {
-			echo "You lose.\n";
+			echo "<<< YOU LOSE! >>>\n";
 			exit;
 		}
 	} else {
-		echo "You won!\n";
+		echo "<<< YOU WON! >>>\n";
 		$villain->characterInfo();
 		exit;
 	}
