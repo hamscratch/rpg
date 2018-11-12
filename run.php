@@ -80,15 +80,16 @@ function getUserInput(string $prompt, $valid_options = NULL) {
 	echo "{$prompt}";
 	$input = fopen("php://stdin","r");
 	$input_line = trim(fgets($input));
+	$corrected_input = ucfirst($input_line);
 
 	if ($valid_options === NULL) {
-		return $input_line;
+		return $corrected_input;
 	} else {
-		$is_valid_choice = validateChoice($input_line, $valid_options);
+		$is_valid_choice = validateChoice($corrected_input, $valid_options);
 			if ($is_valid_choice === true) {
-				return $input_line;
+				return $corrected_input;
 			}
-		echo "{$input_line} is not a valid response. Please try again. \n";
+		echo "{$corrected_input} is not a valid response. Please try again. \n";
 		return getUserInput($prompt, $valid_options);
 		
 	}
