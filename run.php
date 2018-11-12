@@ -9,7 +9,8 @@ $villain = new NPC;
 $dungeon = new DungeonMaker;
 
 var_dump($dungeon->dungeon_name);
-var_dump($dungeon->room_1);
+var_dump($dungeon->room_3);
+$dungeon->makeNPC($dungeon->room_3);
 var_dump($dungeon->named_npc);
 var_dump($dungeon->npc);
 

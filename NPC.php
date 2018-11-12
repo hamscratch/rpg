@@ -29,6 +29,8 @@ class NPC extends Character {
 				'int_base' => 5,
 				'int_temp' => 0,
 				'int_total' => 0,
+				'int_bonus_items' => 0,
+				'int_bonus_effects' => 0,
 				'equipped' => [
 					'Melee Weapon' => '',
 					'Ranged Weapon' => '',
@@ -73,6 +75,8 @@ class NPC extends Character {
 				'int_base' => 15,
 				'int_temp' => 0,
 				'int_total' => 0,
+				'int_bonus_items' => 0,
+				'int_bonus_effects' => 0,
 				'equipped' => [
 					'Melee Weapon' => '',
 					'Ranged Weapon' => '',
@@ -117,6 +121,8 @@ class NPC extends Character {
 				'int_base' => 8,
 				'int_temp' => 0,
 				'int_total' => 0,
+				'int_bonus_items' => 0,
+				'int_bonus_effects' => 0,
 				'equipped' => [
 					'Melee Weapon' => '',
 					'Ranged Weapon' => '',
