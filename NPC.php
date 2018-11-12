@@ -9,9 +9,7 @@ class NPC extends Character {
 	const CLASSES = [
 			'Grunt' => [
 				'class' => 'Grunt',
-				'hp_base' => 15,
-				'hp_temp' => 0,
-				'hp_total' => 0,
+				'hp_total' => 15,
 				'hp_max' => 100,
 				'ac_base' => 15,
 				'ac_temp' => 0,
@@ -44,7 +42,7 @@ class NPC extends Character {
 				],
 				'potion_bag' => [
 					'Potions' => [
-						'health' => ['name' => 'Health Potion', 'quantity' => 2],
+						'health' => ['name' => 'Health Potion', 'quantity' => 1],
 						'attack' => ['name' => 'Attack Potion', 'quantity' => 1],
 						'defense' => ['name' => 'Defense Potion', 'quantity' => 1],
 						'intelligence' => ['name' => 'Intelligence Potion', 'quantity' => 1],
@@ -55,9 +53,7 @@ class NPC extends Character {
 			],
 			'Sorcerer' => [
 				'class' => 'Sorcerer',
-				'hp_base' => 15,
-				'hp_temp' => 0,
-				'hp_total' => 0,
+				'hp_total' => 15,
 				'hp_max' => 80,
 				'ac_base' => 12,
 				'ac_temp' => 0,
@@ -90,7 +86,7 @@ class NPC extends Character {
 				],
 				'potion_bag' => [
 					'Potions' => [
-						'health' => ['name' => 'Health Potion', 'quantity' => 2],
+						'health' => ['name' => 'Health Potion', 'quantity' => 1],
 						'attack' => ['name' => 'Attack Potion', 'quantity' => 1],
 						'defense' => ['name' => 'Defense Potion', 'quantity' => 1],
 						'intelligence' => ['name' => 'Intelligence Potion', 'quantity' => 1],
@@ -101,9 +97,7 @@ class NPC extends Character {
 			],
 			'Hunter' => [
 				'class' => 'Hunter',
-				'hp_base' => 15,
-				'hp_temp' => 0,
-				'hp_total' => 0,
+				'hp_total' => 15,
 				'hp_max' => 90,
 				'ac_base' => 15,
 				'ac_temp' => 0,
@@ -136,7 +130,7 @@ class NPC extends Character {
 				],
 				'potion_bag' => [
 					'Potions' => [
-						'health' => ['name' => 'Health Potion', 'quantity' => 2],
+						'health' => ['name' => 'Health Potion', 'quantity' => 1],
 						'attack' => ['name' => 'Attack Potion', 'quantity' => 1],
 						'defense' => ['name' => 'Defense Potion', 'quantity' => 1],
 						'intelligence' => ['name' => 'Intelligence Potion', 'quantity' => 1],

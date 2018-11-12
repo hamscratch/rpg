@@ -12,9 +12,7 @@ class Hero extends Character {
 	const CLASSES = [
 			'Warrior' => [
 				'class' => 'Warrior',
-				'hp_base' => 30,
-				'hp_temp' => 0,
-				'hp_total' => 0,
+				'hp_total' => 30,
 				'hp_max' => 100,
 				'ac_base' => 15,
 				'ac_temp' => 0,
@@ -58,9 +56,7 @@ class Hero extends Character {
 			],
 			'Wizard' => [
 				'class' => 'Wizard',
-				'hp_base' => 20,
-				'hp_temp' => 0,
-				'hp_total' => 0,
+				'hp_total' => 20,
 				'hp_max' => 80,
 				'ac_base' => 12,
 				'ac_temp' => 0,
@@ -104,9 +100,7 @@ class Hero extends Character {
 			],
 			'Ranger' => [
 				'class' => 'Ranger',
-				'hp_base' => 25,
-				'hp_temp' => 0,
-				'hp_total' => 0,
+				'hp_total' => 25,
 				'hp_max' => 90,
 				'ac_base' => 15,
 				'ac_temp' => 0,

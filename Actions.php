@@ -36,16 +36,7 @@ class Actions {
 		$this->stats_ref = $stats_ref;
 	}
 
-	public function isDead($target) {
-		$is_dead = false;
-		$hp = $target->stats->getStat(Stats::HP);
-		if ($hp <= 0) {
-			$is_dead = true;
-		} else {
-			echo "Error: '{$target}' is not a valid entry for isDead. Check your spelling!" . "\n";
-		}
-		return $is_dead;
-	}
+
 	// mow that i have temp stats, figure out a way to add to those stats when equipping an item (10/30)
 	public function equip($type, $item_name) {
 		
@@ -174,10 +165,12 @@ class Actions {
 	// lol. no idea if this is still something i want or not. i guess it'd be useful if you know you're going to
 	// get stomped on next round. fuck, just realized i made new stats but not a "temp" stat. fuck me. (10/30)
 	public function defend() {
-		$defend_roll = rand(1, 6);
-		$new_ac = $this->stats_ref->getStat(Stats::AC_BONUS_EFFECTS) + $defend_roll;
-		$this->stats_ref->setStat(Stats::AC_BONUS_EFFECTS, $new_ac); 
-		echo "{$this->stats_ref->getStat(Stats::NAME)} gets into a defesive stance. {$this->stats_ref->getStat(Stats::NAME)}'s defense has been boosted by {$defend_roll} and is now {$new_ac}\n" . "\n";
+		$defend_roll = rand(3, 6);
+		$new_ac = $this->stats_ref->getStat(Stats::AC_TEMP) + $defend_roll;
+		$this->stats_ref->setStat(Stats::AC_TEMP, $new_ac); 
+		$boosted_ac = $new_ac + $this->stats_ref->getStat(Stats::AC_TOTAL);
+
+		echo "{$this->stats_ref->getStat(Stats::NAME)} gets into a defesive stance." . "\n" . "{$this->stats_ref->getStat(Stats::NAME)}'s defense has been boosted by {$defend_roll} and is now {$boosted_ac}\n" . "\n";
 	}
 
 	// not sure what needs work on here. pretty sure i refactored everything with new consts. will need to do a 

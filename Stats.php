@@ -4,8 +4,6 @@ class Stats {
 	const NAME = 'name';
 	const RACE = 'race';
 	const CLASS_NAME = 'class';
-	const HP_BASE = 'hp_base';
-	const HP_TEMP = 'hp_temp';
 	const HP_TOTAL = 'hp_total';	
 	const HP_MAX = 'hp_max';
 	const AC_BASE = 'ac_base';
@@ -48,8 +46,6 @@ class Stats {
 	public $name;
 	public $race;
 	public $class;
-	public $hp_base;
-	public $hp_temp;
 	public $hp_total;
 	public $hp_max;
 	public $ac_base;
@@ -121,13 +117,11 @@ class Stats {
 	* @return mixed - will update the given stat with the new value 
 	*/
 	public function updateTotalStats() {
-		$hp = $this->hp_base + $this->hp_temp;
 		$ac = $this->ac_base + $this->ac_temp + $this->ac_bonus_items + $this->ac_bonus_effects;
 		$str = $this->str_base + $this->str_temp + $this->str_bonus_items + $this->str_bonus_effects;
 		$dex = $this->dex_base + $this->dex_temp + $this->dex_bonus_items + $this->dex_bonus_effects;
 		$int = $this->int_base + $this->int_temp + $this->int_bonus_items + $this->int_bonus_effects;
 
-		$this->setStat(self::HP_TOTAL, $hp);
 		$this->setStat(self::AC_TOTAL, $ac);
 		$this->setStat(self::STR_TOTAL, $str);
 		$this->setStat(self::DEX_TOTAL, $dex);
@@ -140,10 +134,23 @@ class Stats {
 	* @param string $class_name - This string will be used to index into the specific class listed in the $character's array of classes.
 	* @return mixed - Set all the stats of the given class as well as update all the bonus stats values to the total values.
 	*/
+	public function resetTempStats() {
+		$this->setStat(self::AC_TEMP, 0);
+		$this->setStat(self::STR_TEMP, 0);
+		$this->setStat(self::DEX_TEMP, 0);
+		$this->setStat(self::INT_TEMP, 0);
+
+		$this->updateTotalStats();
+	}
+
+	/** Sets all initial stats
+	* 
+	* @param string $character - Right now, it's either 'Hero' or 'NPC'. will eventually assign some constants
+	* @param string $class_name - This string will be used to index into the specific class listed in the $character's array of classes.
+	* @return mixed - Set all the stats of the given class as well as update all the bonus stats values to the total values.
+	*/
 	public function setClassStats(string $character, string $class_name) {
 		$this->setStat(self::CLASS_NAME, $character::CLASSES[$class_name][Stats::CLASS_NAME]);
-		$this->setStat(self::HP_BASE, $character::CLASSES[$class_name][Stats::HP_BASE]);
-		$this->setStat(self::HP_TEMP, $character::CLASSES[$class_name][Stats::HP_TEMP]);
 		$this->setStat(self::HP_TOTAL, $character::CLASSES[$class_name][Stats::HP_TOTAL]);
 		$this->setStat(self::HP_MAX, $character::CLASSES[$class_name][Stats::HP_MAX]);
 		$this->setStat(self::AC_BASE, $character::CLASSES[$class_name][Stats::AC_BASE]);
@@ -171,7 +178,6 @@ class Stats {
 		$this->setStat(self::POTION_BAG, $character::CLASSES[$class_name][Stats::POTION_BAG]);
 		$this->setStat(self::CLASS_DESCRIPTION, $character::CLASSES[$class_name][Stats::CLASS_DESCRIPTION]);
 
-		//var_dump($this->potion_bag);
 		$this->updateTotalStats();
 	}
 

@@ -24,29 +24,45 @@ while ($villain->stats->getStat(Stats::HP_TOTAL) >= 1) {
 	switch ($action) {
 		case 'Attack':
 			$hero->actions->meleeAttack($villain);
+			break;
 		case 'Defend':
 			$hero->actions->defend();
 			$hero->stats->updateTotalStats();
+			break;
 		case 'Run':
 			echo "Why are you running like a wimp? \n";
+			break;
 		default:
 			echo "Don't be a chud. \n";
 		}
 
+	$villain_life_status = isDead($villain);
 
-	$villain->npcTurn($hero);
+	if ($villain_life_status === false) {
+		$villain->npcTurn($hero);
+		$hero_life_status = isDead($hero);
+
+		if ($hero_life_status === true) {
+			echo "You lose.\n";
+			exit;
+		}
+	} else {
+		echo "You won!\n";
+		$villain->characterInfo();
+		exit;
+	}
+
+	$hero->stats->resetTempStats();
+	$villain->stats->resetTempStats();
 }
-$villain->characterInfo();
 
-
-function flipCoin() {
-	$coin = rand(0, 1);
-	return $coin;
-}
-
-function newGame() {
-	$turn = 0;
-	echo '';
+function isDead($target) {
+	$is_dead = false;
+	$hp = $target->stats->getStat(Stats::HP_TOTAL);
+	if ($hp <= 0) {
+		$is_dead = true;
+	} 
+	return $is_dead;
 }
 
 /** Sets a new value of a stat.
