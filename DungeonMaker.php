@@ -12,7 +12,7 @@ class DungeonMaker {
 				'room_1' => [
 					'name' => 'Entrance',
 					'description' => 'This is the entrance to the dungeon. There is a door ahead of you and a stairway leading out behind you.',
-					'mobs' => false,
+					'mob' => false,
 					'named_mob' => false,
 					'traps' => 1,
 					'loot' => [
@@ -24,7 +24,7 @@ class DungeonMaker {
 				'room_2' => [
 					'name' => 'Hallway',
 					'description' => 'This is a hallway. There is a monster in here that wants to eat you. In front of you is a door and behind you is the door where you came from.',
-					'mobs' => true,
+					'mob' => true,
 					'named_mob' => false,
 					'traps' => 1,
 					'loot' => [
@@ -36,8 +36,8 @@ class DungeonMaker {
 				'room_3' => [
 					'name' => 'Boss Room',
 					'description' => 'This is a room with a named monster that wants to eat you. There is a treasure chest in this room that is available once you defeat the monster. The only door in the room is the one behind you that leads into the hallway.',
-					'mobs' => true,
-					'named_mob' => false,
+					'mob' => false,
+					'named_mob' => true,
 					'traps' => 1,
 					'loot' => [
 						'gold' => 5,
@@ -54,6 +54,9 @@ class DungeonMaker {
 	public $room_1;
 	public $room_2;
 	public $room_3;
+
+	public $npc;
+	public $named_npc;
 
 	public function __construct() {
 		$this->dungeon = self::DUNGEON_BEFALLEN;
@@ -82,12 +85,12 @@ class DungeonMaker {
 		if ($room['named_mob'] === true) {
 			$named_npc = new NPC;
 
-			return $named_npc;
+			$this->named_npc = $named_npc;
 		}
 		if ($room['mob'] === true) {
 			$npc = new NPC;
 
-			return $npc;
+			$this->npc = $npc;
 		}	
 	}
 }
