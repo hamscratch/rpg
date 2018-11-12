@@ -10,8 +10,10 @@ class DungeonMaker {
 			'description' => 'A dank and musty crypt with hidden dangers all around!',
 			'rooms' => [
 				'room_1' => [
-					'description' => 'a stuff.',
-					'mobs' => 1,
+					'name' => 'Entrance',
+					'description' => 'This is the entrance to the dungeon. There is a door ahead of you and a stairway leading out behind you.',
+					'mobs' => false,
+					'named_mob' => false,
 					'traps' => 1,
 					'loot' => [
 						'gold' => 5,
@@ -20,8 +22,10 @@ class DungeonMaker {
 					'connection' => ['room_2'],
 				],
 				'room_2' => [
-					'description' => 'more a stuff.',
-					'mobs' => 1,
+					'name' => 'Hallway',
+					'description' => 'This is a hallway. There is a monster in here that wants to eat you. In front of you is a door and behind you is the door where you came from.',
+					'mobs' => true,
+					'named_mob' => false,
 					'traps' => 1,
 					'loot' => [
 						'gold' => 5,
@@ -30,8 +34,10 @@ class DungeonMaker {
 					'connection' => ['room_1', 'room_3'],
 				],			
 				'room_3' => [
-					'description' => 'even more a stuff.',
-					'mobs' => 1,
+					'name' => 'Boss Room',
+					'description' => 'This is a room with a named monster that wants to eat you. There is a treasure chest in this room that is available once you defeat the monster. The only door in the room is the one behind you that leads into the hallway.',
+					'mobs' => true,
+					'named_mob' => false,
 					'traps' => 1,
 					'loot' => [
 						'gold' => 5,
@@ -43,18 +49,45 @@ class DungeonMaker {
 		],
 	];
 
-	public $rooms;
 	public $dungeon;
 	public $dungeon_name;
+	public $room_1;
+	public $room_2;
+	public $room_3;
 
 	public function __construct() {
 		$this->dungeon = self::DUNGEON_BEFALLEN;
 		$this->dungeon_name = $this->getRoomInfo(self::DUNGEON_BEFALLEN, 'name');
-		$this->rooms = $this->getRoomInfo(self::DUNGEON_BEFALLEN, 'rooms');
+		$this->room_1 = $this->getRoomInfo(self::DUNGEON_BEFALLEN, 'rooms', 'Entrance');
+		$this->room_2 = $this->getRoomInfo(self::DUNGEON_BEFALLEN, 'rooms', 'Hallway');
+		$this->room_3 = $this->getRoomInfo(self::DUNGEON_BEFALLEN, 'rooms', 'Boss Room');
 	}
 
-	public function getRoomInfo($dungeon, $info) {
-		$result = self::DUNGEONS[$dungeon][$info];
-		return $result;
+	public function getRoomInfo($dungeon, $info, $additional_info = NULL) {
+		if ($additional_info === NULL) {
+			$result = self::DUNGEONS[$dungeon][$info];
+			return $result;
+		} else {
+			$room_array = self::DUNGEONS[$dungeon][$info];
+			
+			foreach ($room_array as $room) {
+				if ($room['name'] === $additional_info) {
+					return $room;
+				}
+			}
+		}
+	}
+
+	public function makeNPC($room) {
+		if ($room['named_mob'] === true) {
+			$named_npc = new NPC;
+
+			return $named_npc;
+		}
+		if ($room['mob'] === true) {
+			$npc = new NPC;
+
+			return $npc;
+		}	
 	}
 }
