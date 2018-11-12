@@ -2,10 +2,14 @@
 
 require __DIR__ . '/' . 'Loader.php';
 
-$action_responses = ['Attack', 'Defend', 'Potion', 'Run'];
+$action_responses = ['Attack', 'Defend', 'Potion', 'Info', 'Run'];
 
 $hero = new Hero;
 $villain = new NPC;
+$dungeon = new DungeonMaker;
+
+var_dump($dungeon->dungeon_name);
+var_dump($dungeon->rooms);
 
 $name = getUserInput("What is your name? \n");
 $hero->stats->setStat(Stats::NAME, $name);
@@ -18,45 +22,52 @@ $villain->characterInfo();
 
 
 echo "You have encountered {$villain->stats->getStat(Stats::NAME)}!" . "\n";
-while ($villain->stats->getStat(Stats::HP_TOTAL) >= 1) {
-	$action = getUserInput("<<< What would you like to do >>>\n" . "[Attack] [Defend] [Potion] [Run] \n", $action_responses);
+combat($hero, $villain);
 
-	switch ($action) {
-		case 'Attack':
-			$hero->actions->meleeAttack($villain);
-			break;
-		case 'Defend':
-			$hero->actions->defend();
-			$hero->stats->updateTotalStats();
-			break;
-		case 'Potion':
-			$hero->actions->usePotion(Stats::POTION_HEAL);
-			break;
-		case 'Run':
-			echo "Why are you running like a wimp? \n";
-			break;
-		default:
-			echo "Don't be a chud. \n";
-		}
+function combat($hero, $villain) {
+	while ($villain->stats->getStat(Stats::HP_TOTAL) >= 1) {
+		$action = getUserInput("<<< What would you like to do >>>\n" . "[Attack] [Defend] [Potion] [Info] [Run] \n", $action_responses);
 
-	$villain_life_status = isDead($villain);
+		switch ($action) {
+			case 'Attack':
+				$hero->actions->meleeAttack($villain);
+				break;
+			case 'Defend':
+				$hero->actions->defend();
+				$hero->stats->updateTotalStats();
+				break;
+			case 'Potion':
+				$hero->actions->usePotion(Stats::POTION_HEAL);
+				break;
+			case 'Info':
+				$hero->characterInfo();
+				break;
+			case 'Run':
+				echo "Why are you running like a wimp? \n";
+				break;
+			default:
+				echo "Don't be a chud. \n";
+			}
 
-	if ($villain_life_status === false) {
-		$villain->npcTurn($hero);
-		$hero_life_status = isDead($hero);
+		$villain_life_status = isDead($villain);
 
-		if ($hero_life_status === true) {
-			echo "<<< YOU LOSE! >>>\n";
+		if ($villain_life_status === false) {
+			$villain->npcTurn($hero);
+			$hero_life_status = isDead($hero);
+
+			if ($hero_life_status === true) {
+				echo "<<< YOU LOSE! >>>\n";
+				exit;
+			}
+		} else {
+			echo "<<< YOU WON! >>>\n";
+			$villain->characterInfo();
 			exit;
 		}
-	} else {
-		echo "<<< YOU WON! >>>\n";
-		$villain->characterInfo();
-		exit;
-	}
 
-	$hero->stats->resetTempStats();
-	$villain->stats->resetTempStats();
+		$hero->stats->resetTempStats();
+		$villain->stats->resetTempStats();
+	}
 }
 
 function isDead($target) {

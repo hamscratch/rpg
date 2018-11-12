@@ -166,6 +166,7 @@ class Hero extends Character {
 		echo $message . "\n";
 	}
 	public function characterInfo() {
+		$this->stats->updateTotalStats();
 		echo "<<< Character Stats >>>" . "\n" . 	
 				   "Name: {$this->stats->getStat(Stats::NAME)} \n" . 
 				   "Race: {$this->stats->getStat(Stats::RACE)} \n" . 

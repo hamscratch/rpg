@@ -183,6 +183,7 @@ class NPC extends Character {
 	}
 
 	public function characterInfo() {
+		$this->stats->updateTotalStats();
 		echo "<<< NPC Stats >>>" . "\n" . 	
 				   "Name: {$this->stats->getStat(Stats::NAME)} \n" . 
 				   "Race: {$this->stats->getStat(Stats::RACE)} \n" . 
