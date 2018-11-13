@@ -121,13 +121,13 @@ class Actions {
 	// (10/30)
 	public function rangedAttack($defender) {
 		$weapon = Items::getWeapon('Ranged');
-		$ammo = $this->stats->getStat(Stats::BACKPACK_ARROWS);
+		$ammo = $this->stats_ref->getStat(Stats::BACKPACK_ARROWS);
 		$weapon_damage = rand(1, $weapon['damage']);
-		$dex_check = $this->stats->getStat(Stats::DEX_TOTAL) + rand(1, 6);
+		$dex_check = $this->stats_ref->getStat(Stats::DEX_TOTAL) + rand(1, 6);
 		$defense_dex = $defender->stats->getStat(Stats::DEX_TOTAL);
 		$defender_hp = $defender->stats->getStat(Stats::HP_TOTAL);
 		$hp_result = $defender_hp - $weapon_damage;
-		$attacker_name = "{$this->stats->getStat(Stats::NAME)} the {$this->stats->getStat(Stats::CLASS_NAME)}";
+		$attacker_name = "{$this->stats_ref->getStat(Stats::NAME)} the {$this->stats_ref->getStat(Stats::CLASS_NAME)}";
 		$defender_name = "{$defender->stats->getStat(Stats::NAME)} the {$defender->stats->getStat(Stats::CLASS_NAME)}";
 		
 		if ($ammo >= 1) {
@@ -140,14 +140,14 @@ class Actions {
 			if ($result == self::RANGED_ATTACK_RESPONSES['hit'] ) {
 				$defender_text = self::DEFENSE_RESPONSES['hit'];
 				$new_ammo = ($ammo - 1);
-				$this->setStat(Stats::BACKPACK_ARROWS, $new_ammo);
+				$this->stats_ref->setStat(Stats::BACKPACK_ARROWS, $new_ammo);
 			} else {
 				$defender_text = self::DEFENSE_RESPONSES['miss'];
 			}
 			
 			if ($defender_text == self::DEFENSE_RESPONSES['hit']) {
 				$d_text = sprintf(self::DEFENSE_RESPONSES['hit'], $defender_name, $weapon_damage, $hp_result);
-				$defender->actions->setStat(Stats::HP, $hp_result);
+				$defender->stats->setStat(Stats::HP, $hp_result);
 					if ($weapon_damage > $defender_hp) {
 							$d_text = sprintf(self::DEFENSE_RESPONSES['dead'], $defender_name, $attacker_name);
 					}
@@ -189,7 +189,6 @@ class Actions {
 				$update = Items::getPotion(Stats::POTION_HEAL);
 				$hero_hp += $update['amount'];
 				$new_quantity = ($quantity - 1);
-				$health_potion = $this->stats_ref->potion_bag['Potions'][Stats::POTION_HEAL]['quantity'];
 				$this->stats_ref->setStat(Stats::HP_TOTAL, $hero_hp);
 				$this->stats_ref->setPotionQuantity(Stats::POTION_HEAL, $new_quantity);
 				echo "{$hero_name} drank a health potion.\n{$hero_name} now has {$hero_hp} hit points! \n" . "\n";
@@ -201,8 +200,8 @@ class Actions {
 				$update = Items::getPotion('Attack');
 				$hero_str += $update['amount'];
 				$new_quantity = ($quantity - 1);
-				$this->setStat(Stats::STR, $hero_str);
-				$this->setStat(Stats::POTION_ATK, $new_quantity);
+				$this->stats_ref->setStat(Stats::STR, $hero_str);
+				$this->stats_ref->setPotionQuantity(Stats::POTION_ATK, $new_quantity);
 				echo "{$hero_name} drank an attack potion.\n{$hero_name} now has {$hero_str} strength! \n" . "\n";
 			} else {
 				echo "{$hero_name} does not have any attack potions in their inventory." . "\n";
@@ -212,8 +211,8 @@ class Actions {
 				$update = Items::getPotion('Defense');
 				$hero_ac += $update['amount'];
 				$new_quantity = ($quantity - 1);
-				$this->setStat(Stats::AC, $hero_ac);
-				$this->setStat(Stats::POTION_DEF, $new_quantity);
+				$this->stats_ref->setStat(Stats::AC, $hero_ac);
+				$this->stats_ref->setPotionQuantity(Stats::POTION_DEF, $new_quantity);
 				echo "{$hero_name} drank a defense potion.\n{$hero_name} now has {$hero_ac} defense! \n" . "\n";
 			} else {
 				echo "{$hero_name} does not have any defense potions in their inventory." . "\n";
@@ -223,8 +222,8 @@ class Actions {
 				$update = Items::getPotion('Intelligence');
 				$hero_int += $update['amount'];
 				$new_quantity = ($quantity - 1);
-				$this->setStat(Stats::INT, $hero_int);
-				$this->setStat(Stats::POTION_INT, $new_quantity);
+				$this->stats_ref->setStat(Stats::INT, $hero_int);
+				$this->stats_ref->setPotionQuantity(Stats::POTION_INT, $new_quantity);
 				echo "{$hero_name} drank an intelligence potion.\n{$hero_name} now has {$hero_int} intelligence! \n" . "\n";
 			} else {
 				echo "{$hero_name} does not have any intelligence potions in their inventory." . "\n";
@@ -234,8 +233,8 @@ class Actions {
 				$update = Items::getPotion('Dexterity');
 				$hero_dex += $update['amount'];
 				$new_quantity = ($quantity - 1);
-				$this->setStat(Stats::DEX, $hero_dex);
-				$this->setStat(Stats::POTION_DEX, $new_quantity);
+				$this->stats_ref->setStat(Stats::DEX, $hero_dex);
+				$this->stats_ref->setPotionQuantity(Stats::POTION_DEX, $new_quantity);
 				echo "{$hero_name} drank a dexterity potion.\n{$hero_name} now has {$hero_dex} dexterity! \n" . "\n";
 			} else {
 				echo "{$hero_name} does not have any dexterity potions in their inventory." . "\n";
