@@ -121,7 +121,8 @@ class Actions {
 	// (10/30)
 	public function rangedAttack($defender) {
 		$weapon = Items::getWeapon('Ranged');
-		$ammo = $this->stats_ref->getStat(Stats::BACKPACK_ARROWS);
+		$backpack = $this->stats_ref->getStat(Stats::BACKPACK);
+		$ammo = $backpack['Arrows'];
 		$weapon_damage = rand(1, $weapon['damage']);
 		$dex_check = $this->stats_ref->getStat(Stats::DEX_TOTAL) + rand(1, 6);
 		$defense_dex = $defender->stats->getStat(Stats::DEX_TOTAL);
@@ -147,7 +148,7 @@ class Actions {
 			
 			if ($defender_text == self::DEFENSE_RESPONSES['hit']) {
 				$d_text = sprintf(self::DEFENSE_RESPONSES['hit'], $defender_name, $weapon_damage, $hp_result);
-				$defender->stats->setStat(Stats::HP, $hp_result);
+				$defender->stats->setStat(Stats::HP_TOTAL, $hp_result);
 					if ($weapon_damage > $defender_hp) {
 							$d_text = sprintf(self::DEFENSE_RESPONSES['dead'], $defender_name, $attacker_name);
 					}
@@ -156,7 +157,7 @@ class Actions {
 				$d_text = sprintf(self::DEFENSE_RESPONSES['miss'], $defender_name, $defender_hp);
 			}
 			
-			return $attack_message . "\n" . $d_text . "\n";
+			echo "{$attack_message}" . "\n" . "{$d_text}" . "\n";
 		} else {
 			echo "You do not have any arrows left. Try something else." . "\n";
 		}	
@@ -178,10 +179,10 @@ class Actions {
 	public function usePotion($type) {
 		$quantity = $this->stats_ref->potion_bag['Potions'][$type]['quantity'];
 		$hero_hp = $this->stats_ref->getStat(Stats::HP_TOTAL);
-		$hero_str = $this->stats_ref->getStat(Stats::STR_TOTAL);
-		$hero_ac = $this->stats_ref->getStat(Stats::AC_TOTAL);
-		$hero_int = $this->stats_ref->getStat(Stats::INT_TOTAL);
-		$hero_dex = $this->stats_ref->getStat(Stats::DEX_TOTAL);
+		$hero_str = $this->stats_ref->getStat(Stats::STR_BONUS_EFFECTS);
+		$hero_ac = $this->stats_ref->getStat(Stats::AC_BONUS_EFFECTS);
+		$hero_int = $this->stats_ref->getStat(Stats::INT_BONUS_EFFECTS);
+		$hero_dex = $this->stats_ref->getStat(Stats::DEX_BONUS_EFFECTS);
 		$hero_name = "{$this->stats_ref->getStat(Stats::NAME)} the {$this->stats_ref->getStat(Stats::CLASS_NAME)}";
 		
 		if ($type === Stats::POTION_HEAL) {
@@ -200,7 +201,7 @@ class Actions {
 				$update = Items::getPotion('Attack');
 				$hero_str += $update['amount'];
 				$new_quantity = ($quantity - 1);
-				$this->stats_ref->setStat(Stats::STR, $hero_str);
+				$this->stats_ref->setStat(Stats::STR_BONUS_EFFECTS, $hero_str);
 				$this->stats_ref->setPotionQuantity(Stats::POTION_ATK, $new_quantity);
 				echo "{$hero_name} drank an attack potion.\n{$hero_name} now has {$hero_str} strength! \n" . "\n";
 			} else {
@@ -211,7 +212,7 @@ class Actions {
 				$update = Items::getPotion('Defense');
 				$hero_ac += $update['amount'];
 				$new_quantity = ($quantity - 1);
-				$this->stats_ref->setStat(Stats::AC, $hero_ac);
+				$this->stats_ref->setStat(Stats::AC_BONUS_EFFECTS, $hero_ac);
 				$this->stats_ref->setPotionQuantity(Stats::POTION_DEF, $new_quantity);
 				echo "{$hero_name} drank a defense potion.\n{$hero_name} now has {$hero_ac} defense! \n" . "\n";
 			} else {
@@ -222,7 +223,7 @@ class Actions {
 				$update = Items::getPotion('Intelligence');
 				$hero_int += $update['amount'];
 				$new_quantity = ($quantity - 1);
-				$this->stats_ref->setStat(Stats::INT, $hero_int);
+				$this->stats_ref->setStat(Stats::INT_BONUS_EFFECTS, $hero_int);
 				$this->stats_ref->setPotionQuantity(Stats::POTION_INT, $new_quantity);
 				echo "{$hero_name} drank an intelligence potion.\n{$hero_name} now has {$hero_int} intelligence! \n" . "\n";
 			} else {
@@ -233,7 +234,7 @@ class Actions {
 				$update = Items::getPotion('Dexterity');
 				$hero_dex += $update['amount'];
 				$new_quantity = ($quantity - 1);
-				$this->stats_ref->setStat(Stats::DEX, $hero_dex);
+				$this->stats_ref->setStat(Stats::DEX_BONUS_EFFECTS, $hero_dex);
 				$this->stats_ref->setPotionQuantity(Stats::POTION_DEX, $new_quantity);
 				echo "{$hero_name} drank a dexterity potion.\n{$hero_name} now has {$hero_dex} dexterity! \n" . "\n";
 			} else {
