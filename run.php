@@ -26,11 +26,12 @@ echo "You have encountered {$villain->stats->getStat(Stats::NAME)}!" . "\n";
 combat($hero, $villain);
 
 function combat($hero, $villain) {
-    $action_responses = ['Attack', 'Defend', 'Potion', 'Info', 'Run'];
+    $action_responses = ['Attack', 'Defend', 'Potion', 'Spells', 'Info', 'Run'];
     $potion_options = ['Heal', 'Attack', 'Defense', 'Intelligence', 'Dexterity'];
     $attack_options = ['Melee', 'Ranged'];
+    $spell_options = ['Fireball', 'Heal', 'Armor', 'Quicken', 'Enrage'];
     while ($villain->stats->getStat(Stats::HP_TOTAL) >= 1) {
-        $action = getUserInput("<<< What would you like to do >>>\n" . "[Attack] [Defend] [Potion] [Info] [Run] \n", $action_responses);
+        $action = getUserInput("<<< What would you like to do >>>\n" . "[Attack] [Defend] [Potion] [Spells] [Info] [Run] \n", $action_responses);
 
         switch ($action) {
             case 'Attack':
@@ -73,6 +74,26 @@ function combat($hero, $villain) {
                     }
                 break;
             }
+            case 'Spells':
+                $spell = getUserInput("<<< What kind of spell? >>>\n" . "[Fireball] [Heal Wounds] [Magic Armor] [Quicken] [Enrage] \n", $spell_options);
+                    switch ($spell) {
+                        case 'Fireball':
+                            $hero->actions->castSpell(Items::SPELL_FIREBALL, $villain);
+                            break;
+                        case 'Heal':
+                            $hero->actions->castSpell(Items::SPELL_HEAL_WOUNDS, $hero);
+                            break;
+                        case 'Armor':
+                            $hero->actions->castSpell(Items::SPELL_MAGIC_ARMOR, $hero);
+                            break;
+                        case 'Quicken':
+                            $hero->actions->castSpell(Items::SPELL_QUICKEN, $hero);
+                            break;
+                        case 'Enrage':
+                            $hero->actions->castSpell(Items::SPELL_ENRAGE, $hero);
+                            break;
+                    }
+                break;
             case 'Info':
                 $hero->characterInfo();
                 combat($hero, $villain);

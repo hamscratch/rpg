@@ -255,66 +255,73 @@ class Actions {
 	// this needs general TLC and logic checks. always resistsing adding new spells. (10/30)
 	public function castSpell($type, $target) {
 		$spell = Items::getSpell($type);
-		$hero_name = "{$this->getStat(Stats::NAME)} the {$this->getStat(Stats::CLASS_NAME)}";
-		$hero_hp = $this->getStat(Stats::HP);
-		$hero_ac = $this->getStat(Stats::AC);
-		$hero_int = $this->getStat(Stats::INT);
-		$hero_str = $this->getStat(Stats::STR);
-		$hero_dex = $this->getStat(Stats::DEX);
+		$hero_name = "{$this->stats_ref->getStat(Stats::NAME)} the {$this->stats_ref->getStat(Stats::CLASS_NAME)}";
+		$hero_hp = $this->stats_ref->getStat(Stats::HP_TOTAL);
+		$hero_ac = $this->stats_ref->getStat(Stats::AC_TOTAL);
+		$hero_int = $this->stats_ref->getStat(Stats::INT_TOTAL);
+		$hero_str = $this->stats_ref->getStat(Stats::STR_TOTAL);
+		$hero_dex = $this->stats_ref->getStat(Stats::DEX_TOTAL);
 
-		$target_name = "{$target->actions->getStat(Stats::NAME)} the {$target->actions->getStat(Stats::CLASS_NAME)}";
-		$target_hp = $target->actions->getStat(Stats::HP_TOTAL);
-		$target_int = $target->actions->getStat(Stats::INT_TOTAL);
-		$int_check = $this->getStat(Stats::INT) + rand(1, 6);
-		if ($spell['name'] === "Fireball") {
-			$damage = rand(3, $spell['amount']);
-			$hp_result = $target->actions->getStat(Stats::HP) - $damage;
-			if ($int_check > $target_int) {
-				$result = self::SPELL_ATTACK_RESPONSES['fireball'];
-				$attack_message = sprintf(self::SPELL_ATTACK_RESPONSES['fireball'], $target_name, $hero_name, $damage);
-			} else {
-				$result = self::SPELL_ATTACK_RESPONSES['miss'];
-				$attack_message = sprintf(self::SPELL_ATTACK_RESPONSES['miss'], $target_name);
-			}
-			if ($result == self::SPELL_ATTACK_RESPONSES['fireball'] ) {
-				$defender_text = self::DEFENSE_RESPONSES['hit'];
-			} else {
-				$defender_text = self::DEFENSE_RESPONSES['miss'];
-			}
-				
-			if ($defender_text == self::DEFENSE_RESPONSES['hit']) {
-				$d_text = sprintf(self::DEFENSE_RESPONSES['hit'], $target_name, $damage, $hp_result);
-				$target->actions->setStat(Stats::HP, $hp_result);
-					if ($damage > $target_hp) {
-						$d_text = sprintf(self::DEFENSE_RESPONSES['dead'], $target_name, $hero_name);
-					}
-			}
-			if ($defender_text == self::DEFENSE_RESPONSES['miss']) {
-				$d_text = sprintf(self::DEFENSE_RESPONSES['miss'], $target_name, $target_hp);
-			}
-			echo $attack_message . "\n" . $d_text . "\n";
-		} else if ($spell['name'] === "Heal Wounds") {
-			$boost = $spell['amount'];
-			$hero_hp += $boost;
-			$this->setStat(Stats::HP, $hero_hp);
-			echo "{$hero_name} weaves bright light together and heals {$boost} hit points. \n{$hero_name} now has {$hero_hp} hit points!";
-		} else if ($spell['name'] === "Magic Armor") {
-			$boost = $spell['amount'];
-			$hero_ac += $boost;
-			$this->setStat(Stats::AC, $hero_ac);
-			echo "{$hero_name} weaves mystic runes together and shields themsevles for {$boost} extra armor. \n{$hero_name} now has {$hero_ac} defense!";
-		} else if ($spell['name'] === "Quicken") {
-			$boost = $spell['amount'];
-			$hero_dex += $boost;
-			$this->setStat(Stats::DEX, $hero_dex);
-			echo "{$hero_name} weaves mystic runes together and shields themsevles for {$boost} extra armor. \n{$hero_name} now has {$hero_dex} dexterity!";
-		} else if ($spell['name'] === "Enrage") {
-			$boost = $spell['amount'];
-			$hero_str += $boost;
-			$this->setStat(Stats::STR, $hero_str);
-			echo "{$hero_name} weaves mystic runes together and shields themsevles for {$boost} extra armor. \n{$hero_name} now has {$hero_str} strength!";
-		} else {
-			echo "Error: '{$type}' is not a valid entry for castSpell. Check your spelling!" . "\n";
+		$target_name = "{$target->stats->getStat(Stats::NAME)} the {$target->stats->getStat(Stats::CLASS_NAME)}";
+		$target_hp = $target->stats->getStat(Stats::HP_TOTAL);
+		$target_int = $target->stats->getStat(Stats::INT_TOTAL);
+		$int_check = $this->stats_ref->getStat(Stats::INT_TOTAL) + rand(1, 6);
+
+		switch ($spell['name']) {
+			case Items::SPELL_FIREBALL:
+				$damage = rand(3, $spell['amount']);
+				$hp_result = $target->stats->getStat(Stats::HP_TOTAL) - $damage;
+				if ($int_check > $target_int) {
+					$result = self::SPELL_ATTACK_RESPONSES['fireball'];
+					$attack_message = sprintf(self::SPELL_ATTACK_RESPONSES['fireball'], $target_name, $hero_name, $damage);
+				} else {
+					$result = self::SPELL_ATTACK_RESPONSES['miss'];
+					$attack_message = sprintf(self::SPELL_ATTACK_RESPONSES['miss'], $target_name);
+				} if ($result == self::SPELL_ATTACK_RESPONSES['fireball'] ) {
+					$defender_text = self::DEFENSE_RESPONSES['hit'];
+				} else {
+					$defender_text = self::DEFENSE_RESPONSES['miss'];
+				}
+					
+				if ($defender_text == self::DEFENSE_RESPONSES['hit']) {
+					$d_text = sprintf(self::DEFENSE_RESPONSES['hit'], $target_name, $damage, $hp_result);
+					$target->actions->setStat(Stats::HP, $hp_result);
+						if ($damage > $target_hp) {
+							$d_text = sprintf(self::DEFENSE_RESPONSES['dead'], $target_name, $hero_name);
+						}
+				}
+				if ($defender_text == self::DEFENSE_RESPONSES['miss']) {
+					$d_text = sprintf(self::DEFENSE_RESPONSES['miss'], $target_name, $target_hp);
+				}
+				echo $attack_message . "\n" . $d_text . "\n";
+				break;
+			case Items::SPELL_HEAL_WOUNDS:
+				$boost = $spell['amount'];
+				$hero_hp += $boost;
+				$this->stats_ref->setStat(Stats::HP_TOTAL, $hero_hp);
+				echo "{$hero_name} weaves bright light together and heals {$boost} hit points. \n{$hero_name} now has {$hero_hp} hit points!";
+				break;
+			case Items::SPELL_MAGIC_ARMOR:
+				$boost = $spell['amount'];
+				$hero_ac += $boost;
+				$this->stats_ref->setStat(Stats::AC_BONUS_EFFECTS, $hero_ac);
+				echo "{$hero_name} weaves mystic runes together and shields themsevles for {$boost} extra armor. \n{$hero_name} now has {$hero_ac} defense!";
+				break;
+			case Items::SPELL_QUICKEN:
+				$boost = $spell['amount'];
+				$hero_dex += $boost;
+				$this->stats_ref->setStat(Stats::DEX_BONUS_EFFECTS, $hero_dex);
+				echo "{$hero_name} weaves mystic runes together and shields themsevles for {$boost} extra armor. \n{$hero_name} now has {$hero_dex} dexterity!";
+				break;
+			case Items::SPELL_ENRAGE:
+				$boost = $spell['amount'];
+				$hero_str += $boost;
+				$this->stats_ref->setStat(Stats::STR_BONUS_EFFECTS, $hero_str);
+				echo "{$hero_name} weaves mystic runes together and shields themsevles for {$boost} extra armor. \n{$hero_name} now has {$hero_str} strength!";
+				break;
+			default:
+				echo "Error: '{$type}' is not a valid entry for castSpell. Check your spelling!" . "\n";
+
 		}
 	}	
 }

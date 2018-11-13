@@ -2,6 +2,12 @@
 
 
 class Items {
+    const SPELL_FIREBALL = 'Fireball';
+    const SPELL_HEAL_WOUNDS = 'Heal';
+    const SPELL_MAGIC_ARMOR = 'Armor';
+    const SPELL_QUICKEN = 'Quicken';
+    const SPELL_ENRAGE = 'Enrage';
+
     const WEAPONS = [
         'short_sword' => [
             'name' => 'Short Sword',
@@ -158,21 +164,7 @@ class Items {
         return $potion;
     }
     static function getSpell($type) {
-        if ($type === 'fireball') {
-            $spell = self::SPELLS['fireball'];
-        } else if ($type === 'heal_wounds') {
-            $spell = self::SPELLS['heal_wounds'];
-        } else if ($type === 'magic_armor') {
-            $spell = self::SPELLS['magic_armor'];
-        } else if ($type === 'dispell') {
-            $spell = self::SPELLS['dispell'];
-        } else if ($type ==='quicken') {
-            $spell = self::SPELLS['quicken'];
-        } else if ($type === 'enrage') {
-            $spell = self::SPELLS['enrage'];
-        } else {
-            echo "Error: '{$type}' is not a valid entry for getSpell. Check your spelling!" . "\n";
-        }
+        $spell = self::SPELLS[$type];
         return $spell;
     }
 }
