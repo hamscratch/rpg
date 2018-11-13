@@ -255,15 +255,16 @@ class Actions {
 	// this needs general TLC and logic checks. always resistsing adding new spells. (10/30)
 	public function castSpell($type, $target) {
 		$spell = Items::getSpell($type);
-		$hero_name = "{$this->getStat(Stats::NAME)} the {$this->getStat(Stats::CLASS_NAME)}"; 
+		$hero_name = "{$this->getStat(Stats::NAME)} the {$this->getStat(Stats::CLASS_NAME)}";
 		$hero_hp = $this->getStat(Stats::HP);
 		$hero_ac = $this->getStat(Stats::AC);
 		$hero_int = $this->getStat(Stats::INT);
 		$hero_str = $this->getStat(Stats::STR);
 		$hero_dex = $this->getStat(Stats::DEX);
+
 		$target_name = "{$target->actions->getStat(Stats::NAME)} the {$target->actions->getStat(Stats::CLASS_NAME)}";
-		$target_hp = $target->actions->getStat(Stats::HP);
-		$target_int = $target->actions->getStat(Stats::INT);
+		$target_hp = $target->actions->getStat(Stats::HP_TOTAL);
+		$target_int = $target->actions->getStat(Stats::INT_TOTAL);
 		$int_check = $this->getStat(Stats::INT) + rand(1, 6);
 		if ($spell['name'] === "Fireball") {
 			$damage = rand(3, $spell['amount']);
