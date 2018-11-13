@@ -25,9 +25,9 @@ $villain->characterInfo();
 
 
 echo "You have encountered {$villain->stats->getStat(Stats::NAME)}!" . "\n";
-combat($hero, $villain);
+combat($hero, $villain, $action_responses);
 
-function combat($hero, $villain) {
+function combat($hero, $villain, $action_responses) {
 	while ($villain->stats->getStat(Stats::HP_TOTAL) >= 1) {
 		$action = getUserInput("<<< What would you like to do >>>\n" . "[Attack] [Defend] [Potion] [Info] [Run] \n", $action_responses);
 
