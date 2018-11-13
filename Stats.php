@@ -108,6 +108,10 @@ class Stats {
 		$this->potion_bag['Potions'][$potion]['quantity'] = $new_quantity;
 	}
 
+	public function setArrowQuantity($new_quantity) {
+		$this->backpack['Arrows'] = $new_quantity;
+	}
+
 	/** Sets a new value of a stat.
 	* 
 	* @param string $stat_string - use the constants above

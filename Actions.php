@@ -141,7 +141,7 @@ class Actions {
 			if ($result == self::RANGED_ATTACK_RESPONSES['hit'] ) {
 				$defender_text = self::DEFENSE_RESPONSES['hit'];
 				$new_ammo = ($ammo - 1);
-				$this->stats_ref->setStat(Stats::BACKPACK_ARROWS, $new_ammo);
+				$this->stats_ref->setArrowQuantity($new_ammo);
 			} else {
 				$defender_text = self::DEFENSE_RESPONSES['miss'];
 			}
@@ -202,8 +202,10 @@ class Actions {
 				$hero_str += $update['amount'];
 				$new_quantity = ($quantity - 1);
 				$this->stats_ref->setStat(Stats::STR_BONUS_EFFECTS, $hero_str);
+				$this->stats_ref->updateTotalStats();
+				$new_str = $this->stats_ref->getStat(tats::STR_TOTAL);
 				$this->stats_ref->setPotionQuantity(Stats::POTION_ATK, $new_quantity);
-				echo "{$hero_name} drank an attack potion.\n{$hero_name} now has {$hero_str} strength! \n" . "\n";
+				echo "{$hero_name} drank an attack potion.\n{$hero_name} now has {$new_str} strength! \n" . "\n";
 			} else {
 				echo "{$hero_name} does not have any attack potions in their inventory." . "\n";
 			}
@@ -213,8 +215,10 @@ class Actions {
 				$hero_ac += $update['amount'];
 				$new_quantity = ($quantity - 1);
 				$this->stats_ref->setStat(Stats::AC_BONUS_EFFECTS, $hero_ac);
+				$this->stats_ref->updateTotalStats();
+				$new_ac = $this->stats_ref->getStat(Stats::AC_TOTAL);
 				$this->stats_ref->setPotionQuantity(Stats::POTION_DEF, $new_quantity);
-				echo "{$hero_name} drank a defense potion.\n{$hero_name} now has {$hero_ac} defense! \n" . "\n";
+				echo "{$hero_name} drank a defense potion.\n{$hero_name} now has {$new_ac} defense! \n" . "\n";
 			} else {
 				echo "{$hero_name} does not have any defense potions in their inventory." . "\n";
 			}
@@ -224,8 +228,10 @@ class Actions {
 				$hero_int += $update['amount'];
 				$new_quantity = ($quantity - 1);
 				$this->stats_ref->setStat(Stats::INT_BONUS_EFFECTS, $hero_int);
+				$this->stats_ref->updateTotalStats();
+				$new_int = $this->stats_ref->getStat(Stats::INT_TOTAL);
 				$this->stats_ref->setPotionQuantity(Stats::POTION_INT, $new_quantity);
-				echo "{$hero_name} drank an intelligence potion.\n{$hero_name} now has {$hero_int} intelligence! \n" . "\n";
+				echo "{$hero_name} drank an intelligence potion.\n{$hero_name} now has {$new_int} intelligence! \n" . "\n";
 			} else {
 				echo "{$hero_name} does not have any intelligence potions in their inventory." . "\n";
 			}
@@ -235,8 +241,10 @@ class Actions {
 				$hero_dex += $update['amount'];
 				$new_quantity = ($quantity - 1);
 				$this->stats_ref->setStat(Stats::DEX_BONUS_EFFECTS, $hero_dex);
+				$this->stats_ref->updateTotalStats();
+				$new_dex = $this->stats_ref->getStat(Stats::DEX_TOTAL);
 				$this->stats_ref->setPotionQuantity(Stats::POTION_DEX, $new_quantity);
-				echo "{$hero_name} drank a dexterity potion.\n{$hero_name} now has {$hero_dex} dexterity! \n" . "\n";
+				echo "{$hero_name} drank a dexterity potion.\n{$hero_name} now has {$new_dex} dexterity! \n" . "\n";
 			} else {
 				echo "{$hero_name} does not have any dexterity potions in their inventory." . "\n";
 			}
