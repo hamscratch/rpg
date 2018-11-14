@@ -2,28 +2,28 @@
 
 class Actions {
     const MELEE_ATTACK_RESPONSES = [
-    'hit' => "%s swings and hits %s for %s damage."  . "\n",
-    'magic_message' => "%s is a magical being and cannot be harmed by %s's weapon."  . "\n",
-    'crit_hit' => 'currently not using.',
-    'miss' => '%s swung and missed %s.'  . "\n",
+    'hit' => "%s swings and hits %s for %s damage.\n",
+    'magic_message' => "%s is a magical being and cannot be harmed by %s's weapon.\n",
+    'crit_hit' => "currently not using.\n",
+    'miss' => "%s swung and missed %s.\n",
     ];
     const RANGED_ATTACK_RESPONSES = [
-    'hit' => "%s shoots an arrow into %s"  . "\n",
-    'magic_hit' => 'currently not using'  . "\n",
+    'hit' => "%s shoots an arrow into %s\n",
+    'magic_hit' => "currently not using\n",
     'crit_hit' => 'currently not using',
     'miss' => "%s's arrow soars past %s"  . "\n",
     ];
     const SPELL_ATTACK_RESPONSES = [
-    'fireball' => "%s was blasted with a fireball by %s for %s damage" . "\n",
-    'hit' => "You swing and hit %s for %s damage."  . "\n",
-    'crit_hit' => 'You crush your enemy for a lot of damage.'  . "\n",
+    'fireball' => "%s was blasted with a fireball by %s for %s damage\n",
+    'hit' => "You swing and hit %s for %s damage.\n",
+    'crit_hit' => "You crush your enemy for a lot of damage.\n",
     'miss' => 'You missed your target.',
-    'crit_miss' => 'You miss so bad your weapon laughs at you.'  . "\n",
+    'crit_miss' => "You miss so bad your weapon laughs at you.\n",
     ];
     const DEFENSE_RESPONSES = [
-    'hit' => "%s has %s hit points left."  . "\n",
-    'miss' => "%s still has %s hit points left."  . "\n",
-    'dead' => "%s has been slain by %s."  . "\n",
+    'hit' => "%s has %s hit points left.\n",
+    'miss' => "%s still has %s hit points left.\n",
+    'dead' => "%s has been slain by %s.\n",
     ];
     
     public function initStatsRef(&$stats_ref) {
@@ -39,14 +39,14 @@ class Actions {
                 $this->stats->setStat($type, $item_name);
                 $this->stats->setStat(Stats::BACKPACK_MELEE, '');
             } else {
-                echo "You do no have {$item_name} in your backpack";
+                echo "You do no have {$item_name} in your backpack\n";
             }
         } else if ($type === Stats::EQUIPPED_RANGED) {
             if ($item_name === $backpack['Ranged Weapon']) {
                 $this->stats->setStat($type, $item_name);
                 $this->stats->setStat(Stats::BACKPACK_RANGED, '');
             } else {
-                echo "You do no have {$item_name} in your backpack";
+                echo "You do no have {$item_name} in your backpack\n";
             }
         } else if ($type === Stats::EQUIPPED_ARMOR) {
             if ($item_name === $backpack['Armor']) {
@@ -55,20 +55,20 @@ class Actions {
                 $this->stats->setStat(Stats::AC_BONUS_ITEMS, $armor_ac['armor']);
                 $this->stats->setStat(Stats::BACKPACK_ARMOR, '');
             } else {
-                echo "You do no have {$item_name} in your backpack";
+                echo "You do no have {$item_name} in your backpack\n";
             }
         } else {
-            echo "Error: '{$type}' is not a valid entry for equip. Check your spelling!" . "\n";
+            echo "Error: '{$type}' is not a valid entry for equip. Check your spelling!\n";
         }
     } 
 
     public function getItemInfo($type) {
         if ($type === "Melee") {
             $name = Items::getWeapon('Melee');
-            echo "Item Information: \n" . "Weapon Name: {$name['name']} \n" . "Damage: 1-{$name['damage']} \n" . "Description: {$name['description']} \n" . "\n";
+            echo "Item Information: \n" . "Weapon Name: {$name['name']} \n" . "Damage: 1-{$name['damage']} \n" . "Description: {$name['description']} \n";
         } else if ($type === "Ranged") {
             $name = Items::getWeapon('Ranged');
-            echo "Item Information: \n" . "Weapon Name: {$name['name']} \n" . "Damage: 1-{$name['damage']} \n" . "Description: {$name['description']} \n" . "\n";
+            echo "Item Information: \n" . "Weapon Name: {$name['name']} \n" . "Damage: 1-{$name['damage']} \n" . "Description: {$name['description']} \n";
         }
     }
 
@@ -125,7 +125,7 @@ class Actions {
         if ($ammo >= 1) {
             if ($dex_check > $defense_dex) {
                 if ($defender_magic_status == true) {
-                    if ($magic_weapon == true) {
+                    if ($magic_ammo == true) {
                         $defender->stats->setStat(Stats::HP_TOTAL, $hp_result);
                         echo "successful hit message with magic arrow!\n";
                     } else {
@@ -137,7 +137,7 @@ class Actions {
                 }
             }
         } else {
-            echo "You do not have any arrows left. Try something else." . "\n";
+            echo "You do not have any arrows left. Try something else.\n";
         }  
     }
 
@@ -147,7 +147,7 @@ class Actions {
         $this->stats_ref->setStat(Stats::AC_TEMP, $new_ac); 
         $boosted_ac = $new_ac + $this->stats_ref->getStat(Stats::AC_TOTAL);
 
-        echo "{$this->stats_ref->getStat(Stats::NAME)} gets into a defesive stance." . "\n" . "{$this->stats_ref->getStat(Stats::NAME)}'s defense has been boosted by {$defend_roll} and is now {$boosted_ac}\n" . "\n";
+        echo "{$this->stats_ref->getStat(Stats::NAME)} gets into a defesive stance.\n{$this->stats_ref->getStat(Stats::NAME)}'s defense has been boosted by {$defend_roll} and is now {$boosted_ac}\n";
     }
 
     public function usePotion($type) {
@@ -166,9 +166,9 @@ class Actions {
                 $new_quantity = ($quantity - 1);
                 $this->stats_ref->setStat(Stats::HP_TOTAL, $hero_hp);
                 $this->stats_ref->setPotionQuantity(Stats::POTION_HEAL, $new_quantity);
-                echo "{$hero_name} drank a health potion.\n{$hero_name} now has {$hero_hp} hit points! \n" . "\n";
+                echo "{$hero_name} drank a health potion.\n{$hero_name} now has {$hero_hp} hit points! \n";
             } else {
-                echo "{$hero_name} does not have any health potions in their inventory." . "\n";
+                echo "{$hero_name} does not have any health potions in their inventory.\n";
             }
         } else if ($type === Stats::POTION_ATK) {
             if ($quantity >= 1) {
@@ -179,9 +179,9 @@ class Actions {
                 $this->stats_ref->updateTotalStats();
                 $new_str = $this->stats_ref->getStat(tats::STR_TOTAL);
                 $this->stats_ref->setPotionQuantity(Stats::POTION_ATK, $new_quantity);
-                echo "{$hero_name} drank an attack potion.\n{$hero_name} now has {$new_str} strength! \n" . "\n";
+                echo "{$hero_name} drank an attack potion.\n{$hero_name} now has {$new_str} strength! \n";
             } else {
-                echo "{$hero_name} does not have any attack potions in their inventory." . "\n";
+                echo "{$hero_name} does not have any attack potions in their inventory.\n";
             }
         } else if ($type === Stats::POTION_DEF) {
             if ($quantity >= 1) {
@@ -192,9 +192,9 @@ class Actions {
                 $this->stats_ref->updateTotalStats();
                 $new_ac = $this->stats_ref->getStat(Stats::AC_TOTAL);
                 $this->stats_ref->setPotionQuantity(Stats::POTION_DEF, $new_quantity);
-                echo "{$hero_name} drank a defense potion.\n{$hero_name} now has {$new_ac} defense! \n" . "\n";
+                echo "{$hero_name} drank a defense potion.\n{$hero_name} now has {$new_ac} defense! \n";
             } else {
-                echo "{$hero_name} does not have any defense potions in their inventory." . "\n";
+                echo "{$hero_name} does not have any defense potions in their inventory.\n";
             }
         } else if ($type === Stats::POTION_INT) {
             if ($quantity >= 1) {
@@ -205,9 +205,9 @@ class Actions {
                 $this->stats_ref->updateTotalStats();
                 $new_int = $this->stats_ref->getStat(Stats::INT_TOTAL);
                 $this->stats_ref->setPotionQuantity(Stats::POTION_INT, $new_quantity);
-                echo "{$hero_name} drank an intelligence potion.\n{$hero_name} now has {$new_int} intelligence! \n" . "\n";
+                echo "{$hero_name} drank an intelligence potion.\n{$hero_name} now has {$new_int} intelligence! \n";
             } else {
-                echo "{$hero_name} does not have any intelligence potions in their inventory." . "\n";
+                echo "{$hero_name} does not have any intelligence potions in their inventory.\n";
             }
         } else if ($type === Stats::POTION_DEX) {
             if ($quantity >= 1) {
@@ -218,12 +218,12 @@ class Actions {
                 $this->stats_ref->updateTotalStats();
                 $new_dex = $this->stats_ref->getStat(Stats::DEX_TOTAL);
                 $this->stats_ref->setPotionQuantity(Stats::POTION_DEX, $new_quantity);
-                echo "{$hero_name} drank a dexterity potion.\n{$hero_name} now has {$new_dex} dexterity! \n" . "\n";
+                echo "{$hero_name} drank a dexterity potion.\n{$hero_name} now has {$new_dex} dexterity! \n";
             } else {
-                echo "{$hero_name} does not have any dexterity potions in their inventory." . "\n";
+                echo "{$hero_name} does not have any dexterity potions in their inventory.\n";
             }
         } else {
-            echo "Error: '{$type}' is not a valid entry for usePotion. Check your spelling!" . "\n";
+            echo "Error: '{$type}' is not a valid entry for usePotion. Check your spelling!\n";
         }
     }
 
@@ -248,45 +248,45 @@ class Actions {
 
                 if ($int_check > $target_int) {
                     $target->stats->setStat(Stats::HP, $hp_result);
-                    echo "some kind of successful fireball hit message" . "\n";
+                    echo "some kind of successful fireball hit message\n";
                 } else {
-                    echo "some kind of miss fireball message" . "\n";
+                    echo "some kind of miss fireball message\n";
                 }
                 break;
             case Items::SPELL_HEAL_WOUNDS:
                 $boost = $spell['amount'];
                 $hero_hp += $boost;
                 $this->stats_ref->setStat(Stats::HP_TOTAL, $hero_hp);
-                echo "{$hero_name} weaves bright light together and heals {$boost} hit points. \n{$hero_name} now has {$hero_hp} hit points!" . "\n";
+                echo "{$hero_name} weaves bright light together and heals {$boost} hit points. \n{$hero_name} now has {$hero_hp} hit points!\n";
                 break;
             case Items::SPELL_MAGIC_ARMOR:
                 $boost = $spell['amount'];
                 $hero_ac += $boost;
                 $this->stats_ref->setStat(Stats::AC_BONUS_EFFECTS, $hero_ac);
                 $this->stats_ref->updateTotalStats();
-                echo "{$hero_name} weaves mystic runes together and shields themsevles for {$boost} extra armor. \n{$hero_name} now has {$hero_ac} defense!" . "\n";
+                echo "{$hero_name} weaves mystic runes together and shields themsevles for {$boost} extra armor. \n{$hero_name} now has {$hero_ac} defense!\n";
                 break;
             case Items::SPELL_DISPELL:
                 $target->stats->resetBonusEffectsStats();
                 $target->stats->updateTotalStats();
-                echo "{$hero_name} weaves dark whispers together that invade {$target_name}'s senses. \n {$target_name} loses all effect bonuses." . "\n";
+                echo "{$hero_name} weaves dark whispers together that invade {$target_name}'s senses. \n{$target_name} loses all effect bonuses.\n";
                 break;
             case Items::SPELL_QUICKEN:
                 $boost = $spell['amount'];
                 $hero_dex += $boost;
                 $this->stats_ref->setStat(Stats::DEX_BONUS_EFFECTS, $hero_dex);
                 $this->stats_ref->updateTotalStats();
-                echo "{$hero_name} weaves mystic runes together and shields themsevles for {$boost} extra armor. \n{$hero_name} now has {$hero_dex} dexterity!" . "\n";
+                echo "{$hero_name} weaves mystic runes together and shields themsevles for {$boost} extra armor. \n{$hero_name} now has {$hero_dex} dexterity!\n";
                 break;
             case Items::SPELL_ENRAGE:
                 $boost = $spell['amount'];
                 $hero_str += $boost;
                 $this->stats_ref->setStat(Stats::STR_BONUS_EFFECTS, $hero_str);
                 $this->stats_ref->updateTotalStats();
-                echo "{$hero_name} weaves mystic runes together and shields themsevles for {$boost} extra armor. \n{$hero_name} now has {$hero_str} strength!" . "\n";
+                echo "{$hero_name} weaves mystic runes together and shields themsevles for {$boost} extra armor. \n{$hero_name} now has {$hero_str} strength!\n";
                 break;
             default:
-                echo "Error: '{$type}' is not a valid entry for castSpell. Check your spelling!" . "\n";
+                echo "Error: '{$type}' is not a valid entry for castSpell. Check your spelling!\n";
 
         }
     }   
