@@ -3,8 +3,9 @@
 
 class Items {
     const SPELL_FIREBALL = 'Fireball';
-    const SPELL_HEAL_WOUNDS = 'Heal';
-    const SPELL_MAGIC_ARMOR = 'Armor';
+    const SPELL_HEAL_WOUNDS = 'Heal Wounds';
+    const SPELL_MAGIC_ARMOR = 'Magic Armor';
+    const SPELL_DISPELL = 'Dispell';
     const SPELL_QUICKEN = 'Quicken';
     const SPELL_ENRAGE = 'Enrage';
 
@@ -94,32 +95,32 @@ class Items {
         ],
     ];
     const SPELLS = [
-        'fireball' => [
+        'Fireball' => [
             'name' => "Fireball",
             'amount' => 8,
             'description' => "A ball of fire. Duh."
         ],
-        'heal_wounds' => [
+        'Heal Wounds' => [
             'name' => "Heal Wounds",
             'amount' => 10,
             'description' => "Weaving light to restore some health."
         ],
-        'magic_armor' => [
+        'Magic Armor' => [
             'name' => "Magic Armor",
             'amount' => 5,
             'description' => "Mystical runes surround the caster and boost their armor."
         ],
-        'dispell' => [
+        'Dispell' => [
             'name' => "Dispell",
             'amount' => -5,
             'description' => "Removes enchancements from an opponent."
         ],
-        'quicken' => [
+        'Quicken' => [
             'name' => "Quicken",
             'amount' => 5,
             'description' => "Magic courses through your veins as your feel yourself get quicker."
         ],
-        'enrage' => [
+        'Enrage' => [
             'name' => "Enrage",
             'amount' => 5,
             'description' => "Magic courses through your veins as your feel yourself get stronger."

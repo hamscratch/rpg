@@ -26,12 +26,12 @@ echo "You have encountered {$villain->stats->getStat(Stats::NAME)}!" . "\n";
 combat($hero, $villain);
 
 function combat($hero, $villain) {
-    $action_responses = ['Attack', 'Defend', 'Potion', 'Spells', 'Info', 'Run'];
-    $potion_options = ['Heal', 'Attack', 'Defense', 'Intelligence', 'Dexterity'];
-    $attack_options = ['Melee', 'Ranged'];
-    $spell_options = ['Fireball', 'Heal', 'Armor', 'Quicken', 'Enrage'];
+    $action_responses = ['Attack', 'Defend', 'Potion', 'Cast Spell', 'Info', 'Run'];
+    $potion_options = ['Heal', 'Attack', 'Defense', 'Intelligence', 'Dexterity', 'Back'];
+    $attack_options = ['Melee', 'Ranged', 'Back'];
+    $spell_options = ['Fireball', 'Heal Wounds', 'Magic Armor', 'Dispell', 'Quicken', 'Enrage', 'Back'];
     while ($villain->stats->getStat(Stats::HP_TOTAL) >= 1) {
-        $action = getUserInput("<<< What would you like to do >>>\n" . "[Attack] [Defend] [Potion] [Spells] [Info] [Run] \n", $action_responses);
+        $action = getUserInput("<<< What would you like to do >>>\n" . "[Attack] [Defend] [Potion] [Cast Spell] [Info] [Run] \n", $action_responses);
 
         switch ($action) {
             case 'Attack':
@@ -43,6 +43,8 @@ function combat($hero, $villain) {
                         case 'Ranged':
                             $hero->actions->rangedAttack($villain);
                             break;
+                        case 'Back':
+                            combat($hero, $villain);
                     }
                 break;
             case 'Defend':
@@ -71,27 +73,33 @@ function combat($hero, $villain) {
                             $hero->actions->usePotion(Stats::POTION_DEX);
                             $hero->stats->updateTotalStats();
                             break;
+                        case 'Back':
+                            combat($hero, $villain);
                     }
                 break;
             }
-            case 'Spells':
-                $spell = getUserInput("<<< What kind of spell? >>>\n" . "[Fireball] [Heal Wounds] [Magic Armor] [Quicken] [Enrage] \n", $spell_options);
+            case 'Cast Spell':
+                $spell = getUserInput("<<< What kind of spell? >>>\n" . "[Fireball] [Heal Wounds] [Magic Armor] [Dispell] [Quicken] [Enrage] \n", $spell_options);
                     switch ($spell) {
                         case 'Fireball':
                             $hero->actions->castSpell(Items::SPELL_FIREBALL, $villain);
                             break;
-                        case 'Heal':
+                        case 'Heal Wounds':
                             $hero->actions->castSpell(Items::SPELL_HEAL_WOUNDS, $hero);
                             break;
-                        case 'Armor':
+                        case 'Magic Armor':
                             $hero->actions->castSpell(Items::SPELL_MAGIC_ARMOR, $hero);
                             break;
+                        case 'Dispell':
+                            $hero->actions->castSpell(Itmes::SPELL_DISPELL, $villain);
                         case 'Quicken':
                             $hero->actions->castSpell(Items::SPELL_QUICKEN, $hero);
                             break;
                         case 'Enrage':
                             $hero->actions->castSpell(Items::SPELL_ENRAGE, $hero);
                             break;
+                        case 'Back':
+                            combat($hero, $villain);
                     }
                 break;
             case 'Info':
@@ -147,7 +155,7 @@ function getUserInput(string $prompt, $valid_options = NULL) {
     echo "{$prompt}";
     $input = fopen("php://stdin","r");
     $input_line = trim(fgets($input));
-    $corrected_input = ucfirst($input_line);
+    $corrected_input = ucwords($input_line);
 
     if ($valid_options === NULL) {
         return $corrected_input;

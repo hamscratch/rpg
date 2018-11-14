@@ -4,6 +4,7 @@ class Stats {
     const NAME = 'name';
     const RACE = 'race';
     const CLASS_NAME = 'class';
+    const IS_MAGIC = 'is_magic';
     const HP_TOTAL = 'hp_total';    
     const HP_MAX = 'hp_max';
     const AC_BASE = 'ac_base';
@@ -46,6 +47,7 @@ class Stats {
     public $name;
     public $race;
     public $class;
+    public $is_magic;
     public $hp_total;
     public $hp_max;
     public $ac_base;
@@ -147,6 +149,15 @@ class Stats {
         $this->updateTotalStats();
     }
 
+    public function resetBonusEffectsStats() {
+    	$this->setStat(self::AC_BONUS_EFFECTS, 0);
+        $this->setStat(self::STR_BONUS_EFFECTS, 0);
+        $this->setStat(self::DEX_BONUS_EFFECTS, 0);
+        $this->setStat(self::INT_BONUS_EFFECTS, 0);
+
+        $this->updateTotalStats();
+    }
+
     /** Sets all initial stats
     * 
     * @param string $character - Right now, it's either 'Hero' or 'NPC'. will eventually assign some constants
@@ -155,6 +166,7 @@ class Stats {
     */
     public function setClassStats(string $character, string $class_name) {
         $this->setStat(self::CLASS_NAME, $character::CLASSES[$class_name][Stats::CLASS_NAME]);
+        $this->setStat(self::IS_MAGIC, $character::CLASSES[$class_name][Stats::IS_MAGIC]);
         $this->setStat(self::HP_TOTAL, $character::CLASSES[$class_name][Stats::HP_TOTAL]);
         $this->setStat(self::HP_MAX, $character::CLASSES[$class_name][Stats::HP_MAX]);
         $this->setStat(self::AC_BASE, $character::CLASSES[$class_name][Stats::AC_BASE]);
