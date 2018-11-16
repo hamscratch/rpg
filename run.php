@@ -6,10 +6,10 @@ $hero = new Hero;
 $villain = new NPC;
 $dungeon = new DungeonMaker;
 
-var_dump($dungeon->dungeon_name);
+//var_dump($dungeon->dungeon_name);
 $dungeon->makeNPC($dungeon->room_3);
 $npc_name = $dungeon->named_npc->stats->name;
-echo $npc_name . "\n";
+//echo $npc_name . "\n";
 
 
 $name = getUserInput("What is your name? \n");

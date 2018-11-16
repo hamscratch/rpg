@@ -247,7 +247,7 @@ class Actions {
                 $hp_result = $target->stats->getStat(Stats::HP_TOTAL) - $damage;
 
                 if ($int_check > $target_int) {
-                    $target->stats->setStat(Stats::HP, $hp_result);
+                    $target->stats->setStat(Stats::HP_TOTAL, $hp_result);
                     echo "some kind of successful fireball hit message\n";
                 } else {
                     echo "some kind of miss fireball message\n";
