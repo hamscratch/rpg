@@ -26,20 +26,23 @@ echo "You have encountered {$villain->stats->getStat(Stats::NAME)}!" . "\n";
 combat($hero, $villain);
 
 function combat($hero, $villain) {
-    $action_responses = ['Attack', 'Defend', 'Potion', 'Cast Spell', 'Info', 'Run'];
+    $action_responses = ['A', 'D', 'P', 'C', 'I', 'Attack', 'Defend', 'Potion', 'Cast Spell', 'Info', 'Run'];
     $potion_options = ['Heal', 'Attack', 'Defense', 'Intelligence', 'Dexterity', 'Back'];
-    $attack_options = ['Melee', 'Ranged', 'Back'];
+    $attack_options = ['M', 'Melee', 'R', 'Ranged', 'Back'];
     $spell_options = ['Fireball', 'Heal Wounds', 'Magic Armor', 'Dispell', 'Quicken', 'Enrage', 'Back'];
     while ($villain->stats->getStat(Stats::HP_TOTAL) >= 1) {
         $action = getUserInput("<<< What would you like to do >>>\n" . "[Attack] [Defend] [Potion] [Cast Spell] [Info] [Run] \n", $action_responses);
 
         switch ($action) {
+            case 'A':
             case 'Attack':
                 $attack_type = getUserInput("<<< What kind of attack? >>>\n" . "[Melee] [Ranged] \n", $attack_options);
                     switch ($attack_type) {
+                        case 'M':
                         case 'Melee':
                             $hero->actions->meleeAttack($villain);
                             break;
+                        case 'R':
                         case 'Ranged':
                             $hero->actions->rangedAttack($villain);
                             break;
@@ -47,10 +50,12 @@ function combat($hero, $villain) {
                             combat($hero, $villain);
                     }
                 break;
+            case 'D':
             case 'Defend':
                 $hero->actions->defend();
                 $hero->stats->updateTotalStats();
                 break;
+            case 'P':
             case 'Potion': {
                 $potion = getUserInput("<<< What kind of potion? >>>\n" . "[Heal] [Attack] [Defense] [Intelligence] [Dexterity] \n", $potion_options);
                     switch ($potion) {
@@ -78,6 +83,7 @@ function combat($hero, $villain) {
                     }
                 break;
             }
+            case 'C':
             case 'Cast Spell':
                 $spell = getUserInput("<<< What kind of spell? >>>\n" . "[Fireball] [Heal Wounds] [Magic Armor] [Dispell] [Quicken] [Enrage] \n", $spell_options);
                     switch ($spell) {
@@ -102,6 +108,7 @@ function combat($hero, $villain) {
                             combat($hero, $villain);
                     }
                 break;
+            case 'I':
             case 'Info':
                 $hero->characterInfo();
                 combat($hero, $villain);
@@ -190,5 +197,3 @@ function validateChoice($input, $valid_options) {
         return true;
     }
 }
-
-// https://github.com/ksullivan2/simple_games/blob/master/tictactoe.py example of how a user/computer take turns until a winner is set.

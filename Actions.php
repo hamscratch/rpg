@@ -14,7 +14,7 @@ class Actions {
     'miss' => "%s's arrow soars past %s"  . "\n",
     ];
     const SPELL_ATTACK_RESPONSES = [
-    'fireball' => "%s blasted %s with a fireball for %s damage\n",
+    'fireball' => "%s blasts %s with a fireball for %s damage\n",
     'hit' => "You swing and hit %s for %s damage.\n",
     'crit_hit' => "You crush your enemy for a lot of damage.\n",
     'miss' => "%s's fireball flies past %s.\n",
