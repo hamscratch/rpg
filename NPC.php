@@ -11,7 +11,7 @@ class NPC extends Character {
                 'class' => 'Grunt',
                 'hp_total' => 15,
                 'hp_max' => 100,
-                'is_magic' => true,
+                'is_magic' => false,
                 'ac_base' => 15,
                 'ac_temp' => 0,
                 'ac_total' => 0,
@@ -58,7 +58,7 @@ class NPC extends Character {
                 'class' => 'Sorcerer',
                 'hp_total' => 15,
                 'hp_max' => 80,
-                'is_magic' => true,
+                'is_magic' => false,
                 'ac_base' => 12,
                 'ac_temp' => 0,
                 'ac_total' => 0,
@@ -105,7 +105,7 @@ class NPC extends Character {
                 'class' => 'Hunter',
                 'hp_total' => 15,
                 'hp_max' => 90,
-                'is_magic' => true,
+                'is_magic' => false,
                 'ac_base' => 15,
                 'ac_temp' => 0,
                 'ac_total' => 0,
@@ -178,6 +178,8 @@ class NPC extends Character {
         $hp = $this->stats->hp_total;
         $health_potion = $this->stats->potion_bag['Potions'][Stats::POTION_HEAL];
         $health_potion_quantity = $health_potion['quantity'];
+
+        echo "<<<   {$this->stats->getStat(Stats::NAME)}'s turn   >>>\n";
 
         if ($hp >= 11) {
             $this->actions->meleeAttack($target);

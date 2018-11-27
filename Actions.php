@@ -8,16 +8,16 @@ class Actions {
     'miss' => "%s swung and missed %s.\n",
     ];
     const RANGED_ATTACK_RESPONSES = [
-    'hit' => "%s shoots an arrow into %s\n",
-    'magic_hit' => "currently not using\n",
+    'hit' => "%s shoots an arrow into %s for %s damage.\n",
+    'magic_message' => "%s is a magical being and cannot be harmed by %s's weapon.\n",
     'crit_hit' => 'currently not using',
     'miss' => "%s's arrow soars past %s"  . "\n",
     ];
     const SPELL_ATTACK_RESPONSES = [
-    'fireball' => "%s was blasted with a fireball by %s for %s damage\n",
+    'fireball' => "%s blasted %s with a fireball for %s damage\n",
     'hit' => "You swing and hit %s for %s damage.\n",
     'crit_hit' => "You crush your enemy for a lot of damage.\n",
-    'miss' => 'You missed your target.',
+    'miss' => "%s's fireball flies past %s.\n",
     'crit_miss' => "You miss so bad your weapon laughs at you.\n",
     ];
     const DEFENSE_RESPONSES = [
@@ -121,19 +121,26 @@ class Actions {
         $hp_result = $defender_hp - $weapon_damage;
         $attacker_name = "{$this->stats_ref->getStat(Stats::NAME)} the {$this->stats_ref->getStat(Stats::CLASS_NAME)}";
         $defender_name = "{$defender->stats->getStat(Stats::NAME)} the {$defender->stats->getStat(Stats::CLASS_NAME)}";
+
+        $hit = sprintf(self::RANGED_ATTACK_RESPONSES['hit'], $attacker_name, $defender_name, $weapon_damage);
+        $miss = sprintf(self::RANGED_ATTACK_RESPONSES['miss'], $attacker_name, $defender_name);
+        $magic_message = sprintf(self::RANGED_ATTACK_RESPONSES['magic_message'], $defender_name, $attacker_name);
+
+        $defender_hit = sprintf(self::DEFENSE_RESPONSES['hit'], $defender_name, $hp_result);
+        $defender_miss = sprintf(self::DEFENSE_RESPONSES['miss'], $defender_name, $defender_hp); 
         
         if ($ammo >= 1) {
             if ($dex_check > $defense_dex) {
                 if ($defender_magic_status == true) {
                     if ($magic_ammo == true) {
                         $defender->stats->setStat(Stats::HP_TOTAL, $hp_result);
-                        echo "successful hit message with magic arrow!\n";
+                        echo $hit . $defender_hit;
                     } else {
-                        echo "something about the creature being magical\n";
+                        echo $magic_message . $defender_miss;
                     }
                 } else {
                     $defender->stats->setStat(Stats::HP_TOTAL, $hp_result);
-                    echo "successful hit message with arrow!\n";
+                    echo $hit . $defender_hit;
                 }
             }
         } else {
@@ -248,9 +255,9 @@ class Actions {
 
                 if ($int_check > $target_int) {
                     $target->stats->setStat(Stats::HP_TOTAL, $hp_result);
-                    echo "some kind of successful fireball hit message\n";
+                    echo sprintf(self::SPELL_ATTACK_RESPONSES['fireball'], $hero_name, $target_name, $damage) . sprintf(self::DEFENSE_RESPONSES['hit'], $target_name, $hp_result);
                 } else {
-                    echo "some kind of miss fireball message\n";
+                    echo sprintf(self::SPELL_ATTACK_RESPONSES['miss'], $hero_name, $target_name) . sprintf(self::DEFENSE_RESPONSES['miss'], $target_name, $target_hp);
                 }
                 break;
             case Items::SPELL_HEAL_WOUNDS:
