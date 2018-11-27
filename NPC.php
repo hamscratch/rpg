@@ -36,6 +36,7 @@ class NPC extends Character {
                     'Melee Weapon' => '',
                     'Ranged Weapon' => '',
                     'Armor' => '',
+                    'Arrows' => '',
                 ],
                 'backpack' => [
                     'Melee Weapon' => 'Short Sword',
@@ -83,6 +84,7 @@ class NPC extends Character {
                     'Melee Weapon' => '',
                     'Ranged Weapon' => '',
                     'Armor' => '',
+                    'Arrows' => '',
                 ],
                 'backpack' => [
                     'Melee Weapon' => 'Short Sword',
@@ -130,6 +132,7 @@ class NPC extends Character {
                     'Melee Weapon' => '',
                     'Ranged Weapon' => '',
                     'Armor' => '',
+                    'Arrows' => '',
                 ],
                 'backpack' => [
                     'Melee Weapon' => 'Short Sword',

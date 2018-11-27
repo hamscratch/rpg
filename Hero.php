@@ -39,6 +39,7 @@ class Hero extends Character {
                     'Melee Weapon' => '',
                     'Ranged Weapon' => '',
                     'Armor' => '',
+                    'Arrows' => '',
                 ],
                 'backpack' => [
                     'Melee Weapon' => 'Short Sword',
@@ -86,6 +87,7 @@ class Hero extends Character {
                     'Melee Weapon' => '',
                     'Ranged Weapon' => '',
                     'Armor' => '',
+                    'Arrows' => '',
                 ],
                 'backpack' => [
                     'Melee Weapon' => 'Short Sword',
@@ -133,6 +135,7 @@ class Hero extends Character {
                     'Melee Weapon' => '',
                     'Ranged Weapon' => '',
                     'Armor' => '',
+                    'Arrows' => '',
                 ],
                 'backpack' => [
                     'Melee Weapon' => 'Short Sword',
