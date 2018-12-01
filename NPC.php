@@ -2,7 +2,7 @@
 
 class NPC extends Character {
     
-    const NAMES = ['Rique Jhames', 'Bilge', 'Gorbash', 'Mordok', 'Draxiz', 'Innoruuk', 'Lanys', 'Mooto', 'Treskar', 'Fipphy'];
+    const NAMES = ['Rique Jhames', 'Bilge', 'Gorbash', 'Mordok', 'Draxiz', 'Innoruuk', 'Lanys', 'Mooto', 'Treskar', 'Fippy'];
     const RACES = ['Orc', 'Skeleton', 'Gnoll', 'Ghoul'];
     const CLASS_NAMES = ['Grunt', 'Sorcerer', 'Hunter'];
 
@@ -33,10 +33,10 @@ class NPC extends Character {
                 'int_bonus_items' => 0,
                 'int_bonus_effects' => 0,
                 'equipped' => [
-                    'Melee Weapon' => '',
-                    'Ranged Weapon' => '',
-                    'Armor' => '',
-                    'Arrows' => '',
+                    'melee_weapon' => 'short_sword',
+                    'ranged_weapon' => 'long_bow',
+                    'armor' => 'leather',
+                    'arrows' => 5,
                 ],
                 'backpack' => [
                     'Melee Weapon' => 'Short Sword',
@@ -81,10 +81,10 @@ class NPC extends Character {
                 'int_bonus_items' => 0,
                 'int_bonus_effects' => 0,
                 'equipped' => [
-                    'Melee Weapon' => '',
-                    'Ranged Weapon' => '',
-                    'Armor' => '',
-                    'Arrows' => '',
+                    'melee_weapon' => 'short_sword',
+                    'ranged_weapon' => 'long_bow',
+                    'armor' => 'leather',
+                    'arrows' => 5,
                 ],
                 'backpack' => [
                     'Melee Weapon' => 'Short Sword',
@@ -129,10 +129,10 @@ class NPC extends Character {
                 'int_bonus_items' => 0,
                 'int_bonus_effects' => 0,
                 'equipped' => [
-                    'Melee Weapon' => '',
-                    'Ranged Weapon' => '',
-                    'Armor' => '',
-                    'Arrows' => '',
+                    'melee_weapon' => 'short_sword',
+                    'ranged_weapon' => 'long_bow',
+                    'armor' => 'leather',
+                    'arrows' => 5,
                 ],
                 'backpack' => [
                     'Melee Weapon' => 'Short Sword',

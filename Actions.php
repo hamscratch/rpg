@@ -31,7 +31,6 @@ class Actions {
     }
 
     public function equip($type, $item_name) {
-        
         $backpack = $this->stats->getStat(Stats::BACKPACK);
         $armor_ac = Items::getArmor($type);
         if ($type === Stats::EQUIPPED_MELEE) {
@@ -73,7 +72,8 @@ class Actions {
     }
 
     public function meleeAttack($defender) {
-        $weapon = Items::getWeapon('Melee');
+        $equipped_weapon = $this->stats_ref->getEquippedItem(Stats::EQUIPPED_MELEE);
+        $weapon = Items::getWeapon($equipped_weapon);
         $magic_weapon = $weapon['magic'];
         $weapon_damage = rand(1, $weapon['damage']);
         $ac_check = $this->stats_ref->getStat(Stats::STR_TOTAL) + rand(1, 6);
@@ -109,10 +109,10 @@ class Actions {
     }
 
     public function rangedAttack($defender) {
-        $weapon = Items::getWeapon('Ranged');
-        $backpack = $this->stats_ref->getStat(Stats::BACKPACK);
-        $ammo = $backpack['Arrows'];
-        $magic_ammo = $ammo['magic'];
+        $equipped_weapon = $this->stats_ref->getEquippedItem(Stats::EQUIPPED_RANGED);
+        $weapon = Items::getWeapon($equipped_weapon);
+        $ammo = $this->stats_ref->getEquippedItem(Stats::EQUIPPED_ARROWS);
+        $magic_ammo = $weapon['magic'];
         $weapon_damage = rand(1, $weapon['damage']);
         $dex_check = $this->stats_ref->getStat(Stats::DEX_TOTAL) + rand(1, 6);
         $defense_dex = $defender->stats->getStat(Stats::DEX_TOTAL);
@@ -144,7 +144,7 @@ class Actions {
                 }
             }
         } else {
-            echo "You do not have any arrows left. Try something else.\n";
+            echo $miss . $defender_miss;
         }  
     }
 

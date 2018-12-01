@@ -9,6 +9,23 @@ class Items {
     const SPELL_QUICKEN = 'Quicken';
     const SPELL_ENRAGE = 'Enrage';
 
+    const POTIONS_HEALTH = 'health';
+    const POTIONS_ATTACK = 'attack';
+    const POTIONS_DEFENSE = 'defense';
+    const POTIONS_INTELLIGENCE = 'intelligence';
+    const POTIONS_DEXTERITY = 'dexterity';
+
+    const WEAPONS_SHORT_SWORD = 'short_sword';
+    const WEAPONS_LONG_BOW = 'long_bow';
+    const WEAPONS_ARROWS = 'arrows';
+    const WEAPONS_SILVER_SHORT_SWORD = 'silver_short_sword';
+    const WEAPONS_MAGIC_ARROWS = 'magic_arrows';
+
+    const ARMOR_CLOTH = 'cloth';
+    const ARMOR_LEATHER = 'leather';
+    const ARMOR_CHAINMAIL = 'chainmail';
+    const ARMOR_ELVEN = 'elven';
+
     const WEAPONS = [
         'short_sword' => [
             'name' => 'Short Sword',
@@ -127,41 +144,15 @@ class Items {
         ],
     ];
     static function getWeapon($type) {
-        if ($type === 'Melee') {
-            $weapon = self::WEAPONS['short_sword'];
-        } else if ($type === 'Ranged') {
-            $weapon = self::WEAPONS['long_bow'];
-        } else {
-            echo "Error: '{$type}' is not a valid entry for getWeapon. Check your spelling!" . "\n";
-        }
+        $weapon = self::WEAPONS[$type];
         return $weapon;
     }
     static function getArmor($type) {
-        if ($type === 'cloth') {
-            $armor = self::ARMOR['cloth'];
-        } else if ($type === 'leather') {
-            $armor = self::ARMOR['leather'];
-        } else if ($type === 'chainmail') {
-            $armor = self::ARMOR['chainmail'];
-        } else {
-            echo "Error: '{$type}' is not a valid entry for getArmor. Check your spelling!" . "\n";
-        }
+        $armor = self::ARMOR[$type];
         return $armor;
     }
     static function getPotion($type) {
-        if ($type === Stats::POTION_HEAL) {
-            $potion = self::POTIONS['health'];
-        } else if ($type === 'Attack') {
-            $potion = self::POTIONS['attack'];
-        } else if ($type === 'Defense') {
-            $potion = self::POTIONS['defense'];
-        } else if ($type === 'Intelligence') {
-            $potion = self::POTIONS['intelligence']; 
-        } else if ($type === 'Dexterity') {
-            $potion = self::POTIONS['dexterity'];
-        } else {
-            echo "Error: '{$type}' is not a valid entry for getPotion. Check your spelling!" . "\n";
-        }
+        $potion = self::POTIONS[$type];
         return $potion;
     }
     static function getSpell($type) {

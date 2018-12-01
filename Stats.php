@@ -28,9 +28,10 @@ class Stats {
     const INT_BONUS_ITEMS = 'int_bonus_items';
     const INT_BONUS_EFFECTS = 'int_bonus_effects';
     const EQUIPPED = 'equipped';
-    const EQUIPPED_MELEE = 'equipped_melee';
-    const EQUIPPED_RANGED = 'equipped_ranged';
-    const EQUIPPED_ARMOR = 'equipped_armor';
+    const EQUIPPED_MELEE = 'melee_weapon';
+    const EQUIPPED_RANGED = 'ranged_weapon';
+    const EQUIPPED_ARMOR = 'armor';
+    const EQUIPPED_ARROWS = 'arrows';
     const BACKPACK = 'backpack';
     const BACKPACK_MELEE = 'backpack_melee';
     const BACKPACK_RANGED = 'backpack_ranged';
@@ -97,11 +98,22 @@ class Stats {
         $this->$stat_string = $updated_stat;
     }
 
-    /** Sets a new value of a stat.
+    /** Gets the equipped item in whatever slot you specify
     * 
-    * @param string $stat_string - use the constants above
+    * @param string $item_type - melee, ranged, armor, arrows.
     *
-    * @param mixed $updated_stat - the new value you want to set the stat to
+    * @return mixed - will update the given stat with the new value 
+    */
+
+    public function getEquippedItem($item_type) {
+        return $this->equipped[$item_type];
+    }
+
+    /** Sets a new value for the quanity of a potion. 
+    * 
+    * @param string $potion - type of potion being used
+    *
+    * @param mixed $new quantity - the new value you want to set the potion to
     *
     * @return mixed - will update the given stat with the new value 
     */

@@ -36,16 +36,16 @@ class Hero extends Character {
                 'int_bonus_items' => 0,
                 'int_bonus_effects' => 0,
                 'equipped' => [
+                    'melee_weapon' => 'short_sword',
+                    'ranged_weapon' => 'long_bow',
+                    'armor' => 'leather',
+                    'arrows' => 5,
+                ],
+                'backpack' => [
                     'Melee Weapon' => '',
                     'Ranged Weapon' => '',
                     'Armor' => '',
-                    'Arrows' => '',
-                ],
-                'backpack' => [
-                    'Melee Weapon' => 'Short Sword',
-                    'Ranged Weapon' => 'Long Bow',
-                    'Armor' => 'Leather',
-                    'Arrows' => 5,
+                    'Arrows' => 0,
                 ],
                 'potion_bag' => [
                     'Potions' => [
@@ -84,10 +84,10 @@ class Hero extends Character {
                 'int_bonus_items' => 0,
                 'int_bonus_effects' => 0,
                 'equipped' => [
-                    'Melee Weapon' => '',
-                    'Ranged Weapon' => '',
-                    'Armor' => '',
-                    'Arrows' => '',
+                    'melee_weapon' => 'short_sword',
+                    'ranged_weapon' => 'long_bow',
+                    'armor' => 'leather',
+                    'arrows' => 5,
                 ],
                 'backpack' => [
                     'Melee Weapon' => 'Short Sword',
@@ -132,10 +132,10 @@ class Hero extends Character {
                 'int_bonus_items' => 0,
                 'int_bonus_effects' => 0,
                 'equipped' => [
-                    'Melee Weapon' => '',
-                    'Ranged Weapon' => '',
-                    'Armor' => '',
-                    'Arrows' => '',
+                    'melee_weapon' => 'short_sword',
+                    'ranged_weapon' => 'long_bow',
+                    'armor' => 'leather',
+                    'arrows' => 10,
                 ],
                 'backpack' => [
                     'Melee Weapon' => 'Short Sword',
