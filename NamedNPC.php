@@ -1,5 +1,9 @@
 <?php
 
+// *** THIS MIGHT BE A BAD IDEA ***
+// BASICALLY I WANT TO BE ABLE TO CUSTOMIZE CERTAIN ENCOUNTERS WITH BETTER
+// EQUIPMENT, STATS, SPELLS, ETC. I THINK I SHOULD JUST SET THIS UP INSIDE
+// THE NPC CLASS AND FORK IT FROM WITHIN.
 class NamedNPC extends Character {
     
     const NAMES = ['Rique Jhames', 'Bilge', 'Gorbash', 'Mordok', 'Draxiz', 'Innoruuk', 'Lanys', 'Mooto', 'Treskar', 'Fipphy'];

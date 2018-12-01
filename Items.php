@@ -159,4 +159,18 @@ class Items {
         $spell = self::SPELLS[$type];
         return $spell;
     }
+
+    // *** UNDER CONSTRUCTION ***
+    static function getItemInfo($type) {
+        $item = $type[]
+
+        if ($type === "Melee") {
+            $name = Items::getWeapon('Melee');
+            echo "Item Information: \n" . "Weapon Name: {$name['name']} \n" . "Damage: 1-{$name['damage']} \n" . "Description: {$name['description']} \n";
+        } else if ($type === "Ranged") {
+            $name = Items::getWeapon('Ranged');
+            echo "Item Information: \n" . "Weapon Name: {$name['name']} \n" . "Damage: 1-{$name['damage']} \n" . "Description: {$name['description']} \n";
+        }
+    }
 }
+

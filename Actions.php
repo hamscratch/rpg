@@ -30,6 +30,7 @@ class Actions {
         $this->stats_ref = $stats_ref;
     }
 
+    // *** UNDER CONSTRUCTION ***
     public function equip($type, $item_name) {
         $backpack = $this->stats->getStat(Stats::BACKPACK);
         $armor_ac = Items::getArmor($type);
@@ -60,16 +61,6 @@ class Actions {
             echo "Error: '{$type}' is not a valid entry for equip. Check your spelling!\n";
         }
     } 
-
-    public function getItemInfo($type) {
-        if ($type === "Melee") {
-            $name = Items::getWeapon('Melee');
-            echo "Item Information: \n" . "Weapon Name: {$name['name']} \n" . "Damage: 1-{$name['damage']} \n" . "Description: {$name['description']} \n";
-        } else if ($type === "Ranged") {
-            $name = Items::getWeapon('Ranged');
-            echo "Item Information: \n" . "Weapon Name: {$name['name']} \n" . "Damage: 1-{$name['damage']} \n" . "Description: {$name['description']} \n";
-        }
-    }
 
     public function meleeAttack($defender) {
         $equipped_weapon = $this->stats_ref->getEquippedItem(Stats::EQUIPPED_MELEE);
