@@ -26,41 +26,104 @@ class Actions {
     'dead' => "%s has been slain by %s.\n",
     ];
     
+    const WEAPONS = 'WEAPONS';
+    const ARMOR = 'ARMOR';
+
     public function initStatsRef(&$stats_ref) {
         $this->stats_ref = $stats_ref;
     }
 
+    public function validItemOption($item, $valid_choices) {
+        if (in_array($item, $valid_choices)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     // *** UNDER CONSTRUCTION ***
-    public function equip($type, $item_name) {
-        $backpack = $this->stats->getStat(Stats::BACKPACK);
-        $armor_ac = Items::getArmor($type);
-        if ($type === Stats::EQUIPPED_MELEE) {
-            if ($item_name === $backpack['Melee Weapon']) {
-                $this->stats->setStat($type, $item_name);
-                $this->stats->setStat(Stats::BACKPACK_MELEE, '');
+    public function equip($type, $item_name, $valid_choices) {
+        $backpack = $this->stats_ref->getStat(Stats::BACKPACK);
+        $equipped = $this->stats_ref->getStat(Stats::EQUIPPED);
+        $current_item = $this->stats_ref->getEquippedItem($type);
+        $valid_option = $this->validItemOption($item_name, Items::$valid_choices);
+        $hero_name = $this->stats_ref->getStat(Stats::NAME);
+        $is_owned = $this->stats_ref->backpackCheck($item_name);
+
+        if ($is_owned === true) {
+            if ($valid_option === true) {
+                switch ($type) {
+                    case Stats::EQUIPPED_MELEE:
+                        $this->stats_ref->setStat($backpack, $current_item);
+                        $this->stats_ref->setEquippedItem($item_name);
+                        $this->stats_ref->removeFromBackpack($item_name);
+                        echo "{$hero_name} has equipped {$item_name}";
+                        break;
+                    case Stats::EQUIPPED_RANGED:
+                        $this->stats_ref->setStat($backpack, $current_item);
+                        $this->stats_ref->setEquippedItem($item_name);
+                        $this->stats_ref->removeFromBackpack($item_name);
+                        echo "{$hero_name} has equipped {$item_name}";
+                        break;
+                    case Stats::EQUIPPED_ARMOR:
+                        $this->stats_ref->setStat($backpack, $current_item);
+                        $this->stats_ref->setEquippedItem($item_name);
+                        $this->stats_ref->removeFromBackpack($item_name);
+                        $armor = Items::getArmor($item_name);
+                        $armor_bonus = $armor['armor'];
+                        $this->stats_ref->setStat(Stats::AC_BONUS_ITEMS, $armor_bonus);
+                        $this->stats_ref->updateTotalStats();
+                        echo "{$hero_name} has equipped {$item_name}";
+                        break;
+                    case Stats::EQUIPPED_ARROWS:
+                        $this->stats_ref->setStat($backpack, $current_item);
+                        $this->stats_ref->setEquippedItem($item_name);
+                        $this->stats_ref->removeFromBackpack($item_name);
+                        echo "{$hero_name} has equipped {$item_name}";
+                        break;
+                }
             } else {
-                echo "You do no have {$item_name} in your backpack\n";
-            }
-        } else if ($type === Stats::EQUIPPED_RANGED) {
-            if ($item_name === $backpack['Ranged Weapon']) {
-                $this->stats->setStat($type, $item_name);
-                $this->stats->setStat(Stats::BACKPACK_RANGED, '');
-            } else {
-                echo "You do no have {$item_name} in your backpack\n";
-            }
-        } else if ($type === Stats::EQUIPPED_ARMOR) {
-            if ($item_name === $backpack['Armor']) {
-                $armor_ac = Itmes::getArmor($type);
-                $this->stats->setStat($type, $item_name);
-                $this->stats->setStat(Stats::AC_BONUS_ITEMS, $armor_ac['armor']);
-                $this->stats->setStat(Stats::BACKPACK_ARMOR, '');
-            } else {
-                echo "You do no have {$item_name} in your backpack\n";
+                echo "'{$item_name}' cannot not be equipped in that slot. Please try a different slot.\n";
             }
         } else {
-            echo "Error: '{$type}' is not a valid entry for equip. Check your spelling!\n";
-        }
+            echo "You do not have '{$item_name}' in your backpack.\n";
+        }     
     } 
+
+    public function showInventory() {
+        $equipped = $this->stats_ref->getStat(Stats::EQUIPPED);
+        $backpack = $this->stats_ref->getStat(Stats::BACKPACK);
+        $potion_bag = $this->stats_ref->potion_bag['Potions'];
+        $hero_name = $this->stats_ref->getStat(Stats::NAME);
+
+        foreach ($equipped as $key => $value) {
+            $equip_string = "{$key}: {$value}\n";
+            $equipped_contents[] = $equip_string;
+        }
+
+        foreach ($backpack as $key => $value) {
+            if (is_string($key)) {
+                $item_value_string = "{$key}: {$value}\n";
+                $backpack_contents[] = $item_value_string;
+            } else {
+                $backpack_contents[] = $value . "\n";
+            }
+        }
+
+        foreach ($potion_bag as $potion => $type) {
+            $potion_name = $type['name'];
+            $potion_quantity = $type['quantity'];
+            $potion_string = "{$potion_name}: {$potion_quantity} \n";
+            $potion_bag_contents[] = $potion_string;
+        }
+
+        $equipped_results = implode($equipped_contents);
+        $potion_bag_result = implode($potion_bag_contents);
+        $backpack_result = implode($backpack_contents);
+        
+        $message = "<<< {$hero_name}'s Inventory >>> \n" . "\n" . "<<< Equipped >>>\n" . $equipped_results . "\n" . "<<< Backpack >>>\n" . $backpack_result . "\n" . "<<< Potion Bag >>> \n" . $potion_bag_result . "\n";
+        echo $message . "\n";
+    }
 
     public function meleeAttack($defender) {
         $equipped_weapon = $this->stats_ref->getEquippedItem(Stats::EQUIPPED_MELEE);
@@ -125,12 +188,16 @@ class Actions {
                 if ($defender_magic_status == true) {
                     if ($magic_ammo == true) {
                         $defender->stats->setStat(Stats::HP_TOTAL, $hp_result);
+                        $new_quantity = ($ammo - 1);
+                        $this->stats_ref->setArrowQuantity($new_quantity);
                         echo $hit . $defender_hit;
                     } else {
                         echo $magic_message . $defender_miss;
                     }
                 } else {
                     $defender->stats->setStat(Stats::HP_TOTAL, $hp_result);
+                    $new_quantity = ($ammo - 1);
+                    $this->stats_ref->setArrowQuantity($new_quantity);
                     echo $hit . $defender_hit;
                 }
             }

@@ -33,17 +33,12 @@ class NPC extends Character {
                 'int_bonus_items' => 0,
                 'int_bonus_effects' => 0,
                 'equipped' => [
-                    'melee_weapon' => 'short_sword',
-                    'ranged_weapon' => 'long_bow',
-                    'armor' => 'leather',
-                    'arrows' => 5,
-                ],
-                'backpack' => [
                     'Melee Weapon' => 'Short Sword',
                     'Ranged Weapon' => 'Long Bow',
                     'Armor' => 'Leather',
-                    'Arrows' => 5,
+                    'Iron Arrow(s)' => 5,
                 ],
+                'backpack' => [],
                 'potion_bag' => [
                     'Potions' => [
                         'health' => ['name' => 'Health Potion', 'quantity' => 1],
@@ -81,17 +76,12 @@ class NPC extends Character {
                 'int_bonus_items' => 0,
                 'int_bonus_effects' => 0,
                 'equipped' => [
-                    'melee_weapon' => 'short_sword',
-                    'ranged_weapon' => 'long_bow',
-                    'armor' => 'leather',
-                    'arrows' => 5,
-                ],
-                'backpack' => [
                     'Melee Weapon' => 'Short Sword',
                     'Ranged Weapon' => 'Long Bow',
                     'Armor' => 'Leather',
-                    'Arrows' => 0,
+                    'Iron Arrow(s)' => 5,
                 ],
+                'backpack' => [],
                 'potion_bag' => [
                     'Potions' => [
                         'health' => ['name' => 'Health Potion', 'quantity' => 1],
@@ -129,17 +119,12 @@ class NPC extends Character {
                 'int_bonus_items' => 0,
                 'int_bonus_effects' => 0,
                 'equipped' => [
-                    'melee_weapon' => 'short_sword',
-                    'ranged_weapon' => 'long_bow',
-                    'armor' => 'leather',
-                    'arrows' => 5,
-                ],
-                'backpack' => [
                     'Melee Weapon' => 'Short Sword',
                     'Ranged Weapon' => 'Long Bow',
                     'Armor' => 'Leather',
-                    'Arrows' => 10,
+                    'Iron Arrow(s)' => 5,
                 ],
+                'backpack' => [],
                 'potion_bag' => [
                     'Potions' => [
                         'health' => ['name' => 'Health Potion', 'quantity' => 1],

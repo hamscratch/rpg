@@ -28,10 +28,11 @@ class Stats {
     const INT_BONUS_ITEMS = 'int_bonus_items';
     const INT_BONUS_EFFECTS = 'int_bonus_effects';
     const EQUIPPED = 'equipped';
-    const EQUIPPED_MELEE = 'melee_weapon';
-    const EQUIPPED_RANGED = 'ranged_weapon';
-    const EQUIPPED_ARMOR = 'armor';
-    const EQUIPPED_ARROWS = 'arrows';
+    const EQUIPPED_MELEE = 'Melee Weapon';
+    const EQUIPPED_RANGED = 'Ranged Weapon';
+    const EQUIPPED_ARMOR = 'Armor';
+    const EQUIPPED_IRON_ARROWS = 'Iron Arrow(s)';
+    const EQUIPPED_MAGIC_ARROWS = 'Magic Arrow(s)';
     const BACKPACK = 'backpack';
     const BACKPACK_MELEE = 'backpack_melee';
     const BACKPACK_RANGED = 'backpack_ranged';
@@ -109,6 +110,30 @@ class Stats {
         return $this->equipped[$item_type];
     }
 
+    public function backpackCheck($item_name) {
+    	$backpack = self::BACKPACK;
+    	$in_backpack = false;
+
+    	if (in_array($item_name, $backpack)) {
+    		return true;
+    	}
+
+    	return $in_backpack;
+    }
+
+    public function removeFromBackpack($item) {
+    	$backpack = self::BACKPACK;
+    	if (in_array($item, $backpack)) {
+    		unset($backpack[$item]);
+    	} else {
+    		echo "Error: {$item} is not in your backpack";
+    	}
+    }
+
+    public function setEquippedItem($item_type, $new_item) {
+    	return $this->equipped[$item_type] = $new_item;
+    }
+
     /** Sets a new value for the quanity of a potion. 
     * 
     * @param string $potion - type of potion being used
@@ -123,7 +148,7 @@ class Stats {
     }
 
     public function setArrowQuantity($new_quantity) {
-        $this->backpack['Arrows'] = $new_quantity;
+        $this->equipped['arrows'] = $new_quantity;
     }
 
     /** Sets a new value of a stat.

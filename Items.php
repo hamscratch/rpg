@@ -15,43 +15,46 @@ class Items {
     const POTIONS_INTELLIGENCE = 'intelligence';
     const POTIONS_DEXTERITY = 'dexterity';
 
-    const WEAPONS_SHORT_SWORD = 'short_sword';
-    const WEAPONS_LONG_BOW = 'long_bow';
-    const WEAPONS_ARROWS = 'arrows';
-    const WEAPONS_SILVER_SHORT_SWORD = 'silver_short_sword';
-    const WEAPONS_MAGIC_ARROWS = 'magic_arrows';
+    const WEAPONS_SHORT_SWORD = 'Short Sword';
+    const WEAPONS_LONG_BOW = 'Long Bow';
+    const WEAPONS_IRON_ARROWS = 'Iron Arrow(s)';
+    const WEAPONS_SILVER_SHORT_SWORD = 'Silver Short Sword';
+    const WEAPONS_MAGIC_ARROWS = 'Magic Arrow(s)';
 
-    const ARMOR_CLOTH = 'cloth';
-    const ARMOR_LEATHER = 'leather';
-    const ARMOR_CHAINMAIL = 'chainmail';
-    const ARMOR_ELVEN = 'elven';
+    const ARMOR_CLOTH = 'Cloth';
+    const ARMOR_LEATHER = 'Leather';
+    const ARMOR_CHAINMAIL = 'Chainmail';
+    const ARMOR_ELVEN = 'Elven';
+
+    const VALID_WEAPONS = ['Short Sword', 'Long Bow', 'Iron Arrow', 'Iron Arrows', 'Iron Arrow(s)', 'Silver Short Sword', 'Magic Arrow', 'Magic Arrows', 'Magic Arrow(s)'];
+    const VALID_ARMOR = ['Cloth', 'Leather', 'Chainmail', 'Elven'];
 
     const WEAPONS = [
-        'short_sword' => [
+        'Short Sword' => [
             'name' => 'Short Sword',
             'damage' => 8,
             'description' => "This is a short sword.",
             'magic' => false,
         ], 
-        'long_bow' => [
+        'Long Bow' => [
             'name' => 'Long Bow',
             'damage' => 10,
             'description' => "This is a Long Bow.",
             'magic' => false,
         ],
-        'arrows' => [
+        'Iron Arrow(s)' => [
             'name' => 'Iron Arrow(s)',
             'quantity' => 0,
             'description' => "This is an iron arrowhead on a wooden shaft with feather fins.",
             'magic' => false,
         ],
-        'silver_short_sword' => [
+        'Silver Short Sword' => [
             'name' => 'Silver Short Sword',
             'damage' => 10,
             'description' => "Runes shimmer along the blade, giving a dim glow. Magic energy courses through this weapon.",
             'magic' => true,
         ],
-        'magic_arrows' => [
+        'Magic Arrow(s)' => [
             'name' => 'Magic Arrow(s)',
             'quantity' => 0,
             'description' => "Runes shiummer along the arrow tip, giving a dim glow. Magic energy courses through this weapon.",
@@ -59,25 +62,25 @@ class Items {
         ],
     ];
     const ARMOR = [
-        'cloth' => [
+        'Cloth' => [
             'name' => 'Cloth Armor',
             'armor' => 2,
             'description' => "This is cloth armor. Offers light protection. You also look poor in it",
             'magic' => false,
         ],
-        'leather' => [
+        'Leather' => [
             'name' => 'Leather Armor',
             'armor' => 4,
             'description' => "This is leather armor. Offers medium protection.",
             'magic' => false,
         ], 
-        'chainmail' => [
+        'Chainmail' => [
             'name' => "Chainmail Armor",
             'armor' => 6,
             'description' => "This is chainmail armor. Offers heavy protection.",
             'magic' => false,
         ],
-        'elven' => [
+        'Elven' => [
             'name' => "Elven Armor",
             'armor' => 8,
             'description' => "Runes shimmer along this gilded armor. Magic energy courses through this armor. Offers heavy protection as well as protection from magic attacks.",
@@ -160,9 +163,10 @@ class Items {
         return $spell;
     }
 
+    /*
     // *** UNDER CONSTRUCTION ***
     static function getItemInfo($type) {
-        $item = $type[]
+        $item = $type[];
 
         if ($type === "Melee") {
             $name = Items::getWeapon('Melee');
@@ -172,5 +176,6 @@ class Items {
             echo "Item Information: \n" . "Weapon Name: {$name['name']} \n" . "Damage: 1-{$name['damage']} \n" . "Description: {$name['description']} \n";
         }
     }
+    */
 }
 

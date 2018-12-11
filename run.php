@@ -21,6 +21,10 @@ $hero->stats->setClassStats('Hero', $class_name);
 $hero->characterInfo();
 $villain->characterInfo();
 
+$hero->actions->showInventory();
+$hero->actions->equip(Stats::EQUIPPED_MELEE, Items::WEAPONS_SILVER_SHORT_SWORD, Items::VALID_WEAPONS);
+$hero->actions->showInventory();
+
 
 echo "You have encountered {$villain->stats->getStat(Stats::NAME)}!" . "\n";
 combat($hero, $villain);
@@ -111,6 +115,7 @@ function combat($hero, $villain) {
             case 'I':
             case 'Info':
                 $hero->characterInfo();
+                $hero->actions->showInventory();
                 combat($hero, $villain);
                 break;
             case 'Run':
