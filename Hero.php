@@ -41,7 +41,7 @@ class Hero extends Character {
                     'Armor' => 'Leather',
                     'Iron Arrow(s)' => 5,
                 ],
-                'backpack' => ['Silver Short Sword', 'Magic Arrow(s)' => 10, 'Pee'],
+                'backpack' => ['Silver Short Sword', 'Pee'],
                 'potion_bag' => [
                     'Potions' => [
                         'health' => ['name' => 'Health Potion', 'quantity' => 1],

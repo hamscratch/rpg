@@ -46,7 +46,7 @@ class Actions {
         $backpack = $this->stats_ref->getStat(Stats::BACKPACK);
         $equipped = $this->stats_ref->getStat(Stats::EQUIPPED);
         $current_item = $this->stats_ref->getEquippedItem($type);
-        $valid_option = $this->validItemOption($item_name, Items::$valid_choices);
+        $valid_option = $this->validItemOption($item_name, $valid_choices);
         $hero_name = $this->stats_ref->getStat(Stats::NAME);
         $is_owned = $this->stats_ref->backpackCheck($item_name);
 
@@ -54,16 +54,17 @@ class Actions {
             if ($valid_option === true) {
                 switch ($type) {
                     case Stats::EQUIPPED_MELEE:
-                        $this->stats_ref->setStat($backpack, $current_item);
-                        $this->stats_ref->setEquippedItem($item_name);
+                        // adds the previously equipped item back into the backpack.
+                        $this->stats_ref->addToBackpack($current_item);
+                        $this->stats_ref->setEquippedItem($type, $item_name);
                         $this->stats_ref->removeFromBackpack($item_name);
-                        echo "{$hero_name} has equipped {$item_name}";
+                        echo "{$hero_name} has equipped {$item_name}!\n" . "\n";
                         break;
                     case Stats::EQUIPPED_RANGED:
                         $this->stats_ref->setStat($backpack, $current_item);
                         $this->stats_ref->setEquippedItem($item_name);
                         $this->stats_ref->removeFromBackpack($item_name);
-                        echo "{$hero_name} has equipped {$item_name}";
+                        echo "{$hero_name} has equipped {$item_name}!\n" . "\n";
                         break;
                     case Stats::EQUIPPED_ARMOR:
                         $this->stats_ref->setStat($backpack, $current_item);
@@ -73,13 +74,13 @@ class Actions {
                         $armor_bonus = $armor['armor'];
                         $this->stats_ref->setStat(Stats::AC_BONUS_ITEMS, $armor_bonus);
                         $this->stats_ref->updateTotalStats();
-                        echo "{$hero_name} has equipped {$item_name}";
+                        echo "{$hero_name} has equipped {$item_name}!\n" . "\n";
                         break;
                     case Stats::EQUIPPED_ARROWS:
                         $this->stats_ref->setStat($backpack, $current_item);
                         $this->stats_ref->setEquippedItem($item_name);
                         $this->stats_ref->removeFromBackpack($item_name);
-                        echo "{$hero_name} has equipped {$item_name}";
+                        echo "{$hero_name} has equipped {$item_name}!\n" . "\n";
                         break;
                 }
             } else {

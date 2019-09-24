@@ -111,7 +111,7 @@ class Stats {
     }
 
     public function backpackCheck($item_name) {
-    	$backpack = self::BACKPACK;
+    	$backpack = $this->getStat(self::BACKPACK);
     	$in_backpack = false;
 
     	if (in_array($item_name, $backpack)) {
@@ -121,13 +121,19 @@ class Stats {
     	return $in_backpack;
     }
 
+    public function addToBackpack($item) {
+        $backpack = $this->getStat(self::BACKPACK);
+        $this->backpack[] = $item;
+    }
+
     public function removeFromBackpack($item) {
-    	$backpack = self::BACKPACK;
-    	if (in_array($item, $backpack)) {
-    		unset($backpack[$item]);
-    	} else {
-    		echo "Error: {$item} is not in your backpack";
-    	}
+    	$backpack = $this->getStat(self::BACKPACK);
+        $key = array_search($item, $this->backpack);
+        if ($key !== false) {
+            unset($this->backpack[$key]);
+        } else {
+            echo "you dumbass. \n";
+        }
     }
 
     public function setEquippedItem($item_type, $new_item) {
